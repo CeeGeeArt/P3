@@ -1,8 +1,6 @@
-print ("fuck u")
-if "fuck u" == true:
-    return "Kongen"
+import numpy as np
+import cv2
 
+img = np.zeros((512, 512, 3), np.uint8)
 
-print ("Mathias")
-
-print("Christian")
+cv2.line(img,(511, 511), (255, 0, 0), 5)
