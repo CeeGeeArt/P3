@@ -3,11 +3,8 @@ This is out P3 Rep
 
 ABDUL BIG DICK STYLE
 
-no uI c
+no u
 
-I will
-end
-you
-u
-litl
-shit
+
+
+How do i cook the noodle?
