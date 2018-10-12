@@ -1,12 +1,11 @@
-This is out P3 Rep
+# P3 repository
 
 
-ABDUL BIG DICK STYLE
+Project made by:
 
-no u
-
-
-
-How do i cook the noodle?
-
-This... this is library
+Abdulaziz Soud Salman Al Otaibi
+Christian Glerup Sørensen
+Christian B. Johnsen
+Kasper Sørensen
+Mathas N. G. Faldt
+Rasmus Lund Jørgensen
