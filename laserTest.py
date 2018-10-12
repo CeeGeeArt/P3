@@ -37,7 +37,7 @@ while(cap.isOpened()):
     if frame is None:
         exit()
 
-    laserFire(frame,8,0.2) #Call to laser function
+    laserFire(frame,20,0.2) #Call to laser function
     cv2.imshow('frame', frame)
 
     if cv2.waitKey(33) >= 0:
