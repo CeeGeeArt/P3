@@ -1,13 +1,11 @@
-This is out P3 Rep
+# P3 repository
 
 
-ABDUL BIG DICK STYLE
+Project made by:
 
-no uI c
-
-I will
-end
-you
-u
-litl
-shit
+Abdulaziz Soud Salman Al Otaibi
+Christian Glerup Sørensen
+Christian B. Johnsen
+Kasper Sørensen
+Mathas N. G. Faldt
+Rasmus Lund Jørgensen
