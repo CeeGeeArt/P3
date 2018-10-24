@@ -21,8 +21,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
             if time.clock() >= laserTime[i] + timePerPos:
                 break
             elif time.clock() >= laserTime[i]:
-                drawLaser = cv2.line(videoFeed, (laserPos[i], laserVerPos), \
-                    (laserPos[i] + 40, laserVerPos), (0,0,255), 5)
+                drawLaser = cv2.line(videoFeed, (0, int(vRow/2)), (vCol, int(vRow/2)), (0,0,255, 127), 5)
 
 cap = cv2.VideoCapture(0)
 
