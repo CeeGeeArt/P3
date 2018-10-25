@@ -5,16 +5,75 @@ import time
 img = cv2.imread('test.jpg')
 
 class rectangle:
+    x1 = 0
+    x2 = 0
+    y1 = 0
+    y2 = 0
+
     def __init__(self, x1, y1, x2, y2, img):
+        self.x1 = x1
+        self.x2 = x2
+        self.y1 = y1
+        self.y2 = y2
         topLCorner = (x1, y1)
+        topRCorner = (x2, y1)
+        bottomLCorner = (x1, y2)
         bottomRCorner = (x2, y2)
+
         cv2.rectangle(img, topLCorner, bottomRCorner, (0, 255, 0), 2)
 
-    def collisionleft(self, ):
 
+    def collisionLeft(self, x1, y1, x2, y2, img):
+        x3 = self.x1
+        x4 = self.x1
+        y3 = self.y1
+        y4 = self.y2
+        intersectionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
         intersectionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+        cv2.line(img, (int(intersectionX), int(intersectionY)), (int(intersectionX), int(intersectionY)), (255, 0, 0), 5)
+
+    def collisionRight(self, x1, y1, x2, y2, img):
+        x3 = self.x1
+        x4 = self.x1
+        y3 = self.y1
+        y4 = self.y2
+        intersectionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+        intersectionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+        cv2.line(img, (int(intersectionX), int(intersectionY)), (int(intersectionX), int(intersectionY)), (255, 0, 0), 5)
+
+    def collisionTop(self, x1, y1, x2, y2, img):
+        x3 = self.x1
+        x4 = self.x1
+        y3 = self.y1
+        y4 = self.y2
+        intersectionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+        intersectionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+        cv2.line(img, (int(intersectionX), int(intersectionY)), (int(intersectionX), int(intersectionY)), (255, 0, 0), 5)
+
+    def collisionBottom(self, x1, y1, x2, y2, img):
+        x3 = self.x1
+        x4 = self.x1
+        y3 = self.y1
+        y4 = self.y2
+        intersectionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+        intersectionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+        cv2.line(img, (int(intersectionX), int(intersectionY)), (int(intersectionX), int(intersectionY)), (255, 0, 0), 5)
 
 
 
@@ -37,11 +96,10 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     y2 = leY
     y3 = osY
     y4 = oeY
-    intersectionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
-                    / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
-    rectangle(osX, osY, oeX, oeY, videoFeed)
+
+    testRect = rectangle(osX, osY, oeX, oeY, videoFeed)
     drawLaser = cv2.line(videoFeed, (lsX, lsY), (leX, leY), (0, 0, 255), 5)
-    drawLaser = cv2.line(videoFeed, (int(intersectionX), int(intersectionY)), (int(intersectionX), int(intersectionY)), (255, 0, 0), 5)
+    testRect.collisionLeft(x1, y1, x2, y2, videoFeed)
 
 
 cap = cv2.VideoCapture(0)
