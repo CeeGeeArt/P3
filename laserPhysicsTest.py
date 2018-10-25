@@ -51,9 +51,9 @@ class rectangle:
 
     def collisionTop(self, x1, y1, x2, y2, img):
         x3 = self.x1
-        x4 = self.x1
+        x4 = self.x2
         y3 = self.y1
-        y4 = self.y2
+        y4 = self.y1
         intersectionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
@@ -64,8 +64,8 @@ class rectangle:
 
     def collisionBottom(self, x1, y1, x2, y2, img):
         x3 = self.x1
-        x4 = self.x1
-        y3 = self.y1
+        x4 = self.x2
+        y3 = self.y2
         y4 = self.y2
         intersectionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
