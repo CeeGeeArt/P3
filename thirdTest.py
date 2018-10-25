@@ -20,8 +20,10 @@ while (1):
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-    if k == 27:
-        break
 
+
+cv2.waitKey(0)
 cv2.destroyAllWindows()
 cap.release()
+
+
