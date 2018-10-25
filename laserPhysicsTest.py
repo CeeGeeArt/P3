@@ -12,13 +12,10 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     osY = int(vRow/2)-100
     oeX = vCol-100
     oeY = int(vRow/2)+100
+    intersectionX=-1*((lsX-leX)*(osX*oeY-osX*osY)-)
+    intersectionY=
     drawObj = cv2.rectangle(videoFeed, (osX,osY), (oeX, oeY), (0, 255, 0), 2)
-    if osX<leX or osY<leY or oeY>leY:
-        leX = osX
-        leY = oeY
-        drawLaser = cv2.line(videoFeed, (lsX, lsY), (leX, leY), (0, 0, 255, 127), 5)
-    else:
-        drawLaser = cv2.line(videoFeed, (lsX, lsY), (leX, leY), (0, 0, 255, 127), 5)
+    drawLaser = cv2.line(videoFeed, (lsX, lsY), (lsX, lsY), (0, 0, 255, 127), 5)
 
 
 cap = cv2.VideoCapture(0)
