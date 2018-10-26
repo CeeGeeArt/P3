@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import cv2
 import time
@@ -93,8 +95,13 @@ class rectangle:
         rightX, rightY, rightState =self.collisionRight(x1, y1, x2, y2, img)
         leftX, leftY, leftState = self.collisionLeft(x1, y1, x2, y2, img)
 
+        if(topState == 1):
 
-    #def findSmallDistance(self):
+
+
+    def findSmallDistance(self, x1, y1, cx1, cy1, cx2, cy2):
+        distanceToPoint1 = math.sqrt((((x1)-(cx1))**2)+(((y1)-(cy1))**2))
+        distanceToPoint2 = math.sqrt((((x1) - (cx2)) ** 2) + (((y1) - (cy2)) ** 2))
     # 1 remove 2 with true/false for colision
     # 2 Measure distance from start point to both col
     # 3 find smallest distance and make that new end point
