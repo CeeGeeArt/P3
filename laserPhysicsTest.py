@@ -35,9 +35,9 @@ class rectangle:
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         if intersectionY >= y3 and intersectionY <= y4 and intersectionX >= x3 and intersectionX <= x4:
             cv2.line(img, (int(intersectionX), int(intersectionY)), (int(intersectionX), int(intersectionY)), (255, 0, 0), 5)
-            return int(intersectionX), int(intersectionY)
+            return int(intersectionX), int(intersectionY), 1
         else:
-            return 100000,100000
+            return 100000,100000 , 0
 
     def collisionRight(self, x1, y1, x2, y2, img):
         x3 = self.x2
@@ -51,9 +51,9 @@ class rectangle:
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         if intersectionY >= y3 and intersectionY <= y4 and intersectionX >= x3 and intersectionX <= x4:
             cv2.line(img, (int(intersectionX), int(intersectionY)), (int(intersectionX), int(intersectionY)), (255, 0, 0), 5)
-            return int(intersectionX), int(intersectionY)
+            return int(intersectionX), int(intersectionY), 1
         else:
-            return 100000,100000
+            return 100000,100000, 0
 
     def collisionTop(self, x1, y1, x2, y2, img):
         x3 = self.x1
@@ -67,9 +67,9 @@ class rectangle:
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         if intersectionY >= y3 and intersectionY <= y4 and intersectionX >= x3 and intersectionX <= x4:
             cv2.line(img, (int(intersectionX), int(intersectionY)), (int(intersectionX), int(intersectionY)), (255, 0, 0), 5)
-            return int(intersectionX), int(intersectionY)
+            return int(intersectionX), int(intersectionY), 1
         else:
-            return 100000,100000
+            return 100000,100000, 0
 
     def collisionBottom(self, x1, y1, x2, y2, img):
         x3 = self.x1
@@ -83,22 +83,22 @@ class rectangle:
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         if intersectionY >= y3 and intersectionY <= y4 and intersectionX >= x3 and intersectionX <= x4:
             cv2.line(img, (int(intersectionX), int(intersectionY)), (int(intersectionX), int(intersectionY)), (255, 0, 0), 5)
-            return int(intersectionX), int(intersectionY)
+            return int(intersectionX), int(intersectionY), 1
         else:
-            return 100000,100000
+            return 100000,100000, 0
 
     def collisionDetection(self, x1, y1, x2, y2, img):
-        topX, topY = self.collisionTop(x1, y1, x2, y2, img)
-        bottomX, bottomY = self.collisionBottom(x1, y1, x2, y2, img)
-        rightX, rightY =self.collisionRight(x1, y1, x2, y2, img)
-        leftX, leftY = self.collisionLeft(x1, y1, x2, y2, img)
+        topX, topY, topState = self.collisionTop(x1, y1, x2, y2, img)
+        bottomX, bottomY, bottomState = self.collisionBottom(x1, y1, x2, y2, img)
+        rightX, rightY, rightState =self.collisionRight(x1, y1, x2, y2, img)
+        leftX, leftY, leftState = self.collisionLeft(x1, y1, x2, y2, img)
 
 
-    def findSmallDistance(self):
+    #def findSmallDistance(self):
+    # 1 remove 2 with true/false for colision
+    # 2 Measure distance from start point to both col
+    # 3 find smallest distance and make that new end point
 
-        #1 remove 2 with true/false for colision
-        #2 Measure distance from start point to both col
-        #3 find smallest distance and make that new end point
 
 
 
