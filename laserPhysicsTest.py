@@ -97,6 +97,15 @@ class rectangle:
 
         if(topState == 1):
 
+        if top:
+            if bottom:
+            elif right:
+            elif left:
+        elif bottom:
+            if right:
+            elif left:
+        elif right:
+            if left:
 
 
     def findSmallDistance(self, x1, y1, cx1, cy1, cx2, cy2):
