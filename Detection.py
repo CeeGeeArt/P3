@@ -24,12 +24,25 @@ class Detection:
 
         edges = cv2.Canny(res_red, 100, 200)
 
+
+        params = cv2.SimpleBlobDetector_Params()
+        params.filterByCircularity = True
+        params.minCircularity = 0.7
+        params.maxCircularity = 0.8
+
+        detector = cv2.SimpleBlobDetector_create(params)
+
+        keypoints = detector.detect(frame)
+
+        im_with_keypoints = cv2.drawKeypoints(frame, keypoints, np.array([]), (255, 0, 0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
         cv2.imshow('Original', frame)
         #cv2.imshow('red1', mask_red)
         cv2.imshow('red2', res_red)
         #cv2.imshow('blue1', mask_blue)
         cv2.imshow('blue2', res_blue)
         cv2.imshow('edge', edges)
+        cv2.imshow('blob', im_with_keypoints)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
