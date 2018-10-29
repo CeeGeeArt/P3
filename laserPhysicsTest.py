@@ -22,7 +22,7 @@ class rectangle:
         bottomLCorner = (x1, y2)
         bottomRCorner = (x2, y2)
 
-        cv2.rectangle(img, topLCorner, bottomRCorner, (0, 255, 0), 2)
+        cv2.rectangle(img, topLCorner, bottomRCorner, (255, 255, 255), 2)
 
 
     def collisionLeft(self, x1, y1, x2, y2, img):
@@ -99,8 +99,10 @@ class rectangle:
 
         if distanceToPoint1 > distanceToPoint2:
             return cx2, cy2
+            print('2')
         else:
             return cx1, cy1
+            print('1')
 
 
     # 1 remove 2 with true/false for colision
@@ -110,7 +112,7 @@ class rectangle:
     def collisionDetection(self, x1, y1, x2, y2, img):
         topX, topY, topState = self.collisionTop(x1, y1, x2, y2, img)
         bottomX, bottomY, bottomState = self.collisionBottom(x1, y1, x2, y2, img)
-        rightX, rightY, rightState =self.collisionRight(x1, y1, x2, y2, img)
+        rightX, rightY, rightState = self.collisionRight(x1, y1, x2, y2, img)
         leftX, leftY, leftState = self.collisionLeft(x1, y1, x2, y2, img)
 
         cx1 = 0
@@ -144,12 +146,17 @@ class rectangle:
             cy1 = rightY
             if leftState == 1:
                 cx2 = leftX
-                cy2 = leftX
+                cy2 = leftY
         elif leftState == 1:
             cx1 = leftX
             cy1 = leftY
 
-        return self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
+        dX, dY = self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
+
+        if 0 < dX and 0 < dY:
+            return self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
+        else:
+            return x2, y2
 
 
 
@@ -175,14 +182,16 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     y3 = y1 - 150
     y4 = y2- 150
 
-    testRect = rectangle(100, 100, 200, 200, videoFeed)
-    testRect2 = rectangle(osX, osY, oeX, oeY, videoFeed)
+    testRect = rectangle(100, 100, 200, 200, img)
+    testRect2 = rectangle(osX, osY, oeX, oeY, img)
 
-    cv2.line(videoFeed, (lsX, lsY), (leX, leY), (0, 0, 255), 5)
+    cv2.line(videoFeed, (lsX, lsY), (leX, leY), (0, 255, 0), 5)
 
-    print(testRect.collisionDetection(x1,y1,x2,y2,videoFeed))
+    testRect.collisionDetection(x1,y1,x2,y2, img)
 
-    testRect2.collisionDetection(x1,y1,x2,y2,videoFeed)
+    leX, leY = testRect2.collisionDetection(x1,y1,x2,y2, img)
+
+    cv2.line(img, (lsX, lsY), (leX, leY), (0, 0, 255), 5)
 
 
 cap = cv2.VideoCapture(0)
@@ -200,6 +209,9 @@ while(cap.isOpened()):
 
     laserFire(frame,20,0.2) #Call to laser function
     cv2.imshow('frame', frame)
+    cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
+    cv2.setWindowProperty("window", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    cv2.imshow("window", img)
 
     if cv2.waitKey(33) >= 0:
         break
