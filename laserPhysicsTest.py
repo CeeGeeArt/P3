@@ -7,22 +7,22 @@ import time
 img = cv2.imread('test.jpg')
 
 class rectangle:
-    x1 = 0
-    x2 = 0
-    y1 = 0
-    y2 = 0
+    x3 = 0
+    x4 = 0
+    y3 = 0
+    y4 = 0
 
-    def __init__(self, x1, y1, x2, y2, img):
-        self.x1 = x1
-        self.x2 = x2
-        self.y1 = y1
-        self.y2 = y2
-        topLCorner = (x1, y1)
-        topRCorner = (x2, y1)
-        bottomLCorner = (x1, y2)
-        bottomRCorner = (x2, y2)
+    def __init__(self, blocker):
+        self.x3 = x1
+        self.x4 = x2
+        self.y3 = y1
+        self.y4 = y2
 
-        cv2.rectangle(img, topLCorner, bottomRCorner, (255, 255, 255), 2)
+    def __init__(self, blocker):
+        self.x3 = blocker.getX3()
+        self.x4 = blocker.getX4()
+        self.y3 = blocker.getY3()
+        self.y4 = blocker.getY4()
 
 
     def collisionLeft(self, x1, y1, x2, y2, img):
