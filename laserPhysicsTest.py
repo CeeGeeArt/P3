@@ -24,6 +24,10 @@ class rectangle:
         self.y3 = blocker.getY3()
         self.y4 = blocker.getY4()
 
+#If Start - Collision1 < Start - Collsion2:
+    # Line.x2 = Colission1
+    #Else:
+        #Line.x2 = collision2
 
     def collisionLeft(self, x1, y1, x2, y2, img):
         x3 = self.x1
