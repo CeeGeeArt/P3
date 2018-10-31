@@ -5,6 +5,7 @@ import Blocker
 import cv2
 
 img = cv2.imread('test.jpg')
+height, width, channels = img.shape
 
 def laserFire(videoFeed, totLaserPos, timePerPos):
     vRow, vCol, vCH = videoFeed.shape
@@ -25,11 +26,10 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     y3 = y1 - 150
     y4 = y2- 150
 
+    screenBoarderCollision = Blocker.Blocker(0, 0, width, height, img)
     testBlocker = Blocker.Blocker(osX+200, osY+200, oeX+200, oeY+200, img)
 
     originalLaser = Laser.Laser(lsX, lsY, leX, leY, img)
-
-    cv2.line(videoFeed, (lsX, lsY), (leX, leY), (0, 255, 0), 5)
 
     col = Collision.Collision(testBlocker, originalLaser)
 
