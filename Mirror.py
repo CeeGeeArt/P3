@@ -38,30 +38,36 @@ class Mirror:
     def getY4(self):
         return self.y4
 
-def angleDetermine(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2):
-    ax = ax2 - ax1
-    ay = ay2 - ay1
-    bx = bx2 - bx1
-    by = by2 - by1
 
-    VECa = (ax, ay)
-    VECb = (bx, by)
-    MAGa = int(math.sqrt(math.pow(ax, 2) + math.pow(ay,2)))
-    MAGb = int(math.sqrt(math.pow(bx, 2) + math.pow(by, 2)))
+def angleDetermine(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, img):
+    vectorAx = ax2 - ax1
+    vectorAy = ay2 - ay1
+    vectorBx = bx2 - bx1
+    vectorBy = by2 - by1
 
-    cosAngle = (VECa * VECb)/(MAGa * MAGb)
+    vectorA = (vectorAx, vectorAy)
+    vectorB = (vectorBx, vectorBy)
+    magnitudeOfA = int(math.sqrt(math.pow(vectorAx, 2) + math.pow(vectorAy, 2))) #POP POP!!! #https://www.youtube.com/watch?v=dyp9Qw12boI&ab_channel=Jalkie
+    magnitudeOfB = int(math.sqrt(math.pow(vectorBx, 2) + math.pow(vectorBy, 2)))
 
-    angle = math.acos(cosAngle)
+    print(vectorAx, vectorAy, vectorBx, vectorBy, magnitudeOfA, magnitudeOfB)
 
-    x1 = ax1
-    y1 = ay1
-    x2 = x1 + VECa * math.cos(angle)
-    y2 = y1 + VECa * math.sin(angle)
+    vectorProduct = (vectorAx*vectorBx) + (vectorAy*vectorBy)
+    magnitudeProduct = (magnitudeOfA * magnitudeOfB)
+    print(vectorProduct, magnitudeProduct)
 
-    return x2, y2
+    cosAngle = vectorProduct/magnitudeProduct
+    print(math.acos(cosAngle))
+    angle = math.degrees(math.acos(cosAngle))
+    print(angle)
 
+    x1 = ax2
+    y1 = ay2
+    x2 = x1 + (magnitudeOfA * math.cos(cosAngle+math.radians(180)))
+    y2 = y1 + (magnitudeOfA * math.sin(cosAngle+math.radians(180)))
 
-line = (50, 50, 70, 70)
-line2 = (150, 100, 150, 300)
+    print(x2,y2)
 
-angleDetermine(50, 50, 70, 70, 150, 100, 150, 300)
+    cv2.line(img, (int(ax1), int(ay1)), (int(ax2), int(ay2)), (0,0,255, 127), 5)
+    cv2.line(img, (int(bx1), int(by1)), (int(bx2), int(by2)), (0, 0, 255, 127), 5)
+    cv2.line(img, (int(ax2), int(ay2)), (int(x2), int(y2)), (0, 255, 0, 127), 5)

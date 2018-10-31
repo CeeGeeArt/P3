@@ -40,6 +40,8 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     outPutLaser = Laser.Laser(lsX, lsY, leX, leY, img)
     outPutLaser.drawLaser()
 
+    Mirror.angleDetermine(200, 300, 400, 200, 400, 400, 400, 0, img)
+
 
 
 
