@@ -7,22 +7,27 @@ import math
 
 
 class Mirror:
+
+    x1 = 0
+    x2 = 0
+    y1 = 0
+    y2 = 0
     x3 = 0
     x4 = 0
     y3 = 0
     y4 = 0
+    mirrorState = 0
 
     def __init__(self, x1, y1, x2, y2, img):
         self.x3 = x1
         self.x4 = x2
         self.y3 = y1
         self.y4 = y2
+        self.mirrorState = 1
         topLCorner = (x1, y1)
         topRCorner = (x2, y1)
         bottomLCorner = (x1, y2)
         bottomRCorner = (x2, y2)
-
-
 
         cv2.rectangle(img, topLCorner, bottomRCorner, (255, 255, 255), 2)
 
@@ -37,6 +42,9 @@ class Mirror:
 
     def getY4(self):
         return self.y4
+
+    def getMirrorState(self):
+        return self.mirrorState
 
 
 def angleDetermine(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, img):
@@ -57,17 +65,17 @@ def angleDetermine(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, img):
     print(vectorProduct, magnitudeProduct)
 
     cosAngle = vectorProduct/magnitudeProduct
-    print(math.acos(cosAngle))
-    angle = math.degrees(math.acos(cosAngle))
-    print(angle)
+    print("cos",cosAngle)
+    Angle = math.degrees(math.acos(cosAngle))
+    print("A",Angle)
+
 
     x1 = ax2
     y1 = ay2
-    x2 = x1 + (magnitudeOfA * math.cos(cosAngle+math.radians(180)))
-    y2 = y1 + (magnitudeOfA * math.sin(cosAngle+math.radians(180)))
+    rLx2 = x1 + (magnitudeOfA * math.cos(Angle+135))
+    rLy2 = y1 + (magnitudeOfA * math.sin(Angle+135))
 
-    print(x2,y2)
+    print("final shit",ax2, ay2, rLx2, rLy2)
 
-    cv2.line(img, (int(ax1), int(ay1)), (int(ax2), int(ay2)), (0,0,255, 127), 5)
-    cv2.line(img, (int(bx1), int(by1)), (int(bx2), int(by2)), (0, 0, 255, 127), 5)
-    cv2.line(img, (int(ax2), int(ay2)), (int(x2), int(y2)), (0, 255, 0, 127), 5)
+    cv2.line(img, (int(ax2), int(ay2)), (int(rLx2), int(rLy2)), (0, 255, 0, 127), 5)
+

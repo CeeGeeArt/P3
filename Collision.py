@@ -18,6 +18,11 @@ class Collision:
     x4 = 0
     y3 = 0
     y4 = 0
+    mirror = 0
+    topLCorner = (x3, y3)
+    topRCorner = (x4, y3)
+    bottomLCorner = (x3, y4)
+    bottomRCorner = (x4, y4)
 
     def __init__(self, mirror, laser):
         self.x1 = laser.getX1()
@@ -28,16 +33,9 @@ class Collision:
         self.x4 = mirror.getX4()
         self.y3 = mirror.getY3()
         self.y4 = mirror.getY4()
-
-    def __init__(self, blocker, laser):
-        self.x1 = laser.getX1()
-        self.x2 = laser.getX2()
-        self.y1 = laser.getY1()
-        self.y2 = laser.getY2()
-        self.x3 = blocker.getX3()
-        self.x4 = blocker.getX4()
-        self.y3 = blocker.getY3()
-        self.y4 = blocker.getY4()
+        self.mirror = mirror.getMirrorState()
+        self.laser = laser
+        mirror = 1
 
     def collisionLeft(self, img):
         x1 = self.x1
@@ -131,7 +129,11 @@ class Collision:
         distanceToPoint1 = math.sqrt((((x1) - (cx1)) ** 2) + (((y1) - (cy1)) ** 2))
         distanceToPoint2 = math.sqrt((((x1) - (cx2)) ** 2) + (((y1) - (cy2)) ** 2))
 
-        if distanceToPoint1 > distanceToPoint2:
+        if distanceToPoint1 > distanceToPoint2 and self.mirror != 0:
+            return cx2, cy2
+        if distanceToPoint1 < distanceToPoint2 and self.mirror != 0:
+            return cx1, cy1
+        elif distanceToPoint1 > distanceToPoint2:
             return cx2, cy2
         else:
             return cx1, cy1
@@ -194,7 +196,31 @@ class Collision:
 
         dX, dY = self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
 
-        if 0 < dX and 0 < dY:
+        if 0< dX and 0<dY and self.mirror !=0:
+            bx1 = 0
+            by1 = 0
+            bx2 = 0
+            by2 = 0
+            eLX, eLY = self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
+            print("x n shit", eLX, topX, bottomX, rightX, leftX)
+            if eLX == topX:
+                bx1, by1 = self.x3, self.y3
+                bx2, by2 = self.x4, self.y3
+            elif eLX == bottomX:
+                bx1, by1 = self.x3, self.y4
+                bx2, by2 = self.x4, self.y4
+            elif eLX == rightX:
+                bx1, by1 = self.x4, self.y3
+                bx2, by2 = self.x4, self.y4
+            elif eLX == leftX:
+                bx1, by1 = self.x3, self.y3
+                bx2, by2 = self.x3, self.y4
+
+            print("bex shit",bx1,by1,bx2,by2)
+
+            Mirror.angleDetermine(self.x1, self.y1, dX, dY, bx1, by1, bx2, by2, img)
+            return self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
+        elif 0 < dX and 0 < dY:
             return self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
         else:
             height, width, channels = img.shape

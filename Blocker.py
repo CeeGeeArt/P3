@@ -11,12 +11,14 @@ class Blocker:
     x4 = 0
     y3 = 0
     y4 = 0
+    mirrorState = 0
 
     def __init__(self, x1, y1, x2, y2, img):
         self.x3 = x1
         self.x4 = x2
         self.y3 = y1
         self.y4 = y2
+        self.mirrorState = 0
         topLCorner = (x1, y1)
         topRCorner = (x2, y1)
         bottomLCorner = (x1, y2)
@@ -35,3 +37,6 @@ class Blocker:
 
     def getY4(self):
         return self.y4
+
+    def getMirrorState(self):
+        return self.mirrorState

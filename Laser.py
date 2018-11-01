@@ -27,7 +27,7 @@ class Laser:
 
     def drawLaser(self):
 
-        cv2.line(self.img, self.lineStart, self.lineEnd, (0, 255, 0), 5)
+        cv2.line(self.img, self.lineStart, self.lineEnd, (0, 0, 255), 5)
 
     def getX1(self):
         return self.x1
