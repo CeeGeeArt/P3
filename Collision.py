@@ -153,6 +153,8 @@ class Collision:
         x2 = self.x2
         y1 = self.y1
         y2 = self.y2
+
+        #gets the collision point on all the sides of the cube
         topX, topY, topState = self.collisionTop(img)
         bottomX, bottomY, bottomState = self.collisionBottom(img)
         rightX, rightY, rightState = self.collisionRight(img)
@@ -163,6 +165,7 @@ class Collision:
         cx2 = 0
         cy2 = 0
 
+        #Checks what sides the colission happens on
         if topState == 1:
             cx1 = topX
             cy1 = topY
@@ -201,6 +204,7 @@ class Collision:
             by1 = 0
             bx2 = 0
             by2 = 0
+            #We check what sides the collision happens on, and get the x and y of the line
             eLX, eLY = self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
             print("x n shit", eLX, topX, bottomX, rightX, leftX)
             if eLX == topX:
@@ -223,6 +227,7 @@ class Collision:
         elif 0 < dX and 0 < dY:
             return self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
         else:
+            #if the laser does not hit, it colides with the screen
             height, width, channels = img.shape
             screen = Blocker.Blocker(0, 0, width, height, img)
             tempLaser = Laser.Laser(self.x1, self.y1, self.x2, self.y2, img)

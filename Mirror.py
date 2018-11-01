@@ -72,8 +72,10 @@ def angleDetermine(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, img):
 
     x1 = ax2
     y1 = ay2
-    rLx2 = x1 + (magnitudeOfA * math.cos(Angle+135))
-    rLy2 = y1 + (magnitudeOfA * math.sin(Angle+135))
+    rLx2 = x1 + (magnitudeOfA * math.cos(Angle))
+    rLy2 = y1 + (magnitudeOfA * math.sin(Angle))
+    print("rLx2", rLx2)
+    print("rLy2", rLy2)
 
     print("final shit",ax2, ay2, rLx2, rLy2)
 
