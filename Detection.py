@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 
-# Creates a maskv based on the colors specified in the boundaries.
+# Creates a mask based on the colors specified in the boundaries.
 def masking(frame, lower, upper):
     mask = cv2.inRange(frame, lower, upper)
     blur = cv2.GaussianBlur(mask, (3, 3), 0)
@@ -19,16 +19,19 @@ def masking(frame, lower, upper):
 def houghLines(pFrame):
     edges = cv2.Canny(pFrame, 50, 150, apertureSize=3)
     cv2.imshow('edge', edges)
-    #lines = cv2.HoughLines(edges, 1, math.pi / 180.0, 60, np.array([]), 0, 0)
 
-    minLineLength = 1
+    # Houghlines function
+    minLineLength = 2
     maxLineGap = 20
+    # Can only return one line at a time right now because of.... reasons -.-
+    # ---------------------------------------- ##################################
     lines = cv2.HoughLinesP(edges, 1, math.pi / 180, 100, 0, minLineLength, maxLineGap)
 
-    print("lines" + str(lines))
+    # Use the lines returned by HoughLinesP to create two arrays of points that can be returned.
+    print(lines)
     if (lines is None or len(lines) == 0):
-            print("No lines found")
-            return (0,0), (0,0)
+        print("No lines found")
+        return (0, 0), (0, 0)
     else:
         temp_pt1 = []
         temp_pt2 = []
@@ -44,7 +47,6 @@ def houghLines(pFrame):
             temp_pt2.append(pt2)
         print("temp_pt1 " + str(temp_pt1))
         return temp_pt1, temp_pt2
-
 
     # if (lines is None or len(lines) == 0):
     #     print("No lines found")
@@ -72,8 +74,8 @@ def blobDetection(mask, frame):
 
     # Filter by circularity
     params.filterByCircularity = True
-    params.minCircularity = 0.7
-    params.maxCircularity = 0.8
+    params.minCircularity = 0.65
+    params.maxCircularity = 0.85
 
     # Filter by Area.
     params.filterByArea = True
@@ -82,9 +84,13 @@ def blobDetection(mask, frame):
 
     detector = cv2.SimpleBlobDetector_create(params)
 
+    # Create an inverted mask to BLOB detect on.
     ret, new_mask = cv2.threshold(mask, 1, 255, cv2.THRESH_BINARY_INV)
+
+    # BLOB detect
     keypoints = detector.detect(new_mask)
 
+    # Create an image with circles around the detected BLOBs
     im_with_keypoints = cv2.drawKeypoints(frame, keypoints, np.array([]), (0, 255, 0),
                                           cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     return im_with_keypoints, keypoints
@@ -97,12 +103,12 @@ def createMask(keypoints):
         x = keypoints[i].pt[0]
         y = keypoints[i].pt[1]
         temp_array = np.zeros(shape=mask_red.shape)
-        for x1 in range(-75, 75):
+        for x1 in range(-50, 50):
             # Prevents out of bounds when the keypoint is close to the edge of the screen.
-            if(x1+x < temp_array.shape[1] and x1+x >= 0):
-                for y1 in range(-75, 75):
+            if (x1 + x < temp_array.shape[1] and x1 + x >= 0):
+                for y1 in range(-50, 50):
                     # Prevents out of bounds when the keypoint is close to the edge of the screen.
-                    if(y1+y < temp_array.shape[0] and y1+y >= 0):
+                    if (y1 + y < temp_array.shape[0] and y1 + y >= 0):
                         y_f = int(y + y1)
                         x_f = int(x + x1)
                         temp_array[y_f, x_f] = 255
@@ -132,7 +138,7 @@ while (1):
     # Create list of masks for individual blobs
     maskList = createMask(keypoints)
 
-    # Use maskList to separate BLOBS in the picture.
+    # Use maskList to separate the first BLOB and then draw lines by using the mask on the image of all BLOBS
     if len(maskList) < 1:
         print("no mask")
     else:
@@ -145,34 +151,37 @@ while (1):
             for i in range(len(pt1)):
                 cv2.line(frame, pt1[i], pt2[i], (0, 0, 255), 2, cv2.LINE_AA)
 
-    if len(maskList) < 2:
-        print("no mask")
-    else:
-        masked2 = cv2.inRange(maskList[0], 150, 255)
-        red2 = cv2.bitwise_and(mask_red, mask_red, mask=masked2)
-        # Houghlines on edges
-        #pt1, pt2 = houghLines(red1)
-        #cv2.line(frame, pt1, pt2, (0, 0, 255), 2, cv2.LINE_AA)
+    # if len(maskList) < 2:
+    #     print("no mask")
+    # else:
+    #     masked2 = cv2.inRange(maskList[0], 150, 255)
+    #     red2 = cv2.bitwise_and(mask_red, mask_red, mask=masked2)
+    #     # Houghlines on edges. Returns two arrays of points.
+    #     pt1, pt2 = houghLines(red2)
+    #     # Draw lines based on points
+    #     if type(pt1[0]) is tuple:
+    #         for i in range(len(pt1)):
+    #             cv2.line(frame, pt1[i], pt2[i], (0, 0, 255), 2, cv2.LINE_AA)
 
     # Display stuff
     cv2.imshow('Original', frame)
-    #cv2.imshow('red1', mask_red)
-    #cv2.imshow('inverted', new_mask)
-    #cv2.imshow('red2', res_red)
-    #cv2.imshow('blue1', mask_blue)
-    #cv2.imshow('blue2', res_blue)
-    #cv2.imshow('edgeblur', blur)
-    #cv2.imshow('closing', closing)
-    #cv2.imshow('edge', edges)
+    # cv2.imshow('red1', mask_red)
+    # cv2.imshow('inverted', new_mask)
+    # cv2.imshow('red2', res_red)
+    # cv2.imshow('blue1', mask_blue)
+    # cv2.imshow('blue2', res_blue)
+    # cv2.imshow('edgeblur', blur)
+    # cv2.imshow('closing', closing)
+    # cv2.imshow('edge', edges)
     cv2.imshow('blob', keypoint_image)
     if len(maskList) < 1:
         print("no mask")
     else:
         cv2.imshow('createdMask1', red1)
-    if len(maskList) < 2:
-        print("no mask")
-    else:
-        cv2.imshow('createdMask2', red2)
+    # if len(maskList) < 2:
+    #     print("no mask")
+    # else:
+    #     cv2.imshow('createdMask2', red2)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
