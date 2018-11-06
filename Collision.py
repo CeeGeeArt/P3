@@ -1,5 +1,3 @@
-import sys
-
 import Mirror
 import Blocker
 import Target
