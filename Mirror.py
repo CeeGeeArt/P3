@@ -1,5 +1,5 @@
 #import Collision
-#import Laser
+import Laser
 #import Target
 #import Blocker
 import cv2
@@ -47,39 +47,27 @@ class Mirror:
         return self.mirrorState
 
 
-def angleDetermine(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, img):
-    vectorAx = ax2 - ax1
-    vectorAy = ay2 - ay1
-    vectorBx = bx2 - bx1
-    vectorBy = by2 - by1
-    vectorCx = vectorAx
-    vectorCy = vectorAy
+def angleDetermine(ax1, ay1, ax2, ay2, cx, cy, bx1, by1, bx2, by2, img):
+    normalY = bx2 - bx1
+    normalX = by1 - by2
+    temp = ((bx2-bx1)**2) + ((by2 - by1)**2)
+    normalLength = math.sqrt(temp)
+    normalX = normalX/normalLength
+    normalY = normalY/normalLength
 
-    vectorA = [vectorAx, vectorAy]
-    vectorB = [vectorBx, vectorBy]
-    vectorB90deg = [-vectorBy, vectorBx]
-    normalVectorToBx1= ax2
-    normalVectorToBx2= ax2+vectorB90deg[0]
-    normalVectorToBy1= ay2
-    normalVectorToBy2= ay2+vectorB90deg[1]
-    normalVectorToBx = normalVectorToBx2-normalVectorToBx1
-    normalVectorToBy= normalVectorToBy2-normalVectorToBy1
-    cv2.line(img, (ax2, ay2), (ax2+vectorCx, ay2+vectorCy), (255, 255, 0), 5)
-    magnitudeOfA = int(math.sqrt(math.pow(vectorAx, 2) + math.pow(vectorAy, 2))) #POP POP!!! #https://www.youtube.com/watch?v=dyp9Qw12boI&ab_channel=Jalkie
-    magnitudeOfB = int(math.sqrt(math.pow(vectorBx, 2) + math.pow(vectorBy, 2)))
-    #magnitudeOfnormalB = int(math.sqrt(math.pow(normalVectorToBx, 2) + math.pow(normalVectorToBy, 2)))
-    #normOfnormalVectorToBx = normalVectorToBx/magnitudeOfnormalB
-    #normOfnormalVectorToBy = normalVectorToBy/magnitudeOfnormalB
+    rayX = ax2 - cx
+    rayY = ay2 - cy
 
-    #dotProductOfStuff = (ax2*normalVectorToBx)+(ay2*normalVectorToBy)
+    dotProduct = (rayX * normalX)+(rayY*normalY)
 
-    #rLx = vectorAx-2*(dotProductOfStuff)*normOfnormalVectorToBx
-    #rLy = vectorAy - 2 * (dotProductOfStuff) * normOfnormalVectorToBy
+    dotNormalX = dotProduct*normalX
+    dotNormalY = dotProduct*normalY
 
+    reflectionEndX = ax2 - (dotNormalX * 2)
+    reflectionEndY = ay2 - (dotNormalY * 2)
 
-
-    vectorProduct = (vectorAx*vectorBx) + (vectorAy*vectorBy)
-    magnitudeProduct = (magnitudeOfA * magnitudeOfB)
+    #cv2.line(img, (cx, cy), (int(reflectionEndX), int(reflectionEndY)), (255, 255, 0), 5)
+    return Laser.Laser(cx, cy, int(reflectionEndX), int(reflectionEndY), img), 0
 
 
 def angleDetermineStillBad(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, img):

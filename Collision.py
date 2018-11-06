@@ -8,6 +8,7 @@ import cv2
 
 class Collision:
 
+    img2 = cv2.imread('test.jpg')
     x1 = 0
     x2 = 0
     y1 = 0
@@ -21,6 +22,7 @@ class Collision:
     topRCorner = (x4, y3)
     bottomLCorner = (x3, y4)
     bottomRCorner = (x4, y4)
+    tempLaser = Laser.Laser(0,0,0,0,img2)
 
     def __init__(self, mirror, laser):
         self.x1 = laser.getX1()
@@ -33,7 +35,9 @@ class Collision:
         self.y4 = mirror.getY4()
         self.mirror = mirror.getMirrorState()
         self.laser = laser
-        mirror = 1
+
+    def getLaser(self):
+        return self.Laser
 
     def collisionLeft(self, img):
         x1 = self.x1
@@ -220,7 +224,7 @@ class Collision:
 
             print("bex shit",bx1,by1,bx2,by2)
 
-            Mirror.angleDetermine(self.x1, self.y1, dX, dY, bx1, by1, bx2, by2, img)
+            self.Laser = Mirror.angleDetermine(self.x1, self.y1, self.x2, self.y2,dX, dY, bx1, by1, bx2, by2, img)
             return self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
         elif 0 < dX and 0 < dY:
             return self.findSmallDistance(x1, y1, cx1, cy1, cx2, cy2)
@@ -235,39 +239,39 @@ class Collision:
             rightX, rightY, rightState = tempCol.collisionRight(img)
             leftX, leftY, leftState = tempCol.collisionLeft(img)
 
-            cx1 = 0
-            cy1 = 0
-            cx2 = 0
-            cy2 = 0
+            cxs1 = 0
+            cys1 = 0
+            cxs2 = 0
+            cys2 = 0
 
             if topState == 1:
-                cx1 = topX
-                cy1 = topY
+                cxs1 = topX
+                cys1 = topY
                 if bottomState == 1:
-                    cx2 = bottomX
-                    cy2 = bottomY
+                    cxs2 = bottomX
+                    cys2 = bottomY
                 elif rightState == 1:
-                    cx2 = rightX
-                    cy2 = rightY
+                    cxs2 = rightX
+                    cys2 = rightY
                 elif leftState == 1:
-                    cx2 = leftX
-                    cy2 = leftY
+                    cxs2 = leftX
+                    cys2 = leftY
             elif bottomState == 1:
-                cx1 = bottomX
-                cy1 = bottomY
+                cxs1 = bottomX
+                cys1 = bottomY
                 if rightState == 1:
-                    cx2 = rightX
-                    cy2 = rightY
+                    cxs2 = rightX
+                    cys2 = rightY
                 elif leftState == 1:
-                    cx2 = leftX
-                    cy2 = leftY
+                    cxs2 = leftX
+                    cys2 = leftY
             elif rightState == 1:
-                cx1 = rightX
-                cy1 = rightY
+                cxs1 = rightX
+                cys1 = rightY
                 if leftState == 1:
-                    cx2 = leftX
-                    cy2 = leftY
+                    cxs2 = leftX
+                    cys2 = leftY
             elif leftState == 1:
-                cx1 = leftX
-                cy1 = leftY
-            return self.findBiggestDistance(x1, y1, cx1, cy1, cx2, cy2)
+                cxs1 = leftX
+                cys1 = leftY
+            return self.findBiggestDistance(x1, y1, cxs1, cys1, cxs2, cys2)
