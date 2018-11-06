@@ -41,7 +41,6 @@ im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0, 0, 255),
                                       cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
 # Show blobs
-cv2.imshow()
 cv2.imshow("Keypoints", im_with_keypoints)
 if cv2.waitKey(0) and 0xff==27:
     cv2.destroyAllWindows()
