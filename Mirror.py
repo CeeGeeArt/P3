@@ -66,8 +66,8 @@ def angleDetermine(ax1, ay1, ax2, ay2, cx, cy, bx1, by1, bx2, by2, img):
     reflectionEndX = ax2 - (dotNormalX * 2)
     reflectionEndY = ay2 - (dotNormalY * 2)
 
-    #cv2.line(img, (cx, cy), (int(reflectionEndX), int(reflectionEndY)), (255, 255, 0), 5)
-    return Laser.Laser(cx, cy, int(reflectionEndX), int(reflectionEndY), img), 0
+    cv2.line(img, (cx, cy), (int(reflectionEndX), int(reflectionEndY)), (255, 255, 0), 5)
+    #return Laser.Laser(cx, cy, int(reflectionEndX), int(reflectionEndY), img), 0
 
 
 def angleDetermineStillBad(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, img):

@@ -22,7 +22,7 @@ class Collision:
     topRCorner = (x4, y3)
     bottomLCorner = (x3, y4)
     bottomRCorner = (x4, y4)
-    tempLaser = Laser.Laser(0,0,0,0,img2)
+    #tempLaser = Laser.Laser(0,0,0,0,img2)
 
     def __init__(self, mirror, laser):
         self.x1 = laser.getX1()
