@@ -119,7 +119,6 @@ def box_from_contours(input_mask):
     opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
 
     # find contours and then find the corners of a rotated bounding rectangle.
-    cv2.imshow('check', opening)
     temp_box = []
     im2, contours, hierarchy = cv2.findContours(opening, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     for i in range(len(contours)):
@@ -129,22 +128,16 @@ def box_from_contours(input_mask):
             box = cv2.boxPoints(rect)
             box = np.int0(box)
             temp_box.append(box)
-            cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
     return temp_box
 
-def detection(clean_frame):
+def detectionRed(clean_frame):
     # Red
     lower_red = np.array([0, 0, 140])
     upper_red = np.array([90, 90, 255])
     mask_red = masking(clean_frame, lower_red, upper_red)
 
-    # Blue
-    lower_blue = np.array([150, 0, 0])
-    upper_blue = np.array([255, 130, 130])
-    mask_blue = masking(clean_frame, lower_blue, upper_blue)
-
     # Detect blobs
-    keypoint_image, keypoints = blobDetection(mask_red, clean_frame)
+    #keypoint_image, keypoints = blobDetection(mask_red, clean_frame)
 
     # Create list of masks for individual blobs
     #maskList = createMask(keypoints, mask_red)
@@ -158,6 +151,16 @@ def detection(clean_frame):
 
     return box
 
+def detectionBlue(clean_frame):
+    # Blue
+    lower_blue = np.array([140, 0, 0])
+    upper_blue = np.array([255, 90, 90])
+    mask_blue = masking(clean_frame, lower_blue, upper_blue)
+
+    # Find contours
+    box = box_from_contours(mask_blue)
+
+    return box
 
 # ----- Code for testing purposes below.
 
@@ -169,7 +172,7 @@ def detection(clean_frame):
 #     print("New Iteration")
 #
 #     # Run the code
-#     boxes = detection(frame)
+#     boxes = detectionRed(frame)
 #
 #     # Draw contour boxes.
 #     for i in range(len(boxes)):

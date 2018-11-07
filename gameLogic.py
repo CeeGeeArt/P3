@@ -22,7 +22,16 @@ while (1):
     team2 = Team.Team(name2)
 
     # Detection. Should return a box.
-    boxes = Detection.detection(frame)
+    red_boxes = Detection.detectionRed(frame)
+    blue_boxes = Detection.detectionBlue(frame)
+
+    for i in range(len(red_boxes)):
+        cv2.drawContours(frame, [red_boxes[i]], 0, (0, 0, 255), 2)
+
+    for i in range(len(blue_boxes)):
+        cv2.drawContours(frame, [blue_boxes[i]], 0, (255, 0, 0), 2)
+
+    cv2.imshow('boxFrames', frame)
 
     # Activate Collision. Should return an image to draw on the board and a laser that can collide with the target.
 
@@ -42,4 +51,4 @@ while (1):
         break
 
     # break the loop after the first run for testing purposes.
-    break
+    #break
