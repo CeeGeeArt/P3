@@ -1,3 +1,4 @@
+# This can be deleted in the final implementation when no more testing is necessary.
 import math
 import cv2
 import numpy as np
@@ -157,23 +158,30 @@ def detection(clean_frame):
 
     return box
 
-cap = cv2.VideoCapture(0)
 
-while (1):
-    _, frame = cap.read()
+# ----- Code for testing purposes below.
 
-    print("New Iteration")
-
-    # Run the code
-    detection(frame)
-
-    # Display stuff
-    cv2.imshow('Original', frame)
-
-    # Wait until q is pressed to exit loop.
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-cap.release()
+# cap = cv2.VideoCapture(0)
+#
+# while (1):
+#     _, frame = cap.read()
+#
+#     print("New Iteration")
+#
+#     # Run the code
+#     boxes = detection(frame)
+#
+#     # Draw contour boxes.
+#     for i in range(len(boxes)):
+#         cv2.drawContours(frame, [boxes[i]], 0, (0, 0, 255), 2)
+#
+#     # Display stuff
+#     cv2.imshow('Original', frame)
+#
+#     # Wait until q is pressed to exit loop.
+#     if cv2.waitKey(1) & 0xFF == ord('q'):
+#         break
+#
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
+# cap.release()
