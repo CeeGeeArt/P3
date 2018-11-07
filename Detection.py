@@ -16,7 +16,6 @@ def masking(input_frame, lower, upper):
 
 
 # Calculates two points that can be used to draw a line.
-# This function is not currently being used.
 def myHoughLines(pFrame):
     edges = cv2.Canny(pFrame, 50, 150, apertureSize=3)
 
@@ -132,26 +131,26 @@ def box_from_contours(input_mask):
             cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
     return temp_box
 
-def detection():
+def detection(clean_frame):
     # Red
     lower_red = np.array([0, 0, 140])
     upper_red = np.array([90, 90, 255])
-    mask_red = masking(frame, lower_red, upper_red)
+    mask_red = masking(clean_frame, lower_red, upper_red)
 
     # Blue
     lower_blue = np.array([150, 0, 0])
     upper_blue = np.array([255, 130, 130])
-    mask_blue = masking(frame, lower_blue, upper_blue)
+    mask_blue = masking(clean_frame, lower_blue, upper_blue)
 
     # Detect blobs
-    keypoint_image, keypoints = blobDetection(mask_red, frame)
+    keypoint_image, keypoints = blobDetection(mask_red, clean_frame)
 
     # Create list of masks for individual blobs
-    maskList = createMask(keypoints, mask_red)
+    #maskList = createMask(keypoints, mask_red)
 
     # Use maskList to separate the first BLOB and then retrieve the points for each line
     # Draw lines by using the points provided by the the mask
-    # retrieveLines(maskList, mask_red)
+    #retrieveLines(maskList, mask_red)
 
     # Find contours
     box = box_from_contours(mask_red)
@@ -166,7 +165,7 @@ while (1):
     print("New Iteration")
 
     # Run the code
-    detection()
+    detection(frame)
 
     # Display stuff
     cv2.imshow('Original', frame)
