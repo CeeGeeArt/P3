@@ -4,8 +4,8 @@ import numpy as np
 
 
 # Creates a mask based on the colors specified in the boundaries.
-def masking(frame, lower, upper):
-    mask = cv2.inRange(frame, lower, upper)
+def masking(input_frame, lower, upper):
+    mask = cv2.inRange(input_frame, lower, upper)
     #blur = cv2.GaussianBlur(mask, (3, 3), 0)
     kernel = np.ones((11, 11), np.uint8)
     closing = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
@@ -15,7 +15,8 @@ def masking(frame, lower, upper):
     return closing
 
 
-# Calculates two points that can be used to draw a line. Input should be a canny image.
+# Calculates two points that can be used to draw a line.
+# This function is not currently being used.
 def myHoughLines(pFrame):
     edges = cv2.Canny(pFrame, 50, 150, apertureSize=3)
 
@@ -45,34 +46,14 @@ def myHoughLines(pFrame):
             temp_pt2.append(pt2)
         return temp_pt1, temp_pt2
 
-    # if (lines is None or len(lines) == 0):
-    #     print("No lines found")
-    #     return (0,0), (0,0)
-    # else:
-    #     a, b, c = lines.shape
-    #     temp_pt1 = []
-    #     temp_pt2 = []
-    #     for i in range(a):
-    #         rho = lines[i][0][0]
-    #         theta = lines[i][0][1]
-    #         a = math.cos(theta)
-    #         b = math.sin(theta)
-    #         x0, y0 = a * rho, b * rho
-    #         pt1 = (int(x0 + 1000 * (-b)), int(y0 + 1000 * (a)))
-    #         pt2 = (int(x0 - 1000 * (-b)), int(y0 - 1000 * (a)))
-    #         temp_pt1.append(pt1)
-    #         temp_pt2.append(pt2)
-    #     print("pt lenght " + str(len(temp_pt1)))
-    #     return temp_pt1, temp_pt2
 
-
-def blobDetection(mask, frame):
+def blobDetection(mask, input_frame):
     params = cv2.SimpleBlobDetector_Params()
 
     # Filter by circularity
-    #params.filterByCircularity = True
-    #params.minCircularity = 0.55
-    #params.maxCircularity = 0.85
+    params.filterByCircularity = True
+    params.minCircularity = 0.2
+    params.maxCircularity = 0.8
 
     # Filter by Area.
     params.filterByArea = True
@@ -88,39 +69,40 @@ def blobDetection(mask, frame):
     keypoints = detector.detect(new_mask)
 
     # Create an image with circles around the detected BLOBs
-    im_with_keypoints = cv2.drawKeypoints(frame, keypoints, np.array([]), (0, 255, 0),
+    im_with_keypoints = cv2.drawKeypoints(input_frame, keypoints, np.array([]), (0, 255, 0),
                                           cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     return im_with_keypoints, keypoints
 
 
-def createMask(keypoints):
+def createMask(keypoints, mask):
     # Create masks for individual blobs
     temp_arrayHolder = []
     maskSize = 50
     for i in range(len(keypoints)):
         x = keypoints[i].pt[0]
         y = keypoints[i].pt[1]
-        temp_array = np.zeros(shape=mask_red.shape)
+        temp_array = np.zeros(shape=mask.shape)
         for x1 in range(-maskSize, maskSize):
             # Prevents out of bounds when the keypoint is close to the edge of the screen.
-            if (x1 + x < temp_array.shape[1] and x1 + x >= 0):
+            if x1 + x < temp_array.shape[1] and x1 + x >= 0:
                 for y1 in range(-maskSize, maskSize):
                     # Prevents out of bounds when the keypoint is close to the edge of the screen.
-                    if (y1 + y < temp_array.shape[0] and y1 + y >= 0):
+                    if y1 + y < temp_array.shape[0] and y1 + y >= 0:
                         y_f = int(y + y1)
                         x_f = int(x + x1)
                         temp_array[y_f, x_f] = 255
         temp_arrayHolder.append(temp_array)
     return temp_arrayHolder
 
-def retrieveLines(inputList):
+
+def retrieveLines(inputList, mask):
     if len(inputList) < 1:
         print("no mask")
     else:
         # loop this to draw multiple outputs of lines.
         for i in range(0, len(inputList)):
             masked = cv2.inRange(inputList[i], 150, 255)
-            red1 = cv2.bitwise_and(mask_red, mask_red, mask=masked)
+            red1 = cv2.bitwise_and(mask, mask, mask=masked)
             # Houghlines on edges. Returns two arrays of points.
             pt1, pt2 = myHoughLines(red1)
             # Draw lines based on points
@@ -130,26 +112,30 @@ def retrieveLines(inputList):
 
 
 def box_from_contours(input_mask):
-    kernel = np.ones((11, 11), np.uint8)
+    # Close and open to remove noise and holes in contours.
+    kernel = np.ones((17, 17), np.uint8)
+    kernel2 = np.ones((3, 3), np.uint8)
     closing = cv2.morphologyEx(input_mask, cv2.MORPH_CLOSE, kernel)
+    opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
+
     # find contours and then find the corners of a rotated bounding rectangle.
-    im2, contours, hierarchy = cv2.findContours(closing, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    cv2.imshow('check', opening)
+    temp_box = []
+    im2, contours, hierarchy = cv2.findContours(opening, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     for i in range(len(contours)):
         cnt = contours[i]
-        rect = cv2.minAreaRect(cnt)
-        box = cv2.boxPoints(rect)
-        box = np.int0(box)
-        cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
+        if (cv2.contourArea(cnt) > 150 and not cv2.isContourConvex(cnt)):
+            rect = cv2.minAreaRect(cnt)
+            box = cv2.boxPoints(rect)
+            box = np.int0(box)
+            temp_box.append(box)
+            cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
+    return temp_box
 
-cap = cv2.VideoCapture(0)
-
-while (1):
-    _, frame = cap.read()
-
-    print("New Iteration")
+def detection():
     # Red
-    lower_red = np.array([0, 0, 150])
-    upper_red = np.array([100, 100, 255])
+    lower_red = np.array([0, 0, 140])
+    upper_red = np.array([90, 90, 255])
     mask_red = masking(frame, lower_red, upper_red)
 
     # Blue
@@ -157,35 +143,35 @@ while (1):
     upper_blue = np.array([255, 130, 130])
     mask_blue = masking(frame, lower_blue, upper_blue)
 
-    # Find contours
-    box_from_contours(mask_red)
-
     # Detect blobs
-    #keypoint_image, keypoints = blobDetection(mask_red, frame)
+    keypoint_image, keypoints = blobDetection(mask_red, frame)
 
     # Create list of masks for individual blobs
-    #maskList = createMask(keypoints)
+    maskList = createMask(keypoints, mask_red)
 
     # Use maskList to separate the first BLOB and then retrieve the points for each line
     # Draw lines by using the points provided by the the mask
-    #retrieveLines(maskList)
+    # retrieveLines(maskList, mask_red)
+
+    # Find contours
+    box = box_from_contours(mask_red)
+
+    return box
+
+cap = cv2.VideoCapture(0)
+
+while (1):
+    _, frame = cap.read()
+
+    print("New Iteration")
+
+    # Run the code
+    detection()
 
     # Display stuff
     cv2.imshow('Original', frame)
-    # cv2.imshow('red1', mask_red)
-    # cv2.imshow('inverted', new_mask)
-    # cv2.imshow('red2', res_red)
-    # cv2.imshow('blue1', mask_blue)
-    # cv2.imshow('blue2', res_blue)
-    # cv2.imshow('edgeblur', blur)
-    # cv2.imshow('closing', closing)
-    # cv2.imshow('edge', edges)
-    #cv2.imshow('blob', keypoint_image)
-    # if len(maskList) < 1:
-    #     print("no mask")
-    # else:
-    #     cv2.imshow('createdMask1', red1)
 
+    # Wait until q is pressed to exit loop.
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
