@@ -119,12 +119,24 @@ def box_from_contours(input_mask):
     opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
 
     # find contours and then find the corners of a rotated bounding rectangle.
+    # --------------- Maybe add some functionality to check the minAreaCircle as well and compare it to minAreaRect.
+    # --------------- This could be used to filter out circles.
+    # --------------- Not gonna work. Will need to consider the actual area of the contour instead.
     temp_box = []
     im2, contours, hierarchy = cv2.findContours(opening, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     for i in range(len(contours)):
         cnt = contours[i]
-        if (cv2.contourArea(cnt) > 150 and not cv2.isContourConvex(cnt)):
-            rect = cv2.minAreaRect(cnt)
+        rect = cv2.minAreaRect(cnt)
+        contourArea = cv2.contourArea(cnt)
+        (x, y), radius = cv2.minEnclosingCircle(cnt)
+        circArea = radius * radius * np.pi
+        rectArea = rect[1][0]*rect[1][1]
+        relationship_cc = contourArea / circArea
+        relationship_cr = contourArea / rectArea
+
+        # Checks if the area of the contour mathces with a circle or a rectangle.
+        # Runs if it mathces with a rectangle.
+        if (contourArea > 150 and relationship_cc < 0.8 and relationship_cr > 0.8):
             box = cv2.boxPoints(rect)
             box = np.int0(box)
             temp_box.append(box)
@@ -153,9 +165,10 @@ def detectionRed(clean_frame):
 
 def detectionBlue(clean_frame):
     # Blue
-    lower_blue = np.array([140, 0, 0])
-    upper_blue = np.array([255, 90, 90])
-    mask_blue = masking(clean_frame, lower_blue, upper_blue)
+    hsv = cv2.cvtColor(clean_frame, cv2.COLOR_BGR2HSV)
+    lower_blue = np.array([110, 90, 90])
+    upper_blue = np.array([130, 255, 255])
+    mask_blue = masking(hsv, lower_blue, upper_blue)
 
     # Find contours
     box = box_from_contours(mask_blue)

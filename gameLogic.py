@@ -4,6 +4,7 @@ import numpy as np
 # import the rest of the files...
 import Team
 import Detection
+import Target
 
 # Variables
 
@@ -33,9 +34,23 @@ while (1):
 
     cv2.imshow('boxFrames', frame)
 
-    # Activate Collision. Should return an image to draw on the board and a laser that can collide with the target.
+    # Laser. Should return an array/list of laser objects.
+    # Each laser should contain two coordinates and a team.
+
+    # Activate Collision. Should return an image to draw on the playspace and create new laser objects
 
     # Activate the target. Should return the team that scored as well as the amount of points scored.
+    # Lines to test the Target class
+    line1 = [(100, 100), (-100, -100)]
+    line2 = [(100, 100), (100, 200)]
+    test_array = np.array([line2])
+
+    # Initialize a target and call the targetCollision function.
+    new_target = Target.Target(False, 0, 0)
+    collision, doublePoints = new_target.targetCollision(test_array)
+    print("A line collided: " + str(collision))
+
+
     team1.addPoint()
     team1.addPoint()
     team2.addPoint()
