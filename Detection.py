@@ -119,9 +119,6 @@ def box_from_contours(input_mask):
     opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
 
     # find contours and then find the corners of a rotated bounding rectangle.
-    # --------------- Maybe add some functionality to check the minAreaCircle as well and compare it to minAreaRect.
-    # --------------- This could be used to filter out circles.
-    # --------------- Not gonna work. Will need to consider the actual area of the contour instead.
     temp_box = []
     im2, contours, hierarchy = cv2.findContours(opening, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     for i in range(len(contours)):
@@ -134,8 +131,8 @@ def box_from_contours(input_mask):
         relationship_cc = contourArea / circArea
         relationship_cr = contourArea / rectArea
 
-        # Checks if the area of the contour mathces with a circle or a rectangle.
-        # Runs if it mathces with a rectangle.
+        # Checks if the area of the contour matches with a circle or a rectangle.
+        # Runs if it matches with a rectangle and is above a minimum.
         if (contourArea > 150 and relationship_cc < 0.8 and relationship_cr > 0.8):
             box = cv2.boxPoints(rect)
             box = np.int0(box)

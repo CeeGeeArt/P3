@@ -7,14 +7,20 @@ import Detection
 import Target
 
 # Variables
+targetCount = 0
+totalPointCount = 0
+maxPoints = 11
+specialTarget = np.random.randint(1, 10)
+targetArray = []
 
-# Team names should be something that can be input by the user
+# Team name input.
 name1 = input('Enter the blue teams name: ')
 name2 = input('Enter the red teams name: ')
 
-# Prepare video capture
+# Prepare video capture.
 cap = cv2.VideoCapture(0)
 
+# Loop which runs the game.
 while (1):
     _, frame = cap.read()
 
@@ -45,10 +51,36 @@ while (1):
     line2 = [(100, 100), (100, 200)]
     test_array = np.array([line2])
 
-    # Initialize a target and call the targetCollision function.
-    new_target = Target.Target(False, 0, 0)
-    collision, doublePoints = new_target.targetCollision(test_array)
-    print("A line collided: " + str(collision))
+    # Initialize a target when there's less than 2 and the game is still running.
+    while targetCount < 2 and totalPointCount < 11:
+        totalPointCount += 1
+        x = np.random.randint(0, 1000)
+        y = np.random.randint(0, 1000)
+        if totalPointCount is specialTarget:
+            temp_target = Target.Target(True, 0, 0)
+            targetArray.append(temp_target)
+        else:
+            temp_target = Target.Target(False, 0, 0)
+            targetArray.append(temp_target)
+
+    # Call the targetCollision function.
+    for i in range(len(targetArray)):
+        collision, doublePoints = targetArray[i].targetCollision(test_array)
+        # should check if there is collision and what team has achieved it. Then checks how many points they scored.
+        if collision:
+            if team1:
+                if doublePoints:
+                    team1.addDoublePoints()
+                else:
+                    team1.addPoint()
+            if team2:
+                if doublePoints:
+                    team2.addDoublePoints()
+                else:
+                    team2.addPoint()
+        targetCount -= 1
+        # Remove current targetArray index
+
 
 
     team1.addPoint()

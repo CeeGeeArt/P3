@@ -23,3 +23,6 @@ class Team:
 
     def addPoint(self):
         self.points += 1
+
+    def addDoublePoints(self):
+        self.points += 2
