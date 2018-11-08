@@ -47,26 +47,27 @@ class Mirror:
         return self.mirrorState
 
 
-def angleDetermine(ax1, ay1, ax2, ay2, cx, cy, bx1, by1, bx2, by2, img):
-    normalY = bx2 - bx1
-    normalX = by1 - by2
-    temp = ((bx2-bx1)**2) + ((by2 - by1)**2)
+def angleDetermine(laserX1, laserY1, laserX2, laserY2, closestCollisionX, closestCollisionY, collisionLineX1,
+                   collisionLineY1, collisionLineX2, collisionLineY2, img):
+    normalY = collisionLineX2 - collisionLineX1
+    normalX = collisionLineY1 - collisionLineY2
+    temp = ((collisionLineX2 - collisionLineX1) ** 2) + ((collisionLineY2 - collisionLineY1) ** 2)
     normalLength = math.sqrt(temp)
     normalX = normalX/normalLength
     normalY = normalY/normalLength
 
-    rayX = ax2 - cx
-    rayY = ay2 - cy
+    rayX = laserX2 - closestCollisionX
+    rayY = laserY2 - closestCollisionY
 
     dotProduct = (rayX * normalX)+(rayY*normalY)
 
     dotNormalX = dotProduct*normalX
     dotNormalY = dotProduct*normalY
 
-    reflectionEndX = ax2 - (dotNormalX * 2)
-    reflectionEndY = ay2 - (dotNormalY * 2)
+    reflectionEndX = laserX2 - (dotNormalX * 2)
+    reflectionEndY = laserY2 - (dotNormalY * 2)
 
-    cv2.line(img, (cx, cy), (int(reflectionEndX), int(reflectionEndY)), (255, 255, 0), 5)
+    cv2.line(img, (closestCollisionX, closestCollisionY), (int(reflectionEndX), int(reflectionEndY)), (255, 255, 0), 5)
     #return Laser.Laser(cx, cy, int(reflectionEndX), int(reflectionEndY), img), 0
 
 
