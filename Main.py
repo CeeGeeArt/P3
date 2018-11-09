@@ -14,10 +14,10 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     leX = int(vCol-50)
     leY = int(vRow/2)+200
 
-    testMirror = Mirror.Mirror(300, 1000, 900, 1100, img)
-    testBlocker = Mirror.Mirror(1000, 400, 1100, 500, img)
+    testMirror = Mirror.Mirror(300, 400, 900, 1100, img)
+    testBlocker = Mirror.Mirror(100, 300, 150, 500, img)
 
-    originalLaser = Laser.Laser(leX, leY, lsX, lsY, img)
+    originalLaser = Laser.Laser(lsX, lsY, leX, leY, img)
 
     col = Collision.Collision(testMirror, originalLaser)
 
@@ -29,7 +29,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
 
     reflectedLaser = col2.collisionDetection(img)
 
-    reflectedLaser.drawLaser()
+    #reflectedLaser.drawLaser()
 
     col3 = Collision.Collision(testMirror, reflectedLaser)
 
@@ -39,7 +39,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
 
     reflectedLaser3 = col4.collisionDetection(img)
 
-    reflectedLaser3.drawLaser()
+    #reflectedLaser3.drawLaser()
 
 
 cap = cv2.VideoCapture(0)
