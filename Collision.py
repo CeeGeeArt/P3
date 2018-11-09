@@ -224,16 +224,17 @@ class Collision:
 
             print("bex shit",collisionLineX1,collisionLineY1,collisionLineX2,collisionLineY2)
 
-            self.Laser = Mirror.angleDetermine(self.laserX1, self.laserY1, self.laserX2, self.laserY2, closestCollisionX
-                                               , closestCollisionY, collisionLineX1, collisionLineY1, collisionLineX2, collisionLineY2, img)
-            return self.findSmallDistance(laserX1, laserY1, collisionX1, collisionY1, collisionX2, collisionY2)
+            return Mirror.angleDetermine(self.laserX1, self.laserY1, self.laserX2, self.laserY2, closestCollisionX,
+                                         closestCollisionY, collisionLineX1, collisionLineY1, collisionLineX2,
+                                         collisionLineY2, img)
         elif 0 < closestCollisionX and 0 < closestCollisionY:
-            return self.findSmallDistance(laserX1, laserY1, collisionX1, collisionY1, collisionX2, collisionY2)
+            return Laser.Laser(self.laserX1, self.laserY1, closestCollisionX, closestCollisionY, img)
         else:
             #if the laser does not hit, it colides with the screen
             height, width, channels = img.shape
             screen = Blocker.Blocker(0, 0, width, height, img)
-            tempLaser = Laser.Laser(self.laserX1, self.laserY1, self.laserX2, self.laserY2, img)
+            newLaserX2, newLaserY2 = (self.laserX2+width/2)+2, (self.laserY2+height/2)+2
+            tempLaser = Laser.Laser(self.laserX1, self.laserY1, newLaserX2, newLaserY2, img)
             screenCollision = Collision(screen, tempLaser)
             topCollisionX, topCollisionY, topCollisionState = screenCollision.collisionTop(img)
             bottomCollisionX, bottomCollisionY, bottomCollisionState = screenCollision.collisionBottom(img)
@@ -275,5 +276,6 @@ class Collision:
             elif leftCollisionState == 1:
                 collisionWithScreenX1 = leftCollisionX
                 collisionWithScreenY1 = leftCollisionY
-            return self.findBiggestDistance(laserX1, laserY1, collisionWithScreenX1, collisionWithScreenY1,
+            screenCollisionX, screenCollisionY = self.findSmallDistance(newLaserX2, newLaserY2, collisionWithScreenX1, collisionWithScreenY1,
                                             collisionWithScreenX2, collisionWithScreenY2)
+            return Laser.Laser(laserX1, laserY1, screenCollisionX, screenCollisionY, img)
