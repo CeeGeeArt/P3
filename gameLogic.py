@@ -32,12 +32,11 @@ while (1):
     red_boxes = Detection.detectionRed(frame)
     blue_boxes = Detection.detectionBlue(frame)
 
+    # Draws contours for testing purposes.
     for i in range(len(red_boxes)):
         cv2.drawContours(frame, [red_boxes[i]], 0, (0, 0, 255), 2)
-
     for i in range(len(blue_boxes)):
         cv2.drawContours(frame, [blue_boxes[i]], 0, (255, 0, 0), 2)
-
     cv2.imshow('boxFrames', frame)
 
     # Laser. Should return an array/list of laser objects.
@@ -52,7 +51,7 @@ while (1):
     test_array = np.array([line2])
 
     # Initialize a target when there's less than 2 and the game is still running.
-    while targetCount < 2 and totalPointCount < 11:
+    while targetCount < 2 and totalPointCount < maxPoints:
         totalPointCount += 1
         x = np.random.randint(0, 1000)
         y = np.random.randint(0, 1000)
@@ -80,8 +79,6 @@ while (1):
                     team2.addPoint()
         targetCount -= 1
         # Remove current targetArray index
-
-
 
     team1.addPoint()
     team1.addPoint()

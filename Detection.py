@@ -133,7 +133,7 @@ def box_from_contours(input_mask):
 
         # Checks if the area of the contour matches with a circle or a rectangle.
         # Runs if it matches with a rectangle and is above a minimum.
-        if (contourArea > 150 and relationship_cc < 0.8 and relationship_cr > 0.8):
+        if contourArea > 150 and relationship_cc < 0.8 and relationship_cr > 0.8:
             box = cv2.boxPoints(rect)
             box = np.int0(box)
             temp_box.append(box)
