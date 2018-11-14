@@ -208,7 +208,7 @@ class Collision:
             collisionLineY2 = 0
             #We check what sides the collision happens on, and get the x and y of the line
             #closestCollisionX, closestCollisionY = self.findSmallDistance(laserX1, laserY1, collisionX1, collisionY1, collisionX2, collisionY2)
-            print("x n shit", closestCollisionX, topCollisionX, bottomCollisionX, rightCollisionX, leftCollisionX)
+            #print("x n shit", closestCollisionX, topCollisionX, bottomCollisionX, rightCollisionX, leftCollisionX)
             if closestCollisionX == topCollisionX:
                 collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY1
                 collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY1
@@ -222,7 +222,7 @@ class Collision:
                 collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY1
                 collisionLineX2, collisionLineY2 = self.rectangleX1, self.rectangleY2
 
-            print("bex shit",collisionLineX1,collisionLineY1,collisionLineX2,collisionLineY2)
+            #print("bex shit",collisionLineX1,collisionLineY1,collisionLineX2,collisionLineY2)
 
             return Mirror.angleDetermine(self.laserX1, self.laserY1, self.laserX2, self.laserY2, closestCollisionX,
                                          closestCollisionY, collisionLineX1, collisionLineY1, collisionLineX2,

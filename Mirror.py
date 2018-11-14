@@ -56,6 +56,17 @@ def angleDetermine(laserX1, laserY1, laserX2, laserY2, closestCollisionX, closes
     normalX = normalX/normalLength
     normalY = normalY/normalLength
 
+    if laserX2 < collisionLineX1 or laserY1 < collisionLineY1:
+        laserVectorX = laserX2-laserX1
+        laserVectorY = laserY2-laserY1
+
+        laserX2 = laserVectorX + closestCollisionX
+        laserY2 = laserVectorY + closestCollisionY
+    else:
+        laserX2 = laserX2
+        laserY2 = laserY2
+
+
     rayX = laserX2 - closestCollisionX
     rayY = laserY2 - closestCollisionY
 
@@ -66,7 +77,7 @@ def angleDetermine(laserX1, laserY1, laserX2, laserY2, closestCollisionX, closes
 
     reflectionEndX = laserX2 - (dotNormalX * 2)
     reflectionEndY = laserY2 - (dotNormalY * 2)
-    cv2.line(img, (laserX1,laserY1), (closestCollisionX, closestCollisionY), (0, 0, 255), 5)
+    cv2.line(img, (laserX1,laserY1), (closestCollisionX, closestCollisionY), (0, 255, 255), 5)
     return Laser.Laser(closestCollisionX, closestCollisionY, int(reflectionEndX), int(reflectionEndY), img)
 
 
