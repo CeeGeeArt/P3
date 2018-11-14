@@ -15,16 +15,55 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     leX = 100
     leY = 200
 
+    #testMirror = Mirror.Mirror(300, 1000, 900, 1100, img)
+    #testBlocker = Mirror.Mirror(1000, 400, 1100, 500, img)
+    #originalLaser = Laser.Laser(leX, leY, lsX, lsY, img)
+    #col = Collision.Collision(testMirror, originalLaser)
+    #outPutLaser = col.collisionDetection(img)
+    #outPutLaser.drawLaser()
+
+    #col2 = Collision.Collision(testBlocker, outPutLaser)
+    #reflectedLaser = col2.collisionDetection(img)
+    #reflectedLaser.drawLaser()
+    #col3 = Collision.Collision(testMirror, reflectedLaser)
+    #reflectedLaser2 = col3.collisionDetection(img)
+    #col4 = Collision.Collision(testBlocker, reflectedLaser2)
+    #reflectedLaser3 = col4.collisionDetection(img)
+    ##reflectedLaser3.drawLaser()
+
+
+
+
     testMirror = Mirror.Mirror(300, 400, 900, 1100, img)
+    testBlocker = Mirror.Mirror(100, 600, 200, 900, img)
     #testBlocker = Mirror.Mirror(1000, 400, 1100, 500, img)
 
-    originalLaser = Laser.Laser(lsX, lsY, leX, leY, img)
+    # originalLaser = Laser.Laser(lsX, lsY, leX, leY, img)
+    #
+    # col = Collision.Collision(testMirror, originalLaser)
+    #
+    # outPutLaser = col.collisionDetection(img)
+    #
+    # outPutLaser.drawLaser()
 
-    col = Collision.Collision(testMirror, originalLaser)
+    laserArray = [Laser.Laser(lsX, lsY, leX, leY, img)]
+    colidedLasers = []
+    blockerMirrorArray = [testBlocker,testMirror]
 
-    outPutLaser = col.collisionDetection(img)
+    for i in range(len(laserArray)):
+        for j in range(len(blockerMirrorArray)):
+            col = Collision.Collision(blockerMirrorArray[j],laserArray[i])
+            tempLaser = col.collisionDetection(img)
+            colidedLasers.append(tempLaser)
 
-    outPutLaser.drawLaser()
+        colidedLasers[i].drawLaser()
+
+
+
+
+
+
+
 
 
 cap = cv2.VideoCapture(0)
