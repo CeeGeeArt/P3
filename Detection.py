@@ -9,11 +9,11 @@ def masking(input_frame, lower, upper):
     mask = cv2.inRange(input_frame, lower, upper)
     #blur = cv2.GaussianBlur(mask, (3, 3), 0)
     kernel = np.ones((11, 11), np.uint8)
-    closing = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+    #closing = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
 
     # res is for testing. It allows us to see the colors
     # res = cv2.bitwise_and(frame, frame, mask=mask)
-    return closing
+    return mask
 
 
 # Calculates two points that can be used to draw a line.
@@ -111,16 +111,19 @@ def retrieveLines(inputList, mask):
                     cv2.line(frame, pt1[i], pt2[i], (0, 0, 255), 2, cv2.LINE_AA)
 
 
-def box_from_contours(input_mask):
+def preprocessing(input):
     # Close and open to remove noise and holes in contours.
     kernel = np.ones((17, 17), np.uint8)
     kernel2 = np.ones((3, 3), np.uint8)
-    closing = cv2.morphologyEx(input_mask, cv2.MORPH_CLOSE, kernel)
+    closing = cv2.morphologyEx(input, cv2.MORPH_CLOSE, kernel)
     opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
 
+    return opening
+
+def box_from_contours(input_mask):
     # find contours and then find the corners of a rotated bounding rectangle.
     temp_box = []
-    im2, contours, hierarchy = cv2.findContours(opening, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     for i in range(len(contours)):
         cnt = contours[i]
         rect = cv2.minAreaRect(cnt)
@@ -140,10 +143,11 @@ def box_from_contours(input_mask):
     return temp_box
 
 def detectionRed(clean_frame):
+    blur = cv2.GaussianBlur(clean_frame, (11, 11), 0)
     # Red
     lower_red = np.array([0, 0, 140])
     upper_red = np.array([90, 90, 255])
-    mask_red = masking(clean_frame, lower_red, upper_red)
+    mask_red = masking(blur, lower_red, upper_red)
 
     # Detect blobs
     #keypoint_image, keypoints = blobDetection(mask_red, clean_frame)
@@ -155,20 +159,28 @@ def detectionRed(clean_frame):
     # Draw lines by using the points provided by the the mask
     #retrieveLines(maskList, mask_red)
 
+    # Morphological operations
+    processed = preprocessing(mask_red)
+
     # Find contours
-    box = box_from_contours(mask_red)
+    box = box_from_contours(processed)
 
     return box
 
 def detectionBlue(clean_frame):
+    blur = cv2.GaussianBlur(clean_frame, (11, 11), 0)
+
     # Blue
-    hsv = cv2.cvtColor(clean_frame, cv2.COLOR_BGR2HSV)
-    lower_blue = np.array([110, 90, 90])
-    upper_blue = np.array([130, 255, 255])
+    hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
+    lower_blue = np.array([105, 90, 90])
+    upper_blue = np.array([115, 255, 255])
     mask_blue = masking(hsv, lower_blue, upper_blue)
 
+    # Morphological operations
+    processed = preprocessing(mask_blue)
+
     # Find contours
-    box = box_from_contours(mask_blue)
+    box = box_from_contours(processed)
 
     return box
 
