@@ -5,7 +5,6 @@ import Laser
 import math
 import cv2
 
-
 class Collision:
 
     img2 = cv2.imread('test.jpg')
@@ -13,10 +12,19 @@ class Collision:
     laserX2 = 0
     laserY1 = 0
     laserY2 = 0
+
     rectangleX1 = 0
     rectangleX2 = 0
+    rectangleX3 = 0
+    rectangleX4 = 0
+
     rectangleY1 = 0
     rectangleY2 = 0
+    rectangleY3 = 0
+    rectangleY4 = 0
+
+    reflected = True
+
     isMirror = 0
     topLCorner = (rectangleX1, rectangleY1)
     topRCorner = (rectangleX2, rectangleY1)
@@ -28,10 +36,14 @@ class Collision:
         self.laserX2 = laser.getX2()
         self.laserY1 = laser.getY1()
         self.laserY2 = laser.getY2()
-        self.rectangleX1 = mirror.getX3()
-        self.rectangleX2 = mirror.getX4()
-        self.rectangleY1 = mirror.getY3()
-        self.rectangleY2 = mirror.getY4()
+        self.rectangleX1 = mirror.getRectangleX1()
+        self.rectangleX2 = mirror.getRectangleX2()
+        self.rectangleX3 = mirror.getRectangleX3()
+        self.rectangleX4 = mirror.getRectangleX4()
+        self.rectangleY1 = mirror.getRectangleY1()
+        self.rectangleY2 = mirror.getRectangleY2()
+        self.rectangleY3 = mirror.getRectangleY3()
+        self.rectangleY4 = mirror.getRectangleY4()
         self.isMirror = mirror.getMirrorState()
         self.laser = laser
 
@@ -44,28 +56,6 @@ class Collision:
         y1 = self.laserY1
         y2 = self.laserY2
         x3 = self.rectangleX1
-        x4 = self.rectangleX1
-        y3 = self.rectangleY1
-        y4 = self.rectangleY2
-        collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
-
-        collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
-
-        if collisionY >= y3 and collisionY <= y4 and collisionX >= x3 and collisionX <= x4:
-            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
-                     (255, 0, 0), 5)
-            return int(collisionX), int(collisionY), 1
-        else:
-            return 100000, 100000, 0
-
-    def collisionRight(self, img):
-        x1 = self.laserX1
-        x2 = self.laserX2
-        y1 = self.laserY1
-        y2 = self.laserY2
-        x3 = self.rectangleX2
         x4 = self.rectangleX2
         y3 = self.rectangleY1
         y4 = self.rectangleY2
@@ -75,10 +65,38 @@ class Collision:
         collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
-        if collisionY >= y3 and collisionY <= y4 and collisionX >= x3 and collisionX <= x4:
+        if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
+        if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+        else:
+            return 100000, 100000, 0
+
+    def collisionRight(self, img):
+        x1 = self.laserX1
+        x2 = self.laserX2
+        y1 = self.laserY1
+        y2 = self.laserY2
+        x3 = self.rectangleX4
+        x4 = self.rectangleX3
+        y3 = self.rectangleY4
+        y4 = self.rectangleY3
+        collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+        collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+        if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
+        if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
         else:
             return 100000, 100000, 0
 
@@ -88,19 +106,22 @@ class Collision:
         y1 = self.laserY1
         y2 = self.laserY2
         x3 = self.rectangleX1
-        x4 = self.rectangleX2
+        x4 = self.rectangleX4
         y3 = self.rectangleY1
-        y4 = self.rectangleY1
+        y4 = self.rectangleY4
         collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
         collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
-        if collisionY >= y3 and collisionY <= y4 and collisionX >= x3 and collisionX <= x4:
+        if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
+        if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
         else:
             return 100000, 100000, 0
 
@@ -109,20 +130,24 @@ class Collision:
         x2 = self.laserX2
         y1 = self.laserY1
         y2 = self.laserY2
-        x3 = self.rectangleX1
-        x4 = self.rectangleX2
+        x3 = self.rectangleX2
+        x4 = self.rectangleX3
         y3 = self.rectangleY2
-        y4 = self.rectangleY2
+        y4 = self.rectangleY3
         collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
-        intersectionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+        collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
-        if intersectionY >= y3 and intersectionY <= y4 and collisionX >= x3 and collisionX <= x4:
-            cv2.line(img, (int(collisionX), int(intersectionY)), (int(collisionX), int(intersectionY)),
+        if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
-            return int(collisionX), int(intersectionY), 1
+            return int(collisionX), int(collisionY), 1
+        if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
         else:
             return 100000, 100000, 0
 
@@ -211,16 +236,16 @@ class Collision:
             #print("x n shit", closestCollisionX, topCollisionX, bottomCollisionX, rightCollisionX, leftCollisionX)
             if closestCollisionX == topCollisionX:
                 collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY1
-                collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY1
+                collisionLineX2, collisionLineY2 = self.rectangleX4, self.rectangleY4
             elif closestCollisionX == bottomCollisionX:
-                collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY2
-                collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
+                collisionLineX1, collisionLineY1 = self.rectangleX2, self.rectangleY2
+                collisionLineX2, collisionLineY2 = self.rectangleX3, self.rectangleY3
             elif closestCollisionX == rightCollisionX:
-                collisionLineX1, collisionLineY1 = self.rectangleX2, self.rectangleY1
-                collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
+                collisionLineX1, collisionLineY1 = self.rectangleX4, self.rectangleY4
+                collisionLineX2, collisionLineY2 = self.rectangleX3, self.rectangleY3
             elif closestCollisionX == leftCollisionX:
                 collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY1
-                collisionLineX2, collisionLineY2 = self.rectangleX1, self.rectangleY2
+                collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
 
             #print("bex shit",collisionLineX1,collisionLineY1,collisionLineX2,collisionLineY2)
 
@@ -228,11 +253,15 @@ class Collision:
                                          closestCollisionY, collisionLineX1, collisionLineY1, collisionLineX2,
                                          collisionLineY2, img)
         elif 0 < closestCollisionX and 0 < closestCollisionY:
+            print('Block')
+            self.reflected = False
+            print('self ' +str(self.reflected))
+            print(Collision.reflected)
             return Laser.Laser(self.laserX1, self.laserY1, closestCollisionX, closestCollisionY, img)
         else:
             #if the laser does not hit, it colides with the screen
             height, width, channels = img.shape
-            screen = Blocker.Blocker(0, 0, width, height, img)
+            screen = Blocker.Blocker(0, 0, 0, height, width, height, width, 0, img)
             newLaserX2, newLaserY2 = (self.laserX2+width/2)+2, (self.laserY2+height/2)+2
             tempLaser = Laser.Laser(self.laserX1, self.laserY1, newLaserX2, newLaserY2, img)
             screenCollision = Collision(screen, tempLaser)
@@ -278,4 +307,5 @@ class Collision:
                 collisionWithScreenY1 = leftCollisionY
             screenCollisionX, screenCollisionY = self.findSmallDistance(newLaserX2, newLaserY2, collisionWithScreenX1, collisionWithScreenY1,
                                             collisionWithScreenX2, collisionWithScreenY2)
+            self.reflected = False
             return Laser.Laser(laserX1, laserY1, screenCollisionX, screenCollisionY, img)
