@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 
-def preprocessing(input):
+def morphOp(input):
     # Close and open to remove noise and holes in contours.
     kernel = np.ones((17, 17), np.uint8)
     kernel2 = np.ones((3, 3), np.uint8)
@@ -36,6 +36,7 @@ def box_from_contours(input_mask):
             temp_box.append(box)
     return temp_box
 
+
 def detectionRed(clean_frame):
     blur = cv2.GaussianBlur(clean_frame, (11, 11), 0)
     # Red
@@ -44,12 +45,13 @@ def detectionRed(clean_frame):
     mask_red = cv2.inRange(blur, lower_red, upper_red)
 
     # Morphological operations
-    processed = preprocessing(mask_red)
+    processed = morphOp(mask_red)
 
     # Find contours
     box = box_from_contours(processed)
 
     return box
+
 
 def detectionBlue(clean_frame):
     blur = cv2.GaussianBlur(clean_frame, (11, 11), 0)
@@ -61,7 +63,7 @@ def detectionBlue(clean_frame):
     mask_blue = cv2.inRange(hsv, lower_blue, upper_blue)
 
     # Morphological operations
-    processed = preprocessing(mask_blue)
+    processed = morphOp(mask_blue)
 
     # Find contours
     box = box_from_contours(processed)
