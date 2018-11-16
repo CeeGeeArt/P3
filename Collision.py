@@ -253,10 +253,10 @@ class Collision:
                                          closestCollisionY, collisionLineX1, collisionLineY1, collisionLineX2,
                                          collisionLineY2, img)
         elif 0 < closestCollisionX and 0 < closestCollisionY:
-            print('Block')
+            #print('Block')
             self.reflected = False
-            print('self ' +str(self.reflected))
-            print(Collision.reflected)
+            #print('self ' +str(self.reflected))
+            #print(Collision.reflected)
             return Laser.Laser(self.laserX1, self.laserY1, closestCollisionX, closestCollisionY, img)
         else:
             #if the laser does not hit, it colides with the screen
@@ -265,7 +265,7 @@ class Collision:
             newLaserX2, newLaserY2 = (self.laserX2+width/2)+2, (self.laserY2+height/2)+2
             tempLaser = Laser.Laser(self.laserX1, self.laserY1, newLaserX2, newLaserY2, img)
             screenCollision = Collision(screen, tempLaser)
-            topCollisionX, topCollisionY, topCollisionState = screenCollision.collisionTop(img)
+            topCollisionX, topCollisionY, topCollisionState = self.collisionTop(img)
             bottomCollisionX, bottomCollisionY, bottomCollisionState = screenCollision.collisionBottom(img)
             rightCollisionX, rightCollisionY, rightCollisionState = screenCollision.collisionRight(img)
             leftCollisionX, leftCollisionY, leftCollisionState = screenCollision.collisionLeft(img)
