@@ -60,11 +60,18 @@ class Collision:
         x4 = self.rectangleX2
         y3 = self.rectangleY1
         y4 = self.rectangleY2
-        collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
-        collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        collisionX = 0
+        collisionY = 0
+
+        try:
+            collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                            / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+            collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                            / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        except:
+            cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
 
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
@@ -86,11 +93,17 @@ class Collision:
         x4 = self.rectangleX3
         y3 = self.rectangleY4
         y4 = self.rectangleY3
-        collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        collisionX = 0
+        collisionY = 0
 
-        collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        try:
+            collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+            collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        except:
+            cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
 
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
@@ -112,11 +125,17 @@ class Collision:
         x4 = self.rectangleX4
         y3 = self.rectangleY1
         y4 = self.rectangleY4
-        collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        collisionX = 0
+        collisionY = 0
 
-        collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        try:
+            collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+            collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        except:
+            cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
 
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
@@ -138,11 +157,17 @@ class Collision:
         x4 = self.rectangleX3
         y3 = self.rectangleY2
         y4 = self.rectangleY3
-        collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        collisionX = 0
+        collisionY = 0
 
-        collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
-                        / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        try:
+            collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+
+            collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+        except:
+            cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
 
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
@@ -265,54 +290,54 @@ class Collision:
             #print('self ' +str(self.reflected))
             #print(Collision.reflected)
             return Laser.Laser(self.laserX1, self.laserY1, closestCollisionX, closestCollisionY, img)
-        else:
-            #if the laser does not hit, it colides with the screen
-            height, width, channels = img.shape
-            screen = Blocker.Blocker(0, 0, 0, height, width, height, width, 0, img)
-            newLaserX2, newLaserY2 = (self.laserX2+width/2)+2, (self.laserY2+height/2)+2
-            tempLaser = Laser.Laser(self.laserX1, self.laserY1, newLaserX2, newLaserY2, img)
-            screenCollision = Collision(screen, tempLaser)
-            topScreenCollisionX, topScreenCollisionY, topScreenCollisionState = screenCollision.collisionTop(img)
-            bottomScreenCollisionX, bottomScreenCollisionY, bottomScreenCollisionState = screenCollision.collisionBottom(img)
-            rightScreenCollisionX, rightScreenCollisionY, rightScreenCollisionState = screenCollision.collisionRight(img)
-            leftScreenCollisionX, leftScreenCollisionY, leftScreenCollisionState = screenCollision.collisionLeft(img)
-
-            collisionWithScreenX1 = 0
-            collisionWithScreenY1 = 0
-            collisionWithScreenX2 = 0
-            collisionWithScreenY2 = 0
-
-            if topCollisionState == 1:
-                collisionWithScreenX1 = topCollisionX
-                collisionWithScreenY1 = topCollisionY
-                if bottomCollisionState == 1:
-                    collisionWithScreenX2 = bottomCollisionX
-                    collisionWithScreenY2 = bottomCollisionY
-                elif rightCollisionState == 1:
-                    collisionWithScreenX2 = rightCollisionX
-                    collisionWithScreenY2 = rightCollisionY
-                elif leftCollisionState == 1:
-                    collisionWithScreenX2 = leftCollisionX
-                    collisionWithScreenY2 = leftCollisionY
-            elif bottomCollisionState == 1:
-                collisionWithScreenX1 = bottomCollisionX
-                collisionWithScreenY1 = bottomCollisionY
-                if rightCollisionState == 1:
-                    collisionWithScreenX2 = rightCollisionX
-                    collisionWithScreenY2 = rightCollisionY
-                elif leftCollisionState == 1:
-                    collisionWithScreenX2 = leftCollisionX
-                    collisionWithScreenY2 = leftCollisionY
-            elif rightCollisionState == 1:
-                collisionWithScreenX1 = rightCollisionX
-                collisionWithScreenY1 = rightCollisionY
-                if leftCollisionState == 1:
-                    collisionWithScreenX2 = leftCollisionX
-                    collisionWithScreenY2 = leftCollisionY
-            elif leftCollisionState == 1:
-                collisionWithScreenX1 = leftCollisionX
-                collisionWithScreenY1 = leftCollisionY
-            screenCollisionX, screenCollisionY = self.findSmallDistance(newLaserX2, newLaserY2, collisionWithScreenX1, collisionWithScreenY1,
-                                            collisionWithScreenX2, collisionWithScreenY2)
-            self.reflected = False
-            return Laser.Laser(laserX1, laserY1, screenCollisionX, screenCollisionY, img)
+        # else:
+        #     #if the laser does not hit, it colides with the screen
+        #     height, width, channels = img.shape
+        #     screen = Blocker.Blocker(0, 0, 0, height, width, height, width, 0, img)
+        #     newLaserX2, newLaserY2 = (self.laserX2+width/2)+2, (self.laserY2+height/2)+2
+        #     tempLaser = Laser.Laser(self.laserX1, self.laserY1, newLaserX2, newLaserY2, img)
+        #     screenCollision = Collision(screen, tempLaser)
+        #     topScreenCollisionX, topScreenCollisionY, topScreenCollisionState = screenCollision.collisionTop(img)
+        #     bottomScreenCollisionX, bottomScreenCollisionY, bottomScreenCollisionState = screenCollision.collisionBottom(img)
+        #     rightScreenCollisionX, rightScreenCollisionY, rightScreenCollisionState = screenCollision.collisionRight(img)
+        #     leftScreenCollisionX, leftScreenCollisionY, leftScreenCollisionState = screenCollision.collisionLeft(img)
+        #
+        #     collisionWithScreenX1 = 0
+        #     collisionWithScreenY1 = 0
+        #     collisionWithScreenX2 = 0
+        #     collisionWithScreenY2 = 0
+        #
+        #     if topCollisionState == 1:
+        #         collisionWithScreenX1 = topCollisionX
+        #         collisionWithScreenY1 = topCollisionY
+        #         if bottomCollisionState == 1:
+        #             collisionWithScreenX2 = bottomCollisionX
+        #             collisionWithScreenY2 = bottomCollisionY
+        #         elif rightCollisionState == 1:
+        #             collisionWithScreenX2 = rightCollisionX
+        #             collisionWithScreenY2 = rightCollisionY
+        #         elif leftCollisionState == 1:
+        #             collisionWithScreenX2 = leftCollisionX
+        #             collisionWithScreenY2 = leftCollisionY
+        #     elif bottomCollisionState == 1:
+        #         collisionWithScreenX1 = bottomCollisionX
+        #         collisionWithScreenY1 = bottomCollisionY
+        #         if rightCollisionState == 1:
+        #             collisionWithScreenX2 = rightCollisionX
+        #             collisionWithScreenY2 = rightCollisionY
+        #         elif leftCollisionState == 1:
+        #             collisionWithScreenX2 = leftCollisionX
+        #             collisionWithScreenY2 = leftCollisionY
+        #     elif rightCollisionState == 1:
+        #         collisionWithScreenX1 = rightCollisionX
+        #         collisionWithScreenY1 = rightCollisionY
+        #         if leftCollisionState == 1:
+        #             collisionWithScreenX2 = leftCollisionX
+        #             collisionWithScreenY2 = leftCollisionY
+        #     elif leftCollisionState == 1:
+        #         collisionWithScreenX1 = leftCollisionX
+        #         collisionWithScreenY1 = leftCollisionY
+        #     screenCollisionX, screenCollisionY = self.findSmallDistance(newLaserX2, newLaserY2, collisionWithScreenX1, collisionWithScreenY1,
+        #                                     collisionWithScreenX2, collisionWithScreenY2)
+        #     self.reflected = False
+        #     return Laser.Laser(laserX1, laserY1, screenCollisionX, screenCollisionY, img)
