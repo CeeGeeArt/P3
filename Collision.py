@@ -24,6 +24,7 @@ class Collision:
     rectangleY4 = 0
 
     reflected = True
+    blocked = False
 
     isMirror = 0
     topLCorner = (rectangleX1, rectangleY1)
@@ -251,6 +252,7 @@ class Collision:
                 collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
 
             #print("bex shit",collisionLineX1,collisionLineY1,collisionLineX2,collisionLineY2)
+            self.blocked = False
 
             return Mirror.angleDetermine(self.laserX1, self.laserY1, self.laserX2, self.laserY2, closestCollisionX,
                                          closestCollisionY, collisionLineX1, collisionLineY1, collisionLineX2,
@@ -258,6 +260,8 @@ class Collision:
         elif 0 < closestCollisionX and 0 < closestCollisionY:
             #print('Block')
             self.reflected = False
+            self.blocked = True
+
             #print('self ' +str(self.reflected))
             #print(Collision.reflected)
             return Laser.Laser(self.laserX1, self.laserY1, closestCollisionX, closestCollisionY, img)
