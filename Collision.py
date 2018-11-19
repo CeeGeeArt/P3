@@ -278,34 +278,34 @@ class Collision:
             collisionWithScreenX2 = 0
             collisionWithScreenY2 = 0
 
-            if topScreenCollisionState == 1:
+            if topCollisionState == 1:
                 collisionWithScreenX1 = topCollisionX
                 collisionWithScreenY1 = topCollisionY
-                if bottomScreenCollisionState == 1:
+                if bottomCollisionState == 1:
                     collisionWithScreenX2 = bottomCollisionX
                     collisionWithScreenY2 = bottomCollisionY
-                elif rightScreenCollisionState == 1:
+                elif rightCollisionState == 1:
                     collisionWithScreenX2 = rightCollisionX
                     collisionWithScreenY2 = rightCollisionY
-                elif leftScreenCollisionState == 1:
+                elif leftCollisionState == 1:
                     collisionWithScreenX2 = leftCollisionX
                     collisionWithScreenY2 = leftCollisionY
-            elif bottomScreenCollisionState == 1:
+            elif bottomCollisionState == 1:
                 collisionWithScreenX1 = bottomCollisionX
                 collisionWithScreenY1 = bottomCollisionY
-                if rightScreenCollisionState == 1:
+                if rightCollisionState == 1:
                     collisionWithScreenX2 = rightCollisionX
                     collisionWithScreenY2 = rightCollisionY
-                elif leftScreenCollisionState == 1:
+                elif leftCollisionState == 1:
                     collisionWithScreenX2 = leftCollisionX
                     collisionWithScreenY2 = leftCollisionY
-            elif rightScreenCollisionState == 1:
+            elif rightCollisionState == 1:
                 collisionWithScreenX1 = rightCollisionX
                 collisionWithScreenY1 = rightCollisionY
-                if leftScreenCollisionState == 1:
+                if leftCollisionState == 1:
                     collisionWithScreenX2 = leftCollisionX
                     collisionWithScreenY2 = leftCollisionY
-            elif leftScreenCollisionState == 1:
+            elif leftCollisionState == 1:
                 collisionWithScreenX1 = leftCollisionX
                 collisionWithScreenY1 = leftCollisionY
             screenCollisionX, screenCollisionY = self.findSmallDistance(newLaserX2, newLaserY2, collisionWithScreenX1, collisionWithScreenY1,
