@@ -20,11 +20,11 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     testBlock1 = Mirror.Mirror(200, 350, 201, 900, 160, 900, 160, 350, img)
     testBlocker = Mirror.Mirror(500, 125, 500, 900, 400, 900, 400, 125, img)
     #testBlocker2 = Mirror.Mirror(150, 50, 150, 300, 100, 300, 100, 50, img)
-    testBlocker3 = Mirror.Mirror(720, 90, 680, 300, 625, 300, 600, 50, img)
+    #testBlocker3 = Mirror.Mirror(720, 90, 680, 300, 625, 300, 600, 50, img)
     #testBlocker4 = Mirror.Mirror(900, 50, 860, 300, 800, 300, 800, 50, img)
     #testBlocker2 = Mirror.Mirror(150, 50, 150, 300, 100, 300, 100, 50, img)
 
-    mirrorBLockerList = [testBlock, testBlocker, testBlock1, testBlocker3]
+    mirrorBLockerList = [testBlock, testBlocker, testBlock1]
     #laserList = []
     finalLaserList = []
     finalPointList = []
@@ -49,8 +49,8 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
             col = Collision.Collision(mirrorBLockerList[j], compareLaser)
             tempLaser = col.collisionDetection(img)
             colBool[j] = col.reflected
+            finalLaserList.append(tempLaser)
             if colBool[j] is True and j is not prevReflect:
-                finalLaserList.append(tempLaser)
                 x = tempLaser.getX1()
                 y = tempLaser.getY1()
                 x2 = tempLaser.getX2()
@@ -91,6 +91,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
         cv2.line(img, finalPointList[i], finalPointList[i+1], color, weight)
 
     # draws the lasers from a list of laser.
+    finalLaserList[len(finalLaserList)-2].drawLaser()
     #for i in range(len(finalLaserList)):
      #   finalLaserList[i].drawLaser()
 
