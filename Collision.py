@@ -24,7 +24,6 @@ class Collision:
     rectangleY4 = 0
 
     reflected = True
-    blocked = False
 
     isMirror = 0
     topLCorner = (rectangleX1, rectangleY1)
@@ -230,7 +229,7 @@ class Collision:
         closestCollisionX, closestCollisionY = self.findSmallDistance(laserX1, laserY1, collisionX1, collisionY1,
                                                                       collisionX2, collisionY2)
 
-        if 0< closestCollisionX and 0<closestCollisionY and self.isMirror !=0:
+        if 0< closestCollisionX and 0<closestCollisionY and self.isMirror != 0:
             collisionLineX1 = 0
             collisionLineY1 = 0
             collisionLineX2 = 0
@@ -252,20 +251,21 @@ class Collision:
                 collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
 
             #print("bex shit",collisionLineX1,collisionLineY1,collisionLineX2,collisionLineY2)
-            self.blocked = False
-
+            self.reflected = True
             return Mirror.angleDetermine(self.laserX1, self.laserY1, self.laserX2, self.laserY2, closestCollisionX,
                                          closestCollisionY, collisionLineX1, collisionLineY1, collisionLineX2,
                                          collisionLineY2, img)
         elif 0 < closestCollisionX and 0 < closestCollisionY:
-            #print('Block')
+            print('Block')
             self.reflected = False
-            self.blocked = True
 
             #print('self ' +str(self.reflected))
             #print(Collision.reflected)
             return Laser.Laser(self.laserX1, self.laserY1, closestCollisionX, closestCollisionY, img)
-        # else:
+        else:
+            print("screenCollision")
+            self.reflected = False
+            return Laser.Laser(self.laserX1, self.laserY1, self.laserX2, self.laserY2, img)
         #     #if the laser does not hit, it colides with the screen
         #     height, width, channels = img.shape
         #     screen = Blocker.Blocker(0, 0, 0, height, width, height, width, 0, img)
