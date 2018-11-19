@@ -14,8 +14,8 @@ def morphOp(input):
     return opening
 
 
+# find contours and then return the corners of a rotated bounding rectangle.
 def box_from_contours(input_mask):
-    # find contours and then find the corners of a rotated bounding rectangle.
     temp_box = []
     im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     for i in range(len(contours)):

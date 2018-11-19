@@ -17,43 +17,82 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     leY = vRow
 
     testBlock = Mirror.Mirror(300, 100, 300, 300, 200, 300, 200, 100, img)
-    #testBlock1 = Mirror.Mirror(200,400,300,400,300,800,200,800 , img)
-    testBlocker = Mirror.Mirror(500, 150, 500, 350, 400, 350, 400, 150, img)
+    testBlock1 = Mirror.Mirror(200, 350, 201, 900, 160, 900, 160, 350, img)
+    testBlocker = Mirror.Mirror(500, 125, 500, 900, 400, 900, 400, 125, img)
+    #testBlocker2 = Mirror.Mirror(150, 50, 150, 300, 100, 300, 100, 50, img)
+    testBlocker3 = Mirror.Mirror(720, 90, 680, 300, 625, 300, 600, 50, img)
+    #testBlocker4 = Mirror.Mirror(900, 50, 860, 300, 800, 300, 800, 50, img)
+    #testBlocker2 = Mirror.Mirror(150, 50, 150, 300, 100, 300, 100, 50, img)
 
-    mirrorBLockerList = [testBlock,testBlocker]
+    mirrorBLockerList = [testBlock, testBlocker, testBlock1, testBlocker3]
     #laserList = []
     finalLaserList = []
+    finalPointList = []
+    prevReflect = None
+    currentReflect = None
+    x2 = None
+    y2 = None
 
     laserList = Laser.Laser(lsX, lsY, leX, leY, img)
     print("start while loop")
     while(True):
+        prevReflect = currentReflect
         colBool = []
+        tempLaser = None
+
         print("start for loops")
         for i in range(len(mirrorBLockerList)):
             colBool.append(True)
-        #for i in range(len(laserList)):
-        for j in range(len(mirrorBLockerList)):
-            col = Collision.Collision(mirrorBLockerList[j], laserList)
-            #print('før' + str(Collision.Collision.reflected))
-            tempLaser = col.collisionDetection(img)
-            #print('efter' + str(col.reflected))
-            colBool[j] = col.reflected
-            if colBool[j] is True:
-                finalLaserList.append(tempLaser)
-                laserList = tempLaser
 
-            #print("i = " + str(i))
+        compareLaser = laserList
+        for j in range(len(mirrorBLockerList)):
+            col = Collision.Collision(mirrorBLockerList[j], compareLaser)
+            tempLaser = col.collisionDetection(img)
+            colBool[j] = col.reflected
+            if colBool[j] is True and j is not prevReflect:
+                finalLaserList.append(tempLaser)
+                x = tempLaser.getX1()
+                y = tempLaser.getY1()
+                x2 = tempLaser.getX2()
+                y2 = tempLaser.getY2()
+                point = (x, y)
+                finalPointList.append(point)
+                laserList = tempLaser
+                currentReflect = j
+
             print("j = " + str(j))
             print(colBool[j])
 
-        #print(len(laserList))
-        if colBool[1] is True:
+
+        # Manages the break statement
+        breaking = False
+        for i in range(len(mirrorBLockerList)):
+            if i is not prevReflect:
+                if colBool[i] is True:
+                    breaking = False
+                    break
+                else:
+                    breaking = True
+        if breaking is True:
+            point = (x2, y2)
+            finalPointList.append(point)
             break
 
 
     #print('hey')
-    for i in range(len(finalLaserList)):
-        finalLaserList[i].drawLaser()
+    # Draws the lasers from a list of points.
+    for i in range(len(finalPointList)-1):
+        if i is 1:
+            color = (255, 0, 0)
+            weight = 10
+        else:
+            color = (0, 0, 255)
+            weight = 5
+        cv2.line(img, finalPointList[i], finalPointList[i+1], color, weight)
+
+    # draws the lasers from a list of laser.
+    #for i in range(len(finalLaserList)):
+     #   finalLaserList[i].drawLaser()
 
 
 

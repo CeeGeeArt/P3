@@ -72,6 +72,7 @@ class Collision:
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
         else:
             return 100000, 100000, 0
 
@@ -97,6 +98,7 @@ class Collision:
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
         else:
             return 100000, 100000, 0
 
@@ -122,6 +124,7 @@ class Collision:
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
         else:
             return 100000, 100000, 0
 
