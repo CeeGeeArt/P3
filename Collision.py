@@ -268,44 +268,44 @@ class Collision:
             newLaserX2, newLaserY2 = (self.laserX2+width/2)+2, (self.laserY2+height/2)+2
             tempLaser = Laser.Laser(self.laserX1, self.laserY1, newLaserX2, newLaserY2, img)
             screenCollision = Collision(screen, tempLaser)
-            topCollisionX, topCollisionY, topCollisionState = self.collisionTop(img)
-            bottomCollisionX, bottomCollisionY, bottomCollisionState = screenCollision.collisionBottom(img)
-            rightCollisionX, rightCollisionY, rightCollisionState = screenCollision.collisionRight(img)
-            leftCollisionX, leftCollisionY, leftCollisionState = screenCollision.collisionLeft(img)
+            topScreenCollisionX, topScreenCollisionY, topScreenCollisionState = screenCollision.collisionTop(img)
+            bottomScreenCollisionX, bottomScreenCollisionY, bottomScreenCollisionState = screenCollision.collisionBottom(img)
+            rightScreenCollisionX, rightScreenCollisionY, rightScreenCollisionState = screenCollision.collisionRight(img)
+            leftScreenCollisionX, leftScreenCollisionY, leftScreenCollisionState = screenCollision.collisionLeft(img)
 
             collisionWithScreenX1 = 0
             collisionWithScreenY1 = 0
             collisionWithScreenX2 = 0
             collisionWithScreenY2 = 0
 
-            if topCollisionState == 1:
+            if topScreenCollisionState == 1:
                 collisionWithScreenX1 = topCollisionX
                 collisionWithScreenY1 = topCollisionY
-                if bottomCollisionState == 1:
+                if bottomScreenCollisionState == 1:
                     collisionWithScreenX2 = bottomCollisionX
                     collisionWithScreenY2 = bottomCollisionY
-                elif rightCollisionState == 1:
+                elif rightScreenCollisionState == 1:
                     collisionWithScreenX2 = rightCollisionX
                     collisionWithScreenY2 = rightCollisionY
-                elif leftCollisionState == 1:
+                elif leftScreenCollisionState == 1:
                     collisionWithScreenX2 = leftCollisionX
                     collisionWithScreenY2 = leftCollisionY
-            elif bottomCollisionState == 1:
+            elif bottomScreenCollisionState == 1:
                 collisionWithScreenX1 = bottomCollisionX
                 collisionWithScreenY1 = bottomCollisionY
-                if rightCollisionState == 1:
+                if rightScreenCollisionState == 1:
                     collisionWithScreenX2 = rightCollisionX
                     collisionWithScreenY2 = rightCollisionY
-                elif leftCollisionState == 1:
+                elif leftScreenCollisionState == 1:
                     collisionWithScreenX2 = leftCollisionX
                     collisionWithScreenY2 = leftCollisionY
-            elif rightCollisionState == 1:
+            elif rightScreenCollisionState == 1:
                 collisionWithScreenX1 = rightCollisionX
                 collisionWithScreenY1 = rightCollisionY
-                if leftCollisionState == 1:
+                if leftScreenCollisionState == 1:
                     collisionWithScreenX2 = leftCollisionX
                     collisionWithScreenY2 = leftCollisionY
-            elif leftCollisionState == 1:
+            elif leftScreenCollisionState == 1:
                 collisionWithScreenX1 = leftCollisionX
                 collisionWithScreenY1 = leftCollisionY
             screenCollisionX, screenCollisionY = self.findSmallDistance(newLaserX2, newLaserY2, collisionWithScreenX1, collisionWithScreenY1,
