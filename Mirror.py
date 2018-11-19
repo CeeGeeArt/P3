@@ -79,14 +79,8 @@ def angleDetermine(laserX1, laserY1, laserX2, laserY2, closestCollisionX, closes
     normalX = collisionLineY1 - collisionLineY2
     temp = ((collisionLineX2 - collisionLineX1) ** 2) + ((collisionLineY2 - collisionLineY1) ** 2)
     normalLength = math.sqrt(temp)
-    normalX = 0
-    normalY = 0
-
-    try:
-        normalX = normalX / normalLength
-        normalY = normalY / normalLength
-    except:
-        cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
+    normalX = normalX / normalLength
+    normalY = normalY / normalLength
 
 
     if laserX2 < collisionLineX1 or laserY1 < collisionLineY1:
