@@ -72,6 +72,7 @@ class Collision:
                             / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         except:
             cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
+            print("Error in col left")
 
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
@@ -104,6 +105,7 @@ class Collision:
                          / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         except:
             cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
+            print("Error in col right")
 
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
@@ -136,6 +138,7 @@ class Collision:
                          / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         except:
             cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
+            print("Error in col top")
 
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
@@ -168,6 +171,7 @@ class Collision:
                          / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         except:
             cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
+            print("Error in col bottom")
 
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
