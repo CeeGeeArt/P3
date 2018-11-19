@@ -71,6 +71,11 @@ class Collision:
             collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                             / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         except:
+            collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))+1
+
+            collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))+1
             cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
             print("Error in col left")
 
@@ -104,6 +109,11 @@ class Collision:
             collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                          / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         except:
+            collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))+1
+
+            collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))+1
             cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
             print("Error in col right")
 
@@ -137,6 +147,11 @@ class Collision:
             collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                          / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         except:
+            collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))+1
+
+            collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))+1
             cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
             print("Error in col top")
 
@@ -170,6 +185,11 @@ class Collision:
             collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                          / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
         except:
+            collisionX = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))+1
+
+            collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
+                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))+1
             cv2.putText(img, "Please move one of the blocks", (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
             print("Error in col bottom")
 
