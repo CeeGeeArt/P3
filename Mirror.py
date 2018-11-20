@@ -75,6 +75,8 @@ class Mirror:
 
 def angleDetermine(laserX1, laserY1, laserX2, laserY2, closestCollisionX, closestCollisionY, collisionLineX1,
                    collisionLineY1, collisionLineX2, collisionLineY2, img):
+
+    #The normal for the rectangles line is calulated here
     normalY = collisionLineX2 - collisionLineX1
     normalX = collisionLineY1 - collisionLineY2
     temp = ((collisionLineX2 - collisionLineX1) ** 2) + ((collisionLineY2 - collisionLineY1) ** 2)
@@ -82,7 +84,7 @@ def angleDetermine(laserX1, laserY1, laserX2, laserY2, closestCollisionX, closes
     normalX = normalX / normalLength
     normalY = normalY / normalLength
 
-
+    #If the vector is too short, so it can not be properly reflected it will be made longer here
     if laserX2 < collisionLineX1 or laserY1 < collisionLineY1:
         laserVectorX = laserX2-laserX1
         laserVectorY = laserY2-laserY1
@@ -93,15 +95,16 @@ def angleDetermine(laserX1, laserY1, laserX2, laserY2, closestCollisionX, closes
         laserX2 = laserX2
         laserY2 = laserY2
 
-
+    #The vector that goes byound the rectangle side, is found, so it can be reflected in the normal from above.
     rayX = laserX2 - closestCollisionX
     rayY = laserY2 - closestCollisionY
 
+    #The normal is moved to the end of the laser that goes into the rectangle
     dotProduct = (rayX * normalX)+(rayY*normalY)
-
     dotNormalX = dotProduct*normalX
     dotNormalY = dotProduct*normalY
 
+    #The end of the reflection is found
     reflectionEndX = laserX2 - (dotNormalX * 2)
     reflectionEndY = laserY2 - (dotNormalY * 2)
     #cv2.line(img, (laserX1,laserY1), (closestCollisionX, closestCollisionY), (0, 0, 255), 5)
