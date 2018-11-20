@@ -180,3 +180,18 @@ while(cap.isOpened()):
 
 cap.release()
 cv2.destroyAllWindows()
+
+# tempVectorX = tempLaser.getX2 - tempLaser.getX1
+#
+# tempVectorY = tempLaser.getY2 - tempLaser.getY1
+#
+# if tempVectorX > 0 and tempVectorY > 0:
+#     #do stuff to but right laser
+# elif tempVectorX < 0 and tempVectorY < 0:
+#     #do some other stuff
+# elif tempVectorX < 0 and tempVectorY > 0:
+#     #do stuff
+# elif tempVectorX > 0 and tempVectorY < 0:
+#     #last stuff to do
+# else:
+#     #Do other stuff just incase
