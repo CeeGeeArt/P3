@@ -260,14 +260,14 @@ class Collision:
                 collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY1
                 collisionLineX2, collisionLineY2 = self.rectangleX4, self.rectangleY4
             elif closestCollisionX == bottomCollisionX:
-                collisionLineX1, collisionLineY1 = self.rectangleX2, self.rectangleY2
-                collisionLineX2, collisionLineY2 = self.rectangleX3, self.rectangleY3
+                collisionLineX1, collisionLineY1 = self.rectangleX3, self.rectangleY3
+                collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
             elif closestCollisionX == rightCollisionX:
                 collisionLineX1, collisionLineY1 = self.rectangleX4, self.rectangleY4
                 collisionLineX2, collisionLineY2 = self.rectangleX3, self.rectangleY3
             elif closestCollisionX == leftCollisionX:
-                collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY1
-                collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
+                collisionLineX1, collisionLineY1 = self.rectangleX2, self.rectangleY2
+                collisionLineX2, collisionLineY2 = self.rectangleX1, self.rectangleY1
 
             self.reflected = True
 

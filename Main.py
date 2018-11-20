@@ -17,15 +17,23 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     leX = 0
     leY = vRow
 
+    # ------ Mirrors and blockers must have their points input in a counter clockwise manner. -----
+
     testBlock = Mirror.Mirror(299, 100, 299, 290, 200, 290, 200, 100, img)
-    testBlocker = Mirror.Mirror(800, 125, 800, 900, 700, 900, 700, 125, img)
-    testBlock1 = Mirror.Mirror(199, 350, 199, 900, 180, 900, 180, 350, img)
-    print(testBlock.getMirrorState(), testBlocker.getMirrorState(), testBlock1.getMirrorState())
 
-    testBlock2 = Mirror.Mirror(151, 450, 150, 900, 130, 900, 130, 450, img)
-    testBlock3 = Mirror.Mirror(240, 500, 242, 950, 400, 950, 500, 500, img)
+    #testBlocker = Mirror.Mirror(500, 125, 550, 900, 700, 900, 700, 125, img)
+    testBlocker = Mirror.Mirror(700, 125, 700, 900, 550, 900, 500, 125, img)
 
-    testBlocker2 = Mirror.Mirror(100, height-100, 100, height, 900, height, 900, height-100, img)
+    testBlock1 = Mirror.Mirror(190, 350, 199, 900, 180, 900, 180, 350, img)
+
+    testBlock2 = Mirror.Mirror(151, 450, 150, 950, 130, 950, 130, 450, img)
+
+    #testBlock3 = Mirror.Mirror(240, 500, 242, 950, 400, 950, 500, 500, img)
+    testBlock3 = Mirror.Mirror(500, 500, 400, 950, 242, 950, 240, 700, img)
+
+    #testBlocker2 = Mirror.Mirror(100, height-50, 100, height, 900, height, 900, height-150, img)
+    testBlocker2 = Mirror.Mirror(900, height - 170, 900, height, 100, height, 100, height - 50, img)
+
     #testBlocker3 = Mirror.Mirror(720, 90, 680, 300, 625, 300, 600, 50, img)
     #testBlocker4 = Mirror.Mirror(900, 50, 860, 300, 800, 300, 800, 50, img)
     #testBlocker2 = Blocker.Blocker(-5, -5, -5, height+5, width+5, height+5, width+5, -5, img)
@@ -227,9 +235,9 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
         if breaking is True:
             break
 
-        if counter > 1:
-            break
-        counter += 1
+        # if counter > 10:
+        #     break
+        # counter += 1
 
 
     #print('hey')
