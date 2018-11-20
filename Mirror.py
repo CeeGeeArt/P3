@@ -111,6 +111,7 @@ def angleDetermine(laserX1, laserY1, laserX2, laserY2, closestCollisionX, closes
     return Laser.Laser(closestCollisionX, closestCollisionY, int(reflectionEndX), int(reflectionEndY), img)
 
 
+
 # def angleDetermineStillBad(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, img):
 #     vectorAx = ax2 - ax1
 #     vectorAy = ay2 - ay1
