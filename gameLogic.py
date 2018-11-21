@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 # import the rest of the files...
 import Team
+import Main
 import Detection
 import Target
 
@@ -43,13 +44,9 @@ while (1):
     # Each laser should contain two coordinates and a team.
 
     # Activate Collision. Should return an image to draw on the playspace and create new laser objects
+    lasers = Main.laserFire(frame, 20, 0.2)
 
     # Activate the target. Should return the team that scored as well as the amount of points scored.
-    # Lines to test the Target class
-    line1 = [(100, 100), (-100, -100)]
-    line2 = [(100, 100), (100, 200)]
-    test_array = np.array([line2])
-
     # Initialize a target when there's less than 2 and the game is still running.
     while targetCount < 2 and totalPointCount < maxPoints:
         totalPointCount += 1
@@ -64,7 +61,7 @@ while (1):
 
     # Call the targetCollision function.
     for i in range(len(targetArray)):
-        collision, doublePoints = targetArray[i].targetCollision(test_array)
+        collision, doublePoints = targetArray[i].targetCollision(lasers)
         # should check if there is collision and what team has achieved it. Then checks how many points they scored.
         if collision:
             if team1:

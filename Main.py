@@ -239,9 +239,11 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
         #     break
         # counter += 1
 
+    # While loops ends here ------------------------------
 
     #print('hey')
     # Draws the lasers from a list of points.
+    return_arrayList = []
     for i in range(len(finalPointList)-1):
         if i is 3:
             color = (255, 0, 0)
@@ -250,6 +252,11 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
             color = (0, 255, 0)
             weight = 5
         cv2.line(img, finalPointList[i], finalPointList[i+1], color, weight)
+        x, y = finalPointList[i]
+        x2, y2 = finalPointList[i+1]
+        temp_laser = Laser.Laser(x, y, x2, y2, img)
+        return_arrayList.append(temp_laser)
+    return return_arrayList
 
     # draws the lasers from a list of laser.
     #finalLaser.drawLaser()
@@ -271,7 +278,8 @@ while(cap.isOpened()):
     if frame is None:
         exit()
 
-    laserFire(frame,20,0.2) #Call to laser function
+    lasers = laserFire(frame,20,0.2) #Call to laser function
+    print(lasers)
     cv2.imshow('frame', frame)
     cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty("window", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
