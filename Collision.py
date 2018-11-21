@@ -256,18 +256,45 @@ class Collision:
             collisionLineY2 = 0
             #We check what sides the collision happens on, and get the x and y of the line, so we can pass it to the
             # reflection function
+            # if closestCollisionX == topCollisionX:
+            #     collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY1
+            #     collisionLineX2, collisionLineY2 = self.rectangleX4, self.rectangleY4
+            # elif closestCollisionX == bottomCollisionX:
+            #     collisionLineX1, collisionLineY1 = self.rectangleX3, self.rectangleY3
+            #     collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
+            # elif closestCollisionX == rightCollisionX:
+            #     collisionLineX1, collisionLineY1 = self.rectangleX4, self.rectangleY4
+            #     collisionLineX2, collisionLineY2 = self.rectangleX3, self.rectangleY3
+            # elif closestCollisionX == leftCollisionX:
+            #     collisionLineX1, collisionLineY1 = self.rectangleX2, self.rectangleY2
+            #     collisionLineX2, collisionLineY2 = self.rectangleX1, self.rectangleY1
+            #
+            # ----------- Works better than above but still has problems
+            # if closestCollisionX == topCollisionX:
+            #     collisionLineX1, collisionLineY1 = self.rectangleX4, self.rectangleY4
+            #     collisionLineX2, collisionLineY2 = self.rectangleX1, self.rectangleY1
+            # elif closestCollisionX == bottomCollisionX:
+            #     collisionLineX1, collisionLineY1 = self.rectangleX2, self.rectangleY2
+            #     collisionLineX2, collisionLineY2 = self.rectangleX3, self.rectangleY3
+            # elif closestCollisionX == rightCollisionX:
+            #     collisionLineX1, collisionLineY1 = self.rectangleX4, self.rectangleY4
+            #     collisionLineX2, collisionLineY2 = self.rectangleX3, self.rectangleY3
+            # elif closestCollisionX == leftCollisionX:
+            #     collisionLineX1, collisionLineY1 = self.rectangleX2, self.rectangleY2
+            #     collisionLineX2, collisionLineY2 = self.rectangleX1, self.rectangleY1
+            #
             if closestCollisionX == topCollisionX:
-                collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY1
-                collisionLineX2, collisionLineY2 = self.rectangleX4, self.rectangleY4
-            elif closestCollisionX == bottomCollisionX:
-                collisionLineX1, collisionLineY1 = self.rectangleX3, self.rectangleY3
-                collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
-            elif closestCollisionX == rightCollisionX:
                 collisionLineX1, collisionLineY1 = self.rectangleX4, self.rectangleY4
-                collisionLineX2, collisionLineY2 = self.rectangleX3, self.rectangleY3
-            elif closestCollisionX == leftCollisionX:
-                collisionLineX1, collisionLineY1 = self.rectangleX2, self.rectangleY2
                 collisionLineX2, collisionLineY2 = self.rectangleX1, self.rectangleY1
+            elif closestCollisionX == bottomCollisionX:
+                collisionLineX1, collisionLineY1 = self.rectangleX2, self.rectangleY2
+                collisionLineX2, collisionLineY2 = self.rectangleX3, self.rectangleY3
+            elif closestCollisionX == rightCollisionX:
+                collisionLineX1, collisionLineY1 = self.rectangleX3, self.rectangleY3
+                collisionLineX2, collisionLineY2 = self.rectangleX4, self.rectangleY4
+            elif closestCollisionX == leftCollisionX:
+                collisionLineX1, collisionLineY1 = self.rectangleX1, self.rectangleY1
+                collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
 
             self.reflected = True
 

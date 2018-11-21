@@ -29,7 +29,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     testBlock2 = Mirror.Mirror(151, 450, 150, 950, 130, 950, 130, 450, img)
 
     #testBlock3 = Mirror.Mirror(240, 500, 242, 950, 400, 950, 500, 500, img)
-    testBlock3 = Mirror.Mirror(500, 500, 400, 950, 242, 950, 240, 700, img)
+    testBlock3 = Mirror.Mirror(500, 500, 400, 950, 242, 950, 240, 699, img)
 
     #testBlocker2 = Mirror.Mirror(100, height-50, 100, height, 900, height, 900, height-150, img)
     testBlocker2 = Mirror.Mirror(900, height - 170, 900, height, 100, height, 100, height - 50, img)
@@ -243,7 +243,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     #print('hey')
     # Draws the lasers from a list of points.
     for i in range(len(finalPointList)-1):
-        if i is 2:
+        if i is 3:
             color = (255, 0, 0)
             weight = 10
         else:
