@@ -73,6 +73,10 @@ class Collision:
         collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
+        print("left")
+        print(collisionX)
+        print(collisionY)
+
         #The math above will return collisions that are outside the laser and rectangle area
         #These if and else return only coordiantes that fall on the line, it also returns a one if they have collided
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
@@ -80,6 +84,14 @@ class Collision:
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
+        if collisionY <= y3 and collisionY >= y4 and collisionX <= x3 and collisionX >= x4:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
+        if collisionY <= y3 and collisionY >= y4 and collisionX <= x4 and collisionX >= x3:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
@@ -102,11 +114,23 @@ class Collision:
         collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
+        print("right")
+        print(collisionX)
+        print(collisionY)
+
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
+        if collisionY <= y3 and collisionY >= y4 and collisionX <= x3 and collisionX >= x4:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
+        if collisionY <= y3 and collisionY >= y4 and collisionX <= x4 and collisionX >= x3:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
@@ -129,11 +153,23 @@ class Collision:
         collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
+        print("top")
+        print(collisionX)
+        print(collisionY)
+
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
+        if collisionY <= y3 and collisionY >= y4 and collisionX <= x3 and collisionX >= x4:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
+        if collisionY <= y3 and collisionY >= y4 and collisionX <= x4 and collisionX >= x3:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
@@ -156,11 +192,23 @@ class Collision:
         collisionY = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - (y1 - y2) * ((x3 * y4) - (y3 * x4))) \
                         / (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
 
+        print("bottom")
+        print(collisionX)
+        print(collisionY)
+
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x3 and collisionX >= x4:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
         if collisionY >= y3 and collisionY <= y4 and collisionX <= x4 and collisionX >= x3:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
+        if collisionY <= y3 and collisionY >= y4 and collisionX <= x3 and collisionX >= x4:
+            cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
+                     (255, 0, 0), 5)
+            return int(collisionX), int(collisionY), 1
+        if collisionY <= y3 and collisionY >= y4 and collisionX <= x4 and collisionX >= x3:
             cv2.line(img, (int(collisionX), int(collisionY)), (int(collisionX), int(collisionY)),
                      (255, 0, 0), 5)
             return int(collisionX), int(collisionY), 1
@@ -205,6 +253,8 @@ class Collision:
         rightCollisionX, rightCollisionY, rightCollisionState = self.collisionRight(img)
         leftCollisionX, leftCollisionY, leftCollisionState = self.collisionLeft(img)
 
+        print(topCollisionState, bottomCollisionState, leftCollisionState, rightCollisionState)
+
         #Variables to store the points that acctually collides on the squares
         collisionX1 = 0
         collisionY1 = 0
@@ -242,6 +292,7 @@ class Collision:
         elif leftCollisionState == 1:
             collisionX1 = leftCollisionX
             collisionY1 = leftCollisionY
+
 
         #After the right collision points have been found, the point closest to the laser origin is found.
         closestCollisionX, closestCollisionY = self.findSmallDistance(laserX1, laserY1, collisionX1, collisionY1,
@@ -304,7 +355,7 @@ class Collision:
                                          collisionLineY2, img)
         elif 0 < closestCollisionX and 0 < closestCollisionY:
             #If the block is a blocker it will stop the laser at the collision point
-            print('Block')
+            # print('Block')
             self.reflected = False
 
             return Laser.Laser(self.laserX1, self.laserY1, closestCollisionX, closestCollisionY, img)

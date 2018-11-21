@@ -7,10 +7,10 @@ import cv2
 #import Queue
 
 
-img = cv2.imread('test.jpg')
-height, width, channels = img.shape
+#img = cv2.imread('test.jpg')
+#height, width, channels = img.shape
 
-def laserFire(videoFeed, totLaserPos, timePerPos):
+def laserFire(videoFeed, totLaserPos, timePerPos, mirrorBlockerList, img):
     vRow, vCol, vCH = videoFeed.shape
     lsX = 500
     lsY = 0
@@ -18,27 +18,29 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
     leY = vRow
 
     # ------ Mirrors and blockers must have their points input in a counter clockwise manner. -----
+    #
+    # testBlock = Mirror.Mirror(320, 100, 299, 290, 200, 290, 200, 100, img)
+    #
+    # #testBlocker = Mirror.Mirror(500, 125, 550, 900, 700, 900, 700, 125, img)
+    # testBlocker = Mirror.Mirror(700, 125, 700, 900, 550, 900, 500, 125, img)
+    #
+    # testBlock1 = Mirror.Mirror(190, 350, 199, 900, 180, 900, 180, 350, img)
+    #
+    # testBlock2 = Mirror.Mirror(151, 450, 150, 950, 130, 950, 130, 450, img)
+    #
+    # #testBlock3 = Mirror.Mirror(240, 500, 242, 950, 400, 950, 500, 500, img)
+    # testBlock3 = Mirror.Mirror(500, 500, 400, 950, 242, 950, 240, 699, img)
+    #
+    # #testBlocker2 = Mirror.Mirror(100, height-50, 100, height, 900, height, 900, height-150, img)
+    # testBlocker2 = Mirror.Mirror(900, height - 170, 900, height, 100, height, 100, height - 50, img)
+    #
+    # #testBlocker3 = Mirror.Mirror(720, 90, 680, 300, 625, 300, 600, 50, img)
+    # #testBlocker4 = Mirror.Mirror(900, 50, 860, 300, 800, 300, 800, 50, img)
+    # #testBlocker2 = Blocker.Blocker(-5, -5, -5, height+5, width+5, height+5, width+5, -5, img)
+    #
+    # mirrorBlockerList = [testBlock, testBlocker, testBlock1, testBlock2, testBlock3, testBlocker2]
+    # mirrorBlockerList.append(testBlock)
 
-    testBlock = Mirror.Mirror(299, 100, 299, 290, 200, 290, 200, 100, img)
-
-    #testBlocker = Mirror.Mirror(500, 125, 550, 900, 700, 900, 700, 125, img)
-    testBlocker = Mirror.Mirror(700, 125, 700, 900, 550, 900, 500, 125, img)
-
-    testBlock1 = Mirror.Mirror(190, 350, 199, 900, 180, 900, 180, 350, img)
-
-    testBlock2 = Mirror.Mirror(151, 450, 150, 950, 130, 950, 130, 450, img)
-
-    #testBlock3 = Mirror.Mirror(240, 500, 242, 950, 400, 950, 500, 500, img)
-    testBlock3 = Mirror.Mirror(500, 500, 400, 950, 242, 950, 240, 699, img)
-
-    #testBlocker2 = Mirror.Mirror(100, height-50, 100, height, 900, height, 900, height-150, img)
-    testBlocker2 = Mirror.Mirror(900, height - 170, 900, height, 100, height, 100, height - 50, img)
-
-    #testBlocker3 = Mirror.Mirror(720, 90, 680, 300, 625, 300, 600, 50, img)
-    #testBlocker4 = Mirror.Mirror(900, 50, 860, 300, 800, 300, 800, 50, img)
-    #testBlocker2 = Blocker.Blocker(-5, -5, -5, height+5, width+5, height+5, width+5, -5, img)
-
-    mirrorBLockerList = [testBlock, testBlocker, testBlock1, testBlock2, testBlock3, testBlocker2]
     finalLaser = None
     finalPointList = [(lsX, lsY)]
     prevReflect = None
@@ -58,14 +60,19 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
         reflectArray2 = []
 
         print("start for loops")
-        for i in range(len(mirrorBLockerList)):
+        for i in range(len(mirrorBlockerList)):
             colBool.append(True)
 
         compareLaser = current_laser
-        print("Compare laser:")
-        print(compareLaser.getX1(), compareLaser.getY1(), compareLaser.getX2(), compareLaser.getY2())
-        for j in range(len(mirrorBLockerList)):
-            col = Collision.Collision(mirrorBLockerList[j], compareLaser)
+        # print("Compare laser:")
+        # print(compareLaser.getX1(), compareLaser.getY1(), compareLaser.getX2(), compareLaser.getY2())
+        for j in range(len(mirrorBlockerList)):
+            print(mirrorBlockerList[j].getRectangleX1(), mirrorBlockerList[j].getRectangleY1())
+            print(mirrorBlockerList[j].getRectangleX2(), mirrorBlockerList[j].getRectangleY2())
+            print(mirrorBlockerList[j].getRectangleX3(), mirrorBlockerList[j].getRectangleY3())
+            print(mirrorBlockerList[j].getRectangleX4(), mirrorBlockerList[j].getRectangleY4())
+
+            col = Collision.Collision(mirrorBlockerList[j], compareLaser)
             tempLaser = col.collisionDetection(img)
             colBool[j] = col.reflected
 
@@ -78,8 +85,8 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
                 end_y = tempLaser.getY2()
                 end_point = (end_x, end_y)
                 reflectArray2.append(end_point)
-                print("current laser: " + str(tempLaser.getX1()) + " " + str(tempLaser.getY1()) + " " + str(
-                    tempLaser.getX2())+ " " + str(tempLaser.getY2()))
+                # print("current laser: " + str(tempLaser.getX1()) + " " + str(tempLaser.getY1()) + " " + str(
+                #    tempLaser.getX2())+ " " + str(tempLaser.getY2()))
 
                 # Calculate the final laserPoint
                 # x2 = tempLaser.getX2()
@@ -101,15 +108,15 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
             #     print(reflectArray)
             #     print("in loop stop")
 
-            #print("j = " + str(j))
-            #print(colBool[j])
+            # print("j = " + str(j))
+            # print(colBool[j])
 
-        print("reflectArray: " + str(reflectArray))
+        # print("reflectArray: " + str(reflectArray))
 
         # Remove point from the reflectArray that are placed in the wrong direction.
         real_direction_x = current_laser.getX2() - current_laser.getX1()
         real_direction_y = current_laser.getY2() - current_laser.getY1()
-        print(real_direction_x, real_direction_y)
+        # print(real_direction_x, real_direction_y)
         compare_x = []
         compare_y = []
         popArray = []
@@ -152,26 +159,26 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
                     popArray.append(i)
 
         # Pops entries based on the markings. Reverse sorted to prevent interference with later iterations.
-        print(popArray)
+        # print(popArray)
         popArray.sort(reverse=True)
-        print(reflectArray)
+        # print(reflectArray)
         for i in range(len(popArray)):
             reflectArray.pop(popArray[i])
             reflectArray2.pop(popArray[i])
             currentReflect.pop(popArray[i])
-        print(reflectArray)
-        print("start point: " + str(finalPointList[len(finalPointList)-1]))
+        # print(reflectArray)
+        # print("start point: " + str(finalPointList[len(finalPointList)-1]))
 
         breaking = False
 
 
         # Check which laser is the shortest
-        print("start compare loop")
+        # print("start compare loop")
         startX, startY = finalPointList[len(finalPointList) - 1]
         compare = None
         ekstra_compare = None
         if len(reflectArray) > 1:
-            print("BBC")
+            # print("BBC")
             for i in range(len(reflectArray)-1):
                 x, y = reflectArray[i]
                 x2, y2 = reflectArray[i+1]
@@ -202,7 +209,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
             current_laser = Laser.Laser(x, y, x2, y2, img)
 
         elif len(reflectArray) > 0:
-            print("BBB")
+            # print("BBB")
             finalPointList.append(reflectArray[0])
             newReflect = currentReflect[0]
             x, y = reflectArray[0]
@@ -210,7 +217,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
             current_laser = Laser.Laser(x, y, x2, y2, img)
 
         else:
-            print("No reflections")
+            # print("No reflections")
             breaking = True
             x = current_laser.getX1()
             y = current_laser.getY1()
@@ -225,7 +232,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
 
         # Manages the break statement
         # breaking = False
-        # for i in range(len(mirrorBLockerList)):
+        # for i in range(len(mirrorBlockerList)):
         #     if i is not prevReflect:
         #         if colBool[i] is True:
         #             breaking = False
@@ -256,7 +263,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
         x2, y2 = finalPointList[i+1]
         temp_laser = Laser.Laser(x, y, x2, y2, img)
         return_arrayList.append(temp_laser)
-    return return_arrayList
+    return return_arrayList, img
 
     # draws the lasers from a list of laser.
     #finalLaser.drawLaser()
@@ -294,18 +301,3 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
 #
 # cap.release()
 # cv2.destroyAllWindows()
-
-# tempVectorX = tempLaser.getX2 - tempLaser.getX1
-#
-# tempVectorY = tempLaser.getY2 - tempLaser.getY1
-#
-# if tempVectorX > 0 and tempVectorY > 0:
-#     #do stuff to but right laser
-# elif tempVectorX < 0 and tempVectorY < 0:
-#     #do some other stuff
-# elif tempVectorX < 0 and tempVectorY > 0:
-#     #do stuff
-# elif tempVectorX > 0 and tempVectorY < 0:
-#     #last stuff to do
-# else:
-#     #Do other stuff just incase
