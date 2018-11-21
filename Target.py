@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 
 
+
 class Target:
     doublePoints = False
     positionX = 0
@@ -17,11 +18,16 @@ class Target:
     # Checks collision between the target and all lines. Should also check which team the laser belongs to.
     def targetCollision(self, laserArray):
         for i in range(len(laserArray)):  # No laserArray exists at this moment.
-            p1, p2 = laserArray[i]
+            x1 = laserArray[i].getX1()
+            y1 = laserArray[i].getY1()
+            p1 = x1, y1
+            x2 = laserArray[i].getX2()
+            y2 = laserArray[i].getY2()
+            p2 = x2, y2
+            print('Point 1', p1, 'Point 2', p2)
             if Target.intersect_lc(p1, p2, self.positionX, self.positionY, self.radius):
                 return True, self.doublePoints
             return False, False
-
 
     # Checks if there is an intersection between a line and a circle
     @staticmethod
@@ -64,6 +70,11 @@ class Target:
     # Checks if a point is inside of a circle.
     @staticmethod
     def inside_pc(px, py, cx, cy, r):
+        print("-----------------------------------------------------------------------")
+        print(px)
+        print(type(px))
+        print(cx)
+        print(type(cx))
         distX = px - cx
         distY = py - cy
         distance = np.sqrt((distX * distX) + (distY * distY))

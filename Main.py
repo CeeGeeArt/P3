@@ -265,35 +265,35 @@ def laserFire(videoFeed, totLaserPos, timePerPos):
 
 
 
-cap = cv2.VideoCapture(0)
-
-ret, last_frame = cap.read()
-
-if last_frame is None:
-    exit()
-
-while(cap.isOpened()):
-    ret, frame = cap.read()
-
-    if frame is None:
-        exit()
-
-    lasers = laserFire(frame,20,0.2) #Call to laser function
-    print(lasers)
-    cv2.imshow('frame', frame)
-    cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
-    cv2.setWindowProperty("window", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-    cv2.imshow("window", img)
-
-
-
-    if cv2.waitKey(33) >= 0:
-        break
-
-    last_frame = frame
-
-cap.release()
-cv2.destroyAllWindows()
+# cap = cv2.VideoCapture(0)
+#
+# ret, last_frame = cap.read()
+#
+# if last_frame is None:
+#     exit()
+#
+# while(cap.isOpened()):
+#     ret, frame = cap.read()
+#
+#     if frame is None:
+#         exit()
+#
+#     lasers = laserFire(frame,20,0.2) #Call to laser function
+#     print(lasers)
+#     cv2.imshow('frame', frame)
+#     cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
+#     cv2.setWindowProperty("window", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+#     cv2.imshow("window", img)
+#
+#
+#
+#     if cv2.waitKey(33) >= 0:
+#         break
+#
+#     last_frame = frame
+#
+# cap.release()
+# cv2.destroyAllWindows()
 
 # tempVectorX = tempLaser.getX2 - tempLaser.getX1
 #
