@@ -24,6 +24,7 @@ class Collision:
     rectangleY4 = 0
 
     reflected = True
+    blocked = False
 
     isMirror = 0
     topLCorner = (rectangleX1, rectangleY1)
@@ -357,6 +358,7 @@ class Collision:
             #If the block is a blocker it will stop the laser at the collision point
             # print('Block')
             self.reflected = False
+            self.blocked = True
 
             return Laser.Laser(self.laserX1, self.laserY1, closestCollisionX, closestCollisionY, img)
         else:

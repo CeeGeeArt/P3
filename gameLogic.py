@@ -71,6 +71,9 @@ while (1):
     lasers, frame = Main.laserFire(frame, 20, 0.2, mirrorBLockerList, frame)
     for i in range(len(lasers)):
         lasers[i].drawLaser()
+
+    cv2.namedWindow("lasers", cv2.WND_PROP_FULLSCREEN)
+    cv2.setWindowProperty("lasers", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
     cv2.imshow('lasers', frame)
 
     # Activate the target. Should return the team that scored as well as the amount of points scored.

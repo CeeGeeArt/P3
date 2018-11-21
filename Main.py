@@ -19,7 +19,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos, mirrorBlockerList, img):
 
     # ------ Mirrors and blockers must have their points input in a counter clockwise manner. -----
     #
-    # testBlock = Mirror.Mirror(320, 100, 299, 290, 200, 290, 200, 100, img)
+    # testBlock = Blocker.Blocker(320, 100, 299, 290, 200, 290, 200, 100, img)
     #
     # #testBlocker = Mirror.Mirror(500, 125, 550, 900, 700, 900, 700, 125, img)
     # testBlocker = Mirror.Mirror(700, 125, 700, 900, 550, 900, 500, 125, img)
@@ -58,6 +58,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos, mirrorBlockerList, img):
         tempLaser = None
         reflectArray = []
         reflectArray2 = []
+        blockStop = False
 
         print("start for loops")
         for i in range(len(mirrorBlockerList)):
@@ -85,17 +86,6 @@ def laserFire(videoFeed, totLaserPos, timePerPos, mirrorBlockerList, img):
                 end_y = tempLaser.getY2()
                 end_point = (end_x, end_y)
                 reflectArray2.append(end_point)
-                # print("current laser: " + str(tempLaser.getX1()) + " " + str(tempLaser.getY1()) + " " + str(
-                #    tempLaser.getX2())+ " " + str(tempLaser.getY2()))
-
-                # Calculate the final laserPoint
-                # x2 = tempLaser.getX2()
-                # y2 = tempLaser.getY2()
-                # lenAB = math.sqrt(pow(x - x2, 2.0) + pow(y - y2, 2.0))
-                # x3 = int(x2 + (x2 - x) / lenAB * 10000)
-                # y3 = int(y2 + (y2 - y) / lenAB * 10000)
-
-                #current_laser = tempLaser
                 currentReflect.append(j)
 
             # if counter > 4:
@@ -112,7 +102,7 @@ def laserFire(videoFeed, totLaserPos, timePerPos, mirrorBlockerList, img):
             # print(colBool[j])
 
         # print("reflectArray: " + str(reflectArray))
-
+        print(blockStop)
         # Remove point from the reflectArray that are placed in the wrong direction.
         real_direction_x = current_laser.getX2() - current_laser.getX1()
         real_direction_y = current_laser.getY2() - current_laser.getY1()
@@ -171,7 +161,6 @@ def laserFire(videoFeed, totLaserPos, timePerPos, mirrorBlockerList, img):
 
         breaking = False
 
-
         # Check which laser is the shortest
         # print("start compare loop")
         startX, startY = finalPointList[len(finalPointList) - 1]
@@ -227,7 +216,23 @@ def laserFire(videoFeed, totLaserPos, timePerPos, mirrorBlockerList, img):
             x3 = int(x2 + (x2 - x) / lenAB * 10000)
             y3 = int(y2 + (y2 - y) / lenAB * 10000)
             point = (x3, y3)
-            finalPointList.append(point)
+            block_point = None
+
+            last_compare = Laser.Laser(x, y, x3, y3, img)
+            for i in range(len(mirrorBlockerList)):
+                col = Collision.Collision(mirrorBlockerList[i], last_compare)
+                tempLaser = col.collisionDetection(img)
+                if col.blocked is True:
+                    x = tempLaser.getX2()
+                    y = tempLaser.getY2()
+                    block_point = x, y
+                    blockStop = col.blocked
+
+            if blockStop is True:
+                finalPointList.append(block_point)
+            else:
+                finalPointList.append(point)
+
 
 
         # Manages the break statement
@@ -248,7 +253,6 @@ def laserFire(videoFeed, totLaserPos, timePerPos, mirrorBlockerList, img):
 
     # While loops ends here ------------------------------
 
-    #print('hey')
     # Draws the lasers from a list of points.
     return_arrayList = []
     for i in range(len(finalPointList)-1):
@@ -258,17 +262,12 @@ def laserFire(videoFeed, totLaserPos, timePerPos, mirrorBlockerList, img):
         else:
             color = (0, 255, 0)
             weight = 5
-        cv2.line(img, finalPointList[i], finalPointList[i+1], color, weight)
+        #cv2.line(img, finalPointList[i], finalPointList[i+1], color, weight)
         x, y = finalPointList[i]
         x2, y2 = finalPointList[i+1]
         temp_laser = Laser.Laser(x, y, x2, y2, img)
         return_arrayList.append(temp_laser)
     return return_arrayList, img
-
-    # draws the lasers from a list of laser.
-    #finalLaser.drawLaser()
-    #for i in range(len(finalLaserList)):
-     #   finalLaserList[i].drawLaser()
 
 
 
