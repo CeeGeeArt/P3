@@ -8,7 +8,7 @@ class Target:
     positionX = 0
     positionY = 0
     radius = 25
-    color = (80, 250, 250)
+    color = (178, 0, 255)
 
     def __init__(self, doublePoints, positionX, positionY):
         self.doublePoints = doublePoints

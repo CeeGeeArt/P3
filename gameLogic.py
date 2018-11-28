@@ -26,6 +26,7 @@ name2 = input('Enter the purple teams name: ')
 cap = cv2.VideoCapture(1)
 _, frame = cap.read()
 
+
 # Activate two team objects. They contain points and a name.
 team1 = Team.Team(name1)
 team2 = Team.Team(name2)
@@ -152,6 +153,7 @@ while (1):
             targetArray[i].drawCircle(frame)
 
         cv2.namedWindow("lasers", cv2.WND_PROP_FULLSCREEN)
+        cv2.resizeWindow("lasers", 1440, 1080)
         cv2.setWindowProperty("lasers", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
         cv2.imshow('lasers', frame)
 
