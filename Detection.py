@@ -22,15 +22,12 @@ def box_from_contours(input_mask):
         cnt = contours[i]
         rect = cv2.minAreaRect(cnt)
         contourArea = cv2.contourArea(cnt)
-        (x, y), radius = cv2.minEnclosingCircle(cnt)
-        circArea = radius * radius * np.pi
         rectArea = rect[1][0]*rect[1][1]
-        relationship_cc = contourArea / circArea
         relationship_cr = contourArea / rectArea
 
         # Checks if the area of the contour matches with a circle or a rectangle.
         # Runs if it matches with a rectangle and is above a minimum.
-        if contourArea > 150 and relationship_cc < 0.8 and relationship_cr > 0.8:
+        if contourArea > 150 and relationship_cr < 1.2 and relationship_cr > 0.8:
             box = cv2.boxPoints(rect)
             box = np.int0(box)
             temp_box.append(box)
@@ -39,6 +36,7 @@ def box_from_contours(input_mask):
 
 def detectionRed(clean_frame):
     blur = cv2.GaussianBlur(clean_frame, (11, 11), 0)
+
     # Red
     hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
     lower_red = np.array([0, 50, 90])
