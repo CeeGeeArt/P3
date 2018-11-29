@@ -40,9 +40,10 @@ def box_from_contours(input_mask):
 def detectionRed(clean_frame):
     blur = cv2.GaussianBlur(clean_frame, (11, 11), 0)
     # Red
-    lower_red = np.array([0, 0, 140])
-    upper_red = np.array([90, 90, 255])
-    mask_red = cv2.inRange(blur, lower_red, upper_red)
+    hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
+    lower_red = np.array([0, 50, 90])
+    upper_red = np.array([10, 255, 255])
+    mask_red = cv2.inRange(hsv, lower_red, upper_red)
 
     # Morphological operations
     processed = morphOp(mask_red)
@@ -58,7 +59,7 @@ def detectionBlue(clean_frame):
 
     # Blue
     hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
-    lower_blue = np.array([105, 90, 90])
+    lower_blue = np.array([100, 90, 90])
     upper_blue = np.array([115, 255, 255])
     mask_blue = cv2.inRange(hsv, lower_blue, upper_blue)
 

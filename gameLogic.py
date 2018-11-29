@@ -153,7 +153,7 @@ while (1):
             targetArray[i].drawCircle(frame)
 
         cv2.namedWindow("lasers", cv2.WND_PROP_FULLSCREEN)
-        cv2.resizeWindow("lasers", 1440, 1080)
+        cv2.resizeWindow("lasers", 960, 720)
         cv2.setWindowProperty("lasers", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
         cv2.imshow('lasers', frame)
 
