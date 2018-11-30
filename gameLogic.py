@@ -14,16 +14,20 @@ import Target
 frameCount = 0
 targetCount = 0
 totalPointCount = 0
-maxPoints = 11
+maxPoints = 5
 specialTarget = np.random.randint(1, 10)
 targetArray = []
+
+font = cv2.FONT_HERSHEY_SIMPLEX
+
+testImg = cv2.imread('testSmall.jpg')
 
 # Team name input.
 name1 = input('Enter the green teams name: ')
 name2 = input('Enter the purple teams name: ')
 
 # Prepare video capture.
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 _, frame = cap.read()
 
 
@@ -51,9 +55,16 @@ end_X2 = vCol
 end_Y2 = int(vRow/2)
 team2_laser_start = Laser.Laser(start_X2, start_Y2, end_X2, end_Y2)
 
+# Crop values
+cropYTop = 90
+cropYbottom = 95
+cropXLeft = 112
+cropXRight = 132
+
 # Loop which runs the game.
 while (1):
     _, frame = cap.read()
+    croppedFrame = frame[cropYTop:-cropYbottom, cropXLeft:-cropXRight]
     frameCount += 1
 
     # runs the code every third frame to reduce load and make the laser slightly less jittery.
@@ -64,7 +75,7 @@ while (1):
         blue_boxes = Detection.detectionBlue(frame)
 
         # Create mirrors and blockers from the detected boxes
-        img = cv2.imread('test.jpg')
+        img = cv2.imread('testSmall.jpg')
         mirrorBLockerList = []
         for i in range(len(red_boxes)):
             point1, point2, point3, point4 = red_boxes[i]
@@ -72,7 +83,7 @@ while (1):
             x2, y2 = point2
             x3, y3 = point3
             x4, y4 = point4
-            tempBlocker = Blocker.Blocker(x1, y1, x2, y2, x3, y3, x4, y4, img)
+            tempBlocker = Blocker.Blocker(x1, y1, x2, y2, x3, y3, x4, y4, frame)
             mirrorBLockerList.append(tempBlocker)
         for i in range(len(blue_boxes)):
             point1, point2, point3, point4 = blue_boxes[i]
@@ -80,16 +91,16 @@ while (1):
             x2, y2 = point2
             x3, y3 = point3
             x4, y4 = point4
-            tempMirror = Mirror.Mirror(x1, y1, x2, y2, x3, y3, x4, y4, img)
+            tempMirror = Mirror.Mirror(x1, y1, x2, y2, x3, y3, x4, y4, frame)
             mirrorBLockerList.append(tempMirror)
 
 
 
-        # Draws contours for testing purposes.
+        # # Draws contours for testing purposes.
         for i in range(len(red_boxes)):
-            cv2.drawContours(frame, [red_boxes[i]], 0, (0, 0, 255), 2)
+            cv2.drawContours(img, [red_boxes[i]], 0, (0, 0, 255), 2)
         for i in range(len(blue_boxes)):
-            cv2.drawContours(frame, [blue_boxes[i]], 0, (255, 0, 0), 2)
+            cv2.drawContours(img, [blue_boxes[i]], 0, (255, 0, 0), 2)
 
         # Laser. Should return an array/list of laser objects.
         # Each laser should contain two coordinates and a team.
@@ -97,19 +108,19 @@ while (1):
         # Activate Collision. Should return an laser to draw on the playspace and create new laser objects
         green_lasers, frame = Main.laserFire(team1_laser_start, 20, 0.2, mirrorBLockerList, frame)
         for i in range(len(green_lasers)):
-            green_lasers[i].drawLaser(color1, frame)
+            green_lasers[i].drawLaser(color1, img)
 
         purple_lasers, frame = Main.laserFire(team2_laser_start, 20, 0.2, mirrorBLockerList, frame)
         for i in range(len(purple_lasers)):
-            purple_lasers[i].drawLaser(color2, frame)
+            purple_lasers[i].drawLaser(color2, img)
 
         # Activate the target. Should return the team that scored as well as the amount of points scored.
         # Initialize a target when there's less than 2 and the game is still running.
         while targetCount < 2 and totalPointCount < maxPoints:
             totalPointCount += 1
             targetCount += 1
-            x = np.random.randint(0, vCol)
-            y = np.random.randint(0, vRow)
+            x = np.random.randint(cropXLeft, vCol-cropXRight)
+            y = np.random.randint(cropYTop, vRow-cropYbottom)
             if totalPointCount is specialTarget:
                 temp_target = Target.Target(True, x, y)
                 targetArray.append(temp_target)
@@ -140,21 +151,25 @@ while (1):
                 break
 
         # Code for testing the Team class.
-        if team1.getPoints() < team2.getPoints():
+        if team1.getPoints() < team2.getPoints() and totalPointCount == maxPoints:
             print(team2.getName() + " is in the lead with " + str(team2.getPoints()) + " points")
-        else:
+            cv2.putText(img, "Team: "+team2.getName()+" has won", (150, 240), font, 1, (255, 255, 255), 1, cv2.LINE_AA)
+        elif team2.getPoints() < team1.getPoints() and totalPointCount == maxPoints:
             print(team1.getName() + " is in the lead with " + str(team1.getPoints()) + " points")
+            cv2.putText(img, "Team: "+team1.getName()+" has won", (150, 240), font, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
         print(team2.getName() + " has scored " + str(team2.getPoints()) + " points")
         print(team1.getName() + " has scored " + str(team1.getPoints()) + " points.")
 
         # Draw the objects
         for i in range(len(targetArray)):
-            targetArray[i].drawCircle(frame)
+            targetArray[i].drawCircle(img)
 
-        cv2.namedWindow("lasers", cv2.WND_PROP_FULLSCREEN)
-        cv2.resizeWindow("lasers", 960, 720)
-        cv2.setWindowProperty("lasers", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        croppedImg = img[cropYTop:-cropYbottom, cropXLeft:-cropXRight]
+        cv2.namedWindow("testIMG", cv2.WND_PROP_FULLSCREEN)
+        cv2.setWindowProperty("testIMG", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        cv2.imshow('testIMG', croppedImg)
+        cv2.imshow('test', croppedFrame)
         cv2.imshow('lasers', frame)
 
         # Wait until q is pressed to exit loop. This only works when openCV has an active window.

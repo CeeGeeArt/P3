@@ -7,7 +7,7 @@ import cv2
 
 class Collision:
 
-    img2 = cv2.imread('test.jpg')
+    img2 = cv2.imread('testSmall.jpg')
     laserX1 = 0
     laserX2 = 0
     laserY1 = 0
