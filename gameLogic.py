@@ -27,7 +27,7 @@ name1 = input('Enter the green teams name: ')
 name2 = input('Enter the purple teams name: ')
 
 # Prepare video capture.
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 _, frame = cap.read()
 
 
@@ -68,7 +68,7 @@ while (1):
     frameCount += 1
 
     # runs the code every third frame to reduce load and make the laser slightly less jittery.
-    if frameCount % 1 is 0:
+    if frameCount % 3 is 0:
 
         # Detection. Should return a box.
         red_boxes = Detection.detectionRed(frame)

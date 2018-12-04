@@ -4,6 +4,7 @@ import numpy as np
 
 temp_coordinates = (0, 0)
 temp_contour = []
+previous_contours = []
 contours = []
 counter_left = 0
 counter_top = 0
@@ -29,6 +30,7 @@ def boundaryTracing(input_thresh):
     height, width = input_thresh.shape
 
     contours.clear()
+    previous_contours.clear()
 
     print(height)
     print(width)
@@ -44,9 +46,6 @@ def boundaryTracing(input_thresh):
                     print("Contour found")
                     temp_contour.clear()
                     moore_control(i, j, input_thresh)
-                    print("something")
-
-                    contours.append(temp_contour)
                     print("contours added")
 
     print("Exiting Boundary tracing")
@@ -75,9 +74,13 @@ def moore_control(y, x, input_thresh):
     counter_top = 0
     counter_right = 0
     counter_bottom = 0
+    stop_counter = 0
 
     print("while starting -----------")
     while True:
+        stop_counter += 1
+        if stop_counter > 2000:
+            break
         if case == left:
             # from left
             y, x, case = moore_left(y, x, input_thresh)
@@ -93,6 +96,8 @@ def moore_control(y, x, input_thresh):
         else:
             break
     print("while ending -----------")
+
+    previousContours(temp_contour)
     contours.append(temp_contour)
 
 
@@ -107,14 +112,7 @@ def moore_left(y, x, input_thresh):
     global right
     global bottom
     height, width = input_thresh.shape
-    print("coordinates in left")
-    print(input_thresh[start_y][start_x])
-    print(start_y, start_x)
-    print(y, x)
-    print(counter_left)
-    print(counter_top)
-    print(counter_right)
-    print(counter_bottom)
+
     if start_y == y and start_x == x:
         counter_left += 1
 
@@ -159,14 +157,6 @@ def moore_top(y, x, input_thresh):
     global right
     global bottom
     height, width = input_thresh.shape
-
-    print("coordinates in top")
-    print(start_y, start_x)
-    print(y, x)
-    print(counter_left)
-    print(counter_top)
-    print(counter_right)
-    print(counter_bottom)
 
     if start_y == y and start_x == x:
         counter_top += 1
@@ -213,14 +203,6 @@ def moore_right(y, x, input_thresh):
     global bottom
     height, width = input_thresh.shape
 
-    print("coordinates in right")
-    print(start_y, start_x)
-    print(y, x)
-    print(counter_left)
-    print(counter_top)
-    print(counter_right)
-    print(counter_bottom)
-
     if start_y == y and start_x == x:
         counter_right += 1
 
@@ -265,14 +247,6 @@ def moore_bottom(y, x, input_thresh):
     global bottom
     height, width = input_thresh.shape
 
-    print("coordinates in bottom")
-    print(start_y, start_x)
-    print(y, x)
-    print(counter_left)
-    print(counter_top)
-    print(counter_right)
-    print(counter_bottom)
-
     if start_y == y and start_x == x:
         counter_bottom += 1
 
@@ -308,24 +282,30 @@ def moore_bottom(y, x, input_thresh):
         return y, x, 10
 
 
-def checkPixel(y, x):
-    global contours
-    res = True
+def previousContours(contour):
+    global previous_contours
     x_sort = []
     y_sort = []
+    for i in range(len(contour)):
+        y, x = contour[i]
+        x_sort.append(x)
+        y_sort.append(y)
+    x_max = max(x_sort)
+    x_min = min(x_sort)
+    y_max = max(y_sort)
+    y_min = min(y_sort)
 
-    for i in range(len(contours)):
-        for j in range(len(contours[i])):
-            y, x = contours[i][j]
-            x_sort.append(x)
-            y_sort.append(y)
+    previous_contours.append((x_min, x_max, y_min, y_max))
 
-        x_max = max(x_sort)
-        x_min = min(x_sort)
-        y_max = max(y_sort)
-        y_min = min(y_sort)
+
+def checkPixel(y, x):
+    global previous_contours
+    res = True
+    for i in range(len(previous_contours)):
+        x_min, x_max, y_min, y_max = previous_contours[i]
 
         if y_min <= y <= y_max and x_min <= x <= x_max:
             res = False
+            break
 
     return res

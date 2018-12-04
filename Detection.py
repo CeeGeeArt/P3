@@ -18,28 +18,46 @@ def morphOp(input):
 # find contours and then return the corners of a rotated bounding rectangle.
 def box_from_contours(input_mask):
     temp_box = []
-    im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    #contours = BoundaryTracing.boundaryTracing(input_mask)
-    #print(contours)
-    #contours = np.array(contours)
-    #print(contours)
-    print(len(contours))
+
+    # Boundary tracing
+    #im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours = BoundaryTracing.boundaryTracing(input_mask)
+    contours_f = []
+
+    # Swap x and y
     for i in range(len(contours)):
-        cnt = contours[i]
+        contour = []
+        for j in range(len(contours[i])):
+            y, x = contours[i][j]
+            contour.append((x, y))
+        contours_f.append(contour)
+
+    # contours_f = contours
+
+    contours_f = np.array(contours_f)
+
+    # Find 4 points from a contour
+    for i in range(len(contours_f)):
+        cnt = contours_f[i]
         rect = cv2.minAreaRect(cnt)
         contourArea = cv2.contourArea(cnt)
         rectArea = rect[1][0]*rect[1][1]
         relationship_cr = contourArea / rectArea
 
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+        temp_box.append(box)
+
         # Checks if the area of the contour matches with a circle or a rectangle.
         # Runs if it matches with a rectangle and is above a minimum.
-        if contourArea > 150 and relationship_cr < 1.2 and relationship_cr > 0.8:
+        if contourArea > 50 and relationship_cr < 1.2 and relationship_cr > 0.8:
             print("drawing contour")
             box = cv2.boxPoints(rect)
             box = np.int0(box)
             temp_box.append(box)
         else:
             print("Not correct contour")
+
     return temp_box
 
 
@@ -48,13 +66,14 @@ def detectionRed(clean_frame):
 
     # Red
     hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
-    lower_red = np.array([0, 50, 90])
-    upper_red = np.array([10, 255, 255])
+    lower_red = np.array([0, 150, 120])
+    upper_red = np.array([5, 255, 255])
     mask_red = cv2.inRange(hsv, lower_red, upper_red)
 
     # Morphological operations
     processed = morphOp(mask_red)
 
+    cv2.imshow('thresh_red', processed)
     # Find contours
     box = box_from_contours(processed)
 
