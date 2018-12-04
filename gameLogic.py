@@ -27,7 +27,7 @@ name1 = input('Enter the green teams name: ')
 name2 = input('Enter the purple teams name: ')
 
 # Prepare video capture.
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 _, frame = cap.read()
 
 
@@ -68,7 +68,7 @@ while (1):
     frameCount += 1
 
     # runs the code every third frame to reduce load and make the laser slightly less jittery.
-    if frameCount % 3 is 0:
+    if frameCount % 1 is 0:
 
         # Detection. Should return a box.
         red_boxes = Detection.detectionRed(frame)
@@ -130,7 +130,7 @@ while (1):
 
         # Call the targetCollision function.
         for i in range(len(targetArray)):
-            print("New target collision check -----------------------------------------------------")
+            # print("New target collision check -----------------------------------------------------")
             green_collision, green_doublePoints = targetArray[i].targetCollision(green_lasers)
             purple_collision, purple_doublePoints = targetArray[i].targetCollision(purple_lasers)
             # should check if there is collision and what team has achieved it. Then checks how many points they scored.

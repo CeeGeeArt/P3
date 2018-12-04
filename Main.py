@@ -49,7 +49,7 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
     # current_laser = Laser.Laser(lsX, lsY, leX, leY)
     current_laser = laser_start
-    print("start while loop --------------------------------------------")
+    # print("start while loop --------------------------------------------")
     while True:
         currentReflect = []
         prevReflect = newReflect
@@ -59,7 +59,7 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
         reflectArray2 = []
         blockStop = False
 
-        print("start for loops")
+        # print("start for loops")
         for i in range(len(mirrorBlockerList)):
             colBool.append(True)
 
@@ -255,13 +255,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
     # Draws the lasers from a list of points.
     return_arrayList = []
     for i in range(len(finalPointList)-1):
-        if i is 3:
-            color = (255, 0, 0)
-            weight = 10
-        else:
-            color = (0, 255, 0)
-            weight = 5
-        #cv2.line(img, finalPointList[i], finalPointList[i+1], color, weight)
         x, y = finalPointList[i]
         x2, y2 = finalPointList[i+1]
         temp_laser = Laser.Laser(x, y, x2, y2)

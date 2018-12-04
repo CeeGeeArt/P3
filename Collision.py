@@ -351,7 +351,7 @@ class Collision:
 
             #If the laser does not collide with any blocker or Mirror it will return the laser again, this laser is
             # then made longer
-            print("screenCollision")
+            # print("screenCollision")
             self.reflected = False
             return Laser.Laser(self.laserX1, self.laserY1, self.laserX2, self.laserY2)
 

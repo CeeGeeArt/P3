@@ -2,6 +2,7 @@
 import math
 import cv2
 import numpy as np
+import BoundaryTracing
 
 
 def morphOp(input):
@@ -18,6 +19,11 @@ def morphOp(input):
 def box_from_contours(input_mask):
     temp_box = []
     im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    #contours = BoundaryTracing.boundaryTracing(input_mask)
+    #print(contours)
+    #contours = np.array(contours)
+    #print(contours)
+    print(len(contours))
     for i in range(len(contours)):
         cnt = contours[i]
         rect = cv2.minAreaRect(cnt)
@@ -28,9 +34,12 @@ def box_from_contours(input_mask):
         # Checks if the area of the contour matches with a circle or a rectangle.
         # Runs if it matches with a rectangle and is above a minimum.
         if contourArea > 150 and relationship_cr < 1.2 and relationship_cr > 0.8:
+            print("drawing contour")
             box = cv2.boxPoints(rect)
             box = np.int0(box)
             temp_box.append(box)
+        else:
+            print("Not correct contour")
     return temp_box
 
 
