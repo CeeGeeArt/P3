@@ -3,6 +3,7 @@ import math
 import cv2
 import numpy as np
 import BoundaryTracing
+import ImageProcessingMethods
 
 
 def morphOp(input):
@@ -34,41 +35,52 @@ def box_from_contours(input_mask):
 
     # contours_f = contours
 
+    # Convert to numpy array
     contours_f = np.array(contours_f)
+    for i in range(len(contours_f)):
+        contours_f[i] = np.array(contours_f[i])
 
     # Find 4 points from a contour
     for i in range(len(contours_f)):
         cnt = contours_f[i]
         rect = cv2.minAreaRect(cnt)
-        contourArea = cv2.contourArea(cnt)
-        rectArea = rect[1][0]*rect[1][1]
-        relationship_cr = contourArea / rectArea
+        # contourArea = cv2.contourArea(cnt)
+        # rectArea = rect[1][0]*rect[1][1]
+        # relationship_cr = contourArea / rectArea
+        # print(contourArea)
+        # print(rectArea)
+        # print(relationship_cr)
 
         box = cv2.boxPoints(rect)
         box = np.int0(box)
         temp_box.append(box)
 
+
+
         # Checks if the area of the contour matches with a circle or a rectangle.
         # Runs if it matches with a rectangle and is above a minimum.
-        if contourArea > 50 and relationship_cr < 1.2 and relationship_cr > 0.8:
-            print("drawing contour")
-            box = cv2.boxPoints(rect)
-            box = np.int0(box)
-            temp_box.append(box)
-        else:
-            print("Not correct contour")
+        # if contourArea > 10 and relationship_cr < 1.4 and relationship_cr > 0.6:
+        #     print("drawing contour")
+        #     box = cv2.boxPoints(rect)
+        #     box = np.int0(box)
+        #     temp_box.append(box)
+        # else:
+        #     print("Not correct contour")
 
     return temp_box
 
 
 def detectionRed(clean_frame):
-    blur = cv2.GaussianBlur(clean_frame, (11, 11), 0)
+    # blur = cv2.medianBlur(clean_frame, 5)
+
+    # HSV and blur
+    hsv = cv2.cvtColor(clean_frame, cv2.COLOR_BGR2HSV)
+    blur = ImageProcessingMethods.ourMedianBlur(hsv)
 
     # Red
-    hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
     lower_red = np.array([0, 150, 120])
     upper_red = np.array([5, 255, 255])
-    mask_red = cv2.inRange(hsv, lower_red, upper_red)
+    mask_red = cv2.inRange(blur, lower_red, upper_red)
 
     # Morphological operations
     processed = morphOp(mask_red)
@@ -81,13 +93,16 @@ def detectionRed(clean_frame):
 
 
 def detectionBlue(clean_frame):
-    blur = cv2.GaussianBlur(clean_frame, (11, 11), 0)
+    # blur = cv2.medianBlur(clean_frame, 15)
+
+    # Hsv and blur
+    hsv = cv2.cvtColor(clean_frame, cv2.COLOR_BGR2HSV)
+    blur = ImageProcessingMethods.ourMedianBlur(hsv)
 
     # Blue
-    hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
     lower_blue = np.array([100, 90, 90])
     upper_blue = np.array([115, 255, 255])
-    mask_blue = cv2.inRange(hsv, lower_blue, upper_blue)
+    mask_blue = cv2.inRange(blur, lower_blue, upper_blue)
 
     # Morphological operations
     processed = morphOp(mask_blue)

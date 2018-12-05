@@ -5,7 +5,6 @@ import numpy as np
 temp_coordinates = (0, 0)
 temp_contour = []
 previous_contours = []
-contours = []
 counter_left = 0
 counter_top = 0
 counter_right = 0
@@ -20,16 +19,15 @@ bottom = 3
 
 def boundaryTracing(input_thresh):
     global temp_contour
-    global contours
     global counter_left
     global counter_top
     global counter_right
     global counter_bottom
     global start_y
     global start_x
-    height, width = input_thresh.shape
 
-    contours.clear()
+    height, width = input_thresh.shape
+    contours = []
     previous_contours.clear()
 
     print(height)
@@ -43,10 +41,9 @@ def boundaryTracing(input_thresh):
             if input_thresh[i][j] > 0:
                 # Check if pixel == a part of a previously found contour and then starts tracing.
                 if checkPixel(i, j):
-                    print("Contour found")
-                    temp_contour.clear()
-                    moore_control(i, j, input_thresh)
-                    print("contours added")
+                    temp_contour = []
+                    contour = moore_control(i, j, input_thresh)
+                    contours.append(contour)
 
     print("Exiting Boundary tracing")
     return contours
@@ -55,7 +52,6 @@ def boundaryTracing(input_thresh):
 def moore_control(y, x, input_thresh):
     global temp_coordinates
     global temp_contour
-    global contours
     global counter_left
     global counter_top
     global counter_right
@@ -76,7 +72,6 @@ def moore_control(y, x, input_thresh):
     counter_bottom = 0
     stop_counter = 0
 
-    print("while starting -----------")
     while True:
         stop_counter += 1
         if stop_counter > 2000:
@@ -95,10 +90,10 @@ def moore_control(y, x, input_thresh):
             y, x, case = moore_bottom(y, x, input_thresh)
         else:
             break
-    print("while ending -----------")
 
     previousContours(temp_contour)
-    contours.append(temp_contour)
+
+    return temp_contour
 
 
 def moore_left(y, x, input_thresh):
