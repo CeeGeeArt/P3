@@ -23,7 +23,7 @@ class Collision:
     rectangleY3 = 0
     rectangleY4 = 0
 
-    reflected = True
+    reflected = False
     blocked = False
 
     isMirror = 0
@@ -335,6 +335,10 @@ class Collision:
                 collisionLineX2, collisionLineY2 = self.rectangleX2, self.rectangleY2
 
             self.reflected = True
+            self.blocked = False
+
+            print('Col info')
+            print(self.laserX1, closestCollisionX)
 
             #The right coordinates are put into the reflection function
             return Mirror.angleDetermine(self.laserX1, self.laserY1, self.laserX2, self.laserY2, closestCollisionX,
@@ -346,6 +350,10 @@ class Collision:
             self.reflected = False
             self.blocked = True
 
+            # print('Col info')
+            # print(self.laserX1, closestCollisionX)
+            # print(self.laserY1, closestCollisionY)
+
             return Laser.Laser(self.laserX1, self.laserY1, closestCollisionX, closestCollisionY)
         else:
 
@@ -353,6 +361,7 @@ class Collision:
             # then made longer
             # print("screenCollision")
             self.reflected = False
+            self.blocked = False
             return Laser.Laser(self.laserX1, self.laserY1, self.laserX2, self.laserY2)
 
 

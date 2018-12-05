@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 # import the rest of the files...
 import Team
-import Main
+import LaserFire
 import Mirror
 import Laser
 import Blocker
@@ -14,7 +14,7 @@ import Target
 frameCount = 0
 targetCount = 0
 totalPointCount = 0
-maxPoints = 5
+maxPoints = 11
 specialTarget = np.random.randint(1, 10)
 targetArray = []
 
@@ -56,10 +56,10 @@ end_Y2 = int(vRow/2)
 team2_laser_start = Laser.Laser(start_X2, start_Y2, end_X2, end_Y2)
 
 # Crop values
-cropYTop = 90
-cropYbottom = 95
-cropXLeft = 112
-cropXRight = 132
+cropYTop = 82
+cropYbottom = 94
+cropXLeft = 109
+cropXRight = 127
 
 # Loop which runs the game.
 while (1):
@@ -106,11 +106,11 @@ while (1):
         # Each laser should contain two coordinates and a team.
 
         # Activate Collision. Should return an laser to draw on the playspace and create new laser objects
-        green_lasers, frame = Main.laserFire(team1_laser_start, 20, 0.2, mirrorBLockerList, frame)
+        green_lasers, frame = LaserFire.laserFire(team1_laser_start, 20, 0.2, mirrorBLockerList, frame)
         for i in range(len(green_lasers)):
             green_lasers[i].drawLaser(color1, img)
 
-        purple_lasers, frame = Main.laserFire(team2_laser_start, 20, 0.2, mirrorBLockerList, frame)
+        purple_lasers, frame = LaserFire.laserFire(team2_laser_start, 20, 0.2, mirrorBLockerList, frame)
         for i in range(len(purple_lasers)):
             purple_lasers[i].drawLaser(color2, img)
 
@@ -130,7 +130,7 @@ while (1):
 
         # Call the targetCollision function.
         for i in range(len(targetArray)):
-            # print("New target collision check -----------------------------------------------------")
+            print("New target collision check -----------------------------------------------------")
             green_collision, green_doublePoints = targetArray[i].targetCollision(green_lasers)
             purple_collision, purple_doublePoints = targetArray[i].targetCollision(purple_lasers)
             # should check if there is collision and what team has achieved it. Then checks how many points they scored.
