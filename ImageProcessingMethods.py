@@ -53,7 +53,7 @@ def threshold(frame, lowerValueH, upperValueH, lowerValueS, upperValueS, lowerVa
                 newImg[i, j] = 0
     return newImg
 
-
+# dilation in a 5x5 circular kernel
 def dilation(img):
     height = img.shape[0]
     width = img.shape[1]
@@ -61,19 +61,23 @@ def dilation(img):
     newImg = np.zeros((height, width), np.uint8)
     for i in range(height - 2):
         for j in range(width-2):
+
             color[0] = img[i - 2][j]
 
             color[1] = img[i - 1][j - 1]
             color[2] = img[i - 1][j]
             color[3] = img[i - 1][j + 1]
+
             color[4] = img[i][j - 2]
             color[5] = img[i][j - 1]
             color[6] = img[i][j]
             color[7] = img[i][j + 1]
             color[8] = img[i][j + 2]
+
             color[9] = img[i + 1][j - 1]
             color[10] = img[i + 1][j]
             color[11] = img[i + 1][j + 1]
+
             color[12] = img[i + 2][j]
 
             if color[0] or color[1] or color[2] or color[3] or color[4] or color[5] or color[6] or color[7] or color[8] \
@@ -84,7 +88,9 @@ def dilation(img):
 
     return newImg
 
-def erotion(img):
+
+# Erosion in a 5x5 circular kernel
+def erosion(img):
     height = img.shape[0]
     width = img.shape[1]
     color = [0] * 13
@@ -93,17 +99,21 @@ def erotion(img):
         for j in range(width - 2):
 
             color[0] = img[i - 2][j]
+
             color[1] = img[i - 1][j - 1]
             color[2] = img[i - 1][j]
             color[3] = img[i - 1][j + 1]
+
             color[4] = img[i][j - 2]
             color[5] = img[i][j - 1]
             color[6] = img[i][j]
             color[7] = img[i][j + 1]
             color[8] = img[i][j + 2]
+
             color[9] = img[i + 1][j - 1]
             color[10] = img[i + 1][j]
             color[11] = img[i + 1][j + 1]
+
             color[12] = img[i + 2][j]
 
             if color[0] and color[1] and color[2] and color[3] and color[4] and color[5] and color[6] and color[7] and color[8] \
@@ -116,12 +126,12 @@ def erotion(img):
 
 def closing(img):
     dilatedIMG = dilation(img)
-    newIMG = erotion(dilatedIMG)
+    newIMG = erosion(dilatedIMG)
 
     return newIMG
 
 def opening(img):
-    erodedIMG = erotion(img)
+    erodedIMG = erosion(img)
     newIMG = dilation(erodedIMG)
 
     return newIMG
