@@ -26,9 +26,6 @@ def boundaryTracing(input_thresh):
     contours = []
     previous_contours.clear()
 
-    print(height)
-    print(width)
-
     # Scan the image
     for i in range(1, height-1, 10):
         for j in range(1, width-1):
@@ -41,7 +38,6 @@ def boundaryTracing(input_thresh):
                     contour = moore_control(i, j, input_thresh)
                     contours.append(contour)
 
-    print("Exiting Boundary tracing")
     return contours
 
 

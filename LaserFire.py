@@ -170,11 +170,9 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
         # More than 1 of one
         if (len(reflectArray) >= 1 and len(blockedArray) > 1) or (len(reflectArray) > 1 and len(blockedArray) >= 1):
-            print('Both on Screeee,!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
             # If more than one mirror
             if len(reflectArray) > 1:
-                print("ra2+")
                 for i in range(len(reflectArray) - 1):
                     x, y = reflectArray[i]
                     x2, y2 = reflectArray[i + 1]
@@ -202,13 +200,11 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
             # If only one mirror
             elif len(reflectArray) > 0:
-                print("ra1")
                 compare = reflectArray[0]
                 ekstra_compare = reflectArray2[0]
 
             # If more than one blocker
             if len(blockedArray2) > 1:
-                print("ba2+")
                 for i in range(len(blockedArray2) - 1):
                     x, y = blockedArray2[i]
                     x2, y2 = blockedArray2[i + 1]
@@ -229,7 +225,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
                             compareBlocker = blockedArray2[i + 1]
             # If only one blocker
             elif len(blockedArray2) > 0:
-                print("Ba1")
                 compareBlocker = blockedArray2[0]
 
             # Compares the distance of the mirrors and blockers and finds the shortest one
@@ -243,7 +238,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
                 # Blocker is closest
                 if distanceToPoint1 < distanceToPoint2:
-                    print('blocker_________________________________________________')
                     finalPointList.append(compareBlocker)
                     x, y = compareBlocker
                     point = x, y
@@ -252,7 +246,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
                 # Mirror is closest
                 elif distanceToPoint1 > distanceToPoint2:
-                    print('mirror___________________________________________________')
                     finalPointList.append(compare)
                     newReflect = currentReflect
                     x, y = compare
@@ -261,7 +254,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
         # One of each
         elif len(reflectArray) == 1 == len(blockedArray):
-            print("one of each")
             blockerX2, blockerY2 = blockedArray2[0]
             reflectedX1, reflectedY1 = reflectArray[0]
 
@@ -270,7 +262,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
             # Blocker is closest
             if distanceToPoint1 < distanceToPoint2:
-                print('blocker_________________________________________________')
                 finalPointList.append(blockedArray[0])
                 x, y = blockedArray[0]
                 x2, y2 = blockedArray2[0]
@@ -281,7 +272,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
             # Mirror is closest
             elif distanceToPoint1 > distanceToPoint2:
-                print('mirror___________________________________________________')
                 finalPointList.append(reflectArray[0])
                 newReflect = currentReflect
                 x, y = reflectArray[0]
@@ -324,7 +314,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
             # If only one mirror
             elif len(reflectArray) > 0:
-                print("BBB")
                 finalPointList.append(reflectArray[0])
                 newReflect = currentReflect[0]
                 x, y = reflectArray[0]
@@ -338,8 +327,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
                 for i in range(len(blockedArray2) - 1):
                     x, y = blockedArray2[i]
                     x2, y2 = blockedArray2[i + 1]
-                    # print(x)
-                    # print(x2)
                     if i is 0:
                         # Find the closest of the first two points in the array.
                         distanceToPoint1 = math.sqrt(((startX - x) ** 2) + ((startY - y) ** 2))
@@ -360,7 +347,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
             # Only one blocker
             elif len(blockedArray2) > 0:
-                # print("BBB")
                 finalPointList.append(blockedArray2[0])
                 breaking = True
 
@@ -391,11 +377,9 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
     # Draws the lasers from a list of points.
     return_arrayList = []
-    print(len(finalPointList))
     for i in range(len(finalPointList)-1):
         x, y = finalPointList[i]
         x2, y2 = finalPointList[i+1]
         temp_laser = Laser.Laser(x, y, x2, y2)
         return_arrayList.append(temp_laser)
-        print(len(return_arrayList))
     return return_arrayList, img

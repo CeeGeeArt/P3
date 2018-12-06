@@ -1,4 +1,3 @@
-import math
 import cv2
 import numpy as np
 # import the rest of the files...
@@ -73,14 +72,11 @@ while (1):
     if frameCount % 3 is 0:
         # Black background the game is drawn on
         img = cv2.imread('testSmall.jpg')
-        # Resize image for better performance ---- WIP
-        #frame = cv2.resize(frame, newSize, 0, 0, cv2.INTER_AREA)
-        #img = cv2.resize(img, newSize, 0, 0, cv2.INTER_AREA)
 
         # HSV and blur
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        blur = ImageProcessingMethods.ourMedianBlur(hsv)
-        # blur = cv2.medianBlur(hsv, 13)
+        # blur = ImageProcessingMethods.ourMedianBlur(hsv)
+        blur = cv2.medianBlur(hsv, 13)
 
         # Detection. Should return a box.
         red_boxes = Detection.detectionRed(blur)
@@ -107,10 +103,7 @@ while (1):
 
         # Activate Collision. Should return an laser to draw on the playspace and create new laser objects
         green_lasers, frame = LaserFire.laserFire(team1_laser_start, 20, 0.2, mirrorBLockerList, frame)
-        print("yoyo -----------------------------------------------------------")
-        print(len(green_lasers))
         for i in range(len(green_lasers)):
-            print("yo --------------------------------------------------------------------------")
             green_lasers[i].drawLaser(color1, img)
 
         purple_lasers, frame = LaserFire.laserFire(team2_laser_start, 20, 0.2, mirrorBLockerList, frame)
@@ -133,7 +126,6 @@ while (1):
 
         # Call the targetCollision function.
         for i in range(len(targetArray)):
-            print("New target collision check -----------------------------------------------------")
             green_collision, green_doublePoints = targetArray[i].targetCollision(green_lasers)
             purple_collision, purple_doublePoints = targetArray[i].targetCollision(purple_lasers)
             # should check if there is collision and what team has achieved it. Then checks how many points they scored.
@@ -174,9 +166,6 @@ while (1):
         for i in range(len(blue_boxes)):
             cv2.drawContours(img, [blue_boxes[i]], 0, (255, 0, 0), 2)
 
-        #frame = cv2.resize(frame, (height, width), 0, 0, cv2.INTER_AREA)
-        #img = cv2.resize(img, (height, width), 0, 0, cv2.INTER_AREA)
-
         croppedImg = img[cropYTop:-cropYbottom, cropXLeft:-cropXRight]
         cv2.namedWindow("testIMG", cv2.WND_PROP_FULLSCREEN)
         cv2.setWindowProperty("testIMG", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
@@ -187,7 +176,3 @@ while (1):
         # Wait until q is pressed to exit loop. This only works when openCV has an active window.
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
-
-        # break the loop after the first run for testing purposes.
-        #break

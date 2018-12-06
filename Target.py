@@ -20,19 +20,15 @@ class Target:
 
     # Checks collision between the target and all lines. Should also check which team the laser belongs to.
     def targetCollision(self, laserArray):
-        # print(len(laserArray))
         target_col = []
         for i in range(len(laserArray)):
-            print("New laser check ------------------------"+ str(i))
             x1 = laserArray[i].getX1()
             y1 = laserArray[i].getY1()
             p1 = x1, y1
             x2 = laserArray[i].getX2()
             y2 = laserArray[i].getY2()
             p2 = x2, y2
-            # print('Point 1', p1, 'Point 2', p2)
             if Target.intersect_lc(p1, p2, self.positionX, self.positionY, self.radius):
-                print(" Target Collision -----------------------------------------")
                 target_col.append(True)
         for i in range(len(target_col)):
             if target_col[i]:
@@ -67,17 +63,14 @@ class Target:
         # Check if point is on the line.
         onSegment = Target.pointOnLine(p1, p2, closestP)
         if not onSegment:
-            print("OnSegment ---------------------------------")
             return False
 
         distX = closestX - cx
         distY = closestY - cy
         distance = np.sqrt((distX * distX) + (distY * distY))
 
-        # print(distance)
         if distance <= r:
             return True
-        print("The end ----------------------------------------")
         return False
 
     # Checks if a point is inside of a circle.
@@ -96,11 +89,6 @@ class Target:
     @staticmethod
     def pointOnLine(p1, p2, p3):
         # Get distance from point to the ends of the line
-        # print("Points")
-        # print(p1)
-        # print(p2)
-        # print(p3)
-
         p1 = np.array(p1)
         p2 = np.array(p2)
         p3 = np.array(p3)
@@ -110,12 +98,6 @@ class Target:
         # get the length of the lines
         lineLen = np.linalg.norm(p1 - p2)
         calc_len = d1+d2
-
-        # print("Line lengths")
-        # print(lineLen)
-        # print(d1)
-        # print(d2)
-        # print(d1+d2)
 
         # Buffer since collision can be iffy with the minute accuracy of floats.
         buffer = 1  # higher number = less accurate
