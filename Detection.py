@@ -1,5 +1,4 @@
 # This can be deleted in the final implementation when no more testing is necessary.
-import math
 import cv2
 import numpy as np
 import BoundaryTracing
@@ -24,51 +23,31 @@ def box_from_contours(input_mask):
     temp_box = []
 
     # Boundary tracing
-    im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    # contours = BoundaryTracing.boundaryTracing(input_mask)
-    # contours_f = []
-    #
-    # # Swap x and y
-    # for i in range(len(contours)):
-    #     contour = []
-    #     for j in range(len(contours[i])):
-    #         y, x = contours[i][j]
-    #         contour.append((x, y))
-    #     contours_f.append(contour)
-    #
-    # # Convert to numpy array
-    # contours_f = np.array(contours_f)
-    # for i in range(len(contours_f)):
-    #     contours_f[i] = np.array(contours_f[i])
-
+    # im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours = BoundaryTracing.boundaryTracing(input_mask)
     contours_f = contours
+
+    # Convert to numpy array
+    contours_f = np.array(contours_f)
+    for i in range(len(contours_f)):
+        contours_f[i] = np.array(contours_f[i])
+
+    # # Comment our while using our boundary tracing method
+    # contours_f = contours
 
     # Find 4 points from a contour
     for i in range(len(contours_f)):
         cnt = contours_f[i]
         rect = cv2.minAreaRect(cnt)
+        rectArea = rect[1][0]*rect[1][1]
         # contourArea = cv2.contourArea(cnt)
-        # rectArea = rect[1][0]*rect[1][1]
         # relationship_cr = contourArea / rectArea
-        # print(contourArea)
-        # print(rectArea)
-        # print(relationship_cr)
 
-        box = cv2.boxPoints(rect)
-        box = np.int0(box)
-        temp_box.append(box)
-
-
-
-        # Checks if the area of the contour matches with a circle or a rectangle.
-        # Runs if it matches with a rectangle and is above a minimum.
-        # if contourArea > 10 and relationship_cr < 1.4 and relationship_cr > 0.6:
-        #     print("drawing contour")
-        #     box = cv2.boxPoints(rect)
-        #     box = np.int0(box)
-        #     temp_box.append(box)
-        # else:
-        #     print("Not correct contour")
+        # Checks if the area of the rectangle meets a minimum
+        if rectArea > 100:
+            box = cv2.boxPoints(rect)
+            box = np.int0(box)
+            temp_box.append(box)
 
     return temp_box
 
@@ -107,7 +86,7 @@ def detectionBlue(clean_frame):
     # upper_blueV = np.array([255])
     # mask_blue = ImageProcessingMethods.threshold(clean_frame, lower_blueH, upper_blueH, lower_blueS, upper_blueS, lower_blueV, upper_blueV)
 
-    lower_blue = np.array([100, 90, 90])
+    lower_blue = np.array([100, 120, 150])
     upper_blue = np.array([115, 255, 255])
     mask_blue = cv2.inRange(clean_frame, lower_blue, upper_blue)
 

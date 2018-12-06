@@ -79,8 +79,8 @@ while (1):
 
         # HSV and blur
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        # blur = ImageProcessingMethods.ourMedianBlur(hsv)
-        blur = cv2.medianBlur(hsv, 13)
+        blur = ImageProcessingMethods.ourMedianBlur(hsv)
+        # blur = cv2.medianBlur(hsv, 13)
 
         # Detection. Should return a box.
         red_boxes = Detection.detectionRed(blur)

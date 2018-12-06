@@ -1,7 +1,3 @@
-import math
-import cv2
-import numpy as np
-
 temp_coordinates = (0, 0)
 temp_contour = []
 previous_contours = []
@@ -111,32 +107,33 @@ def moore_left(y, x, input_thresh):
     if start_y == y and start_x == x:
         counter_left += 1
 
+    # Start tracing the boundary
     if input_thresh[y][x] > 0 and counter_left < 3:
-        # Start tracing the boundary
-        temp_contour.append((y, x))
+        # Add previously found contour to array - y, x are flipped
+        temp_contour.append((x, y))
 
         # Check the surrounding moore neighborhood for white pixels.
         if input_thresh[y - 1][x - 1] > 0 and y - 1 != 0 and x - 1 != 0 and y - 1 != height - 1 and x - 1 != width - 1:
-            # moore_bottom(y - 1, x - 1, input_thresh)
             return y-1, x-1, bottom
+
         elif input_thresh[y - 1][x] > 0 and y - 1 != 0 and x != 0 and y - 1 != height - 1 and x != width - 1:
-            # moore_left(y - 1, x, input_thresh)
             return y - 1, x, left
+
         elif input_thresh[y - 1][x + 1] > 0 and y - 1 != 0 and x + 1 != 0 and y - 1 != height - 1 and x + 1 != width - 1:
-            # moore_left(y - 1, x + 1, input_thresh)
             return y - 1, x + 1, left
+
         elif input_thresh[y][x+1] > 0 and y != 0 and x + 1 != 0 and y != height - 1 and x + 1 != width - 1:
-            # moore_top(y, x + 1, input_thresh)
             return y, x + 1, top
+
         elif input_thresh[y + 1][x + 1] > 0 and y + 1 != 0 and x + 1 != 0 and y + 1 != height - 1 and x + 1 != width - 1:
-            # moore_top(y + 1, x + 1, input_thresh)
             return y + 1, x + 1, top
+
         elif input_thresh[y + 1][x] > 0 and y + 1 != 0 and x != 0 and y + 1 != height - 1 and x != width - 1:
-            # moore_right(y + 1, x, input_thresh)
             return y + 1, x, right
+
         elif input_thresh[y + 1][x - 1] > 0 and y + 1 != 0 and x - 1 != 0 and y + 1 != height - 1 and x - 1 != width - 1:
-            # moore_right(y + 1, x - 1, input_thresh)
             return y + 1, x - 1, right
+
         else:
             print("WTF")
     else:
@@ -156,32 +153,33 @@ def moore_top(y, x, input_thresh):
     if start_y == y and start_x == x:
         counter_top += 1
 
+    # Start tracing the boundary
     if input_thresh[y][x] > 0 and counter_top < 2:
-        # Start tracing the boundary
-        temp_contour.append((y, x))
+        # Add previously found contour to array - y, x are flipped
+        temp_contour.append((x, y))
 
         # Check the surrounding moore neighborhood for white pixels.
         if input_thresh[y - 1][x + 1] > 0 and y - 1 != 0 and x + 1 != 0 and y - 1 != height - 1 and x + 1 != width - 1:
-            # moore_left(y - 1, x + 1, input_thresh)
             return y - 1, x + 1, left
+
         elif input_thresh[y][x + 1] > 0 and y != 0 and x + 1 != 0 and y != height - 1 and x + 1 != width - 1:
-            # moore_top(y, x + 1, input_thresh)
             return y, x + 1, top
+
         elif input_thresh[y + 1][x + 1] > 0 and y + 1 != 0 and x + 1 != 0 and y + 1 != height - 1 and x + 1 != width - 1:
-            # moore_top(y + 1, x + 1, input_thresh)
             return y + 1, x + 1, top
+
         elif input_thresh[y + 1][x] > 0 and y + 1 != 0 and x != 0 and y + 1 != height - 1 and x != width - 1:
-            # moore_right(y + 1, x, input_thresh)
             return y + 1, x, right
+
         elif input_thresh[y + 1][x - 1] > 0 and y + 1 != 0 and x - 1 != 0 and y + 1 != height - 1 and x - 1 != width - 1:
-            # moore_right(
             return y + 1, x, right
+
         elif input_thresh[y][x - 1] > 0 and y != 0 and x - 1 != 0 and y != height - 1 and x - 1 != width - 1:
-            # moore_bottom(y, x - 1, input_thresh)
             return y - 1, x - 1, bottom
+
         elif input_thresh[y - 1][x - 1] > 0 and y - 1 != 0 and x - 1 != 0 and y - 1 != height - 1 and x - 1 != width - 1:
-            # moore_bottom(y - 1, x - 1, input_thresh)
             return y - 1, x - 1, bottom
+
         else:
             print("WTF")
     else:
@@ -201,32 +199,33 @@ def moore_right(y, x, input_thresh):
     if start_y == y and start_x == x:
         counter_right += 1
 
+    # Start tracing the boundary
     if input_thresh[y][x] > 0 and counter_right < 2:
-        # Start tracing the boundary
-        temp_contour.append((y, x))
+        # Add previously found contour to array - y, x are flipped
+        temp_contour.append((x, y))
 
         # Check the surrounding moore neighborhood for white pixels.
         if input_thresh[y + 1][x + 1] > 0 and y + 1 != 0 and x + 1 != 0 and y + 1 != height - 1 and x + 1 != width - 1:
-            # moore_top(y + 1, x + 1, input_thresh)
             return y + 1, x + 1, top
+
         elif input_thresh[y + 1][x] > 0 and y + 1 != 0 and x != 0 and y + 1 != height - 1 and x != width - 1:
-            # moore_right(y + 1, x, input_thresh)
             return y + 1, x, right
+
         elif input_thresh[y + 1][x - 1] > 0 and y + 1 != 0 and x - 1 != 0 and y + 1 != height - 1 and x - 1 != width - 1:
-            # moore_right(y + 1, x - 1, input_thresh)
             return y + 1, x - 1, right
+
         elif input_thresh[y][x - 1] > 0 and y != 0 and x - 1 != 0 and y != height - 1 and x - 1 != width - 1:
-            # moore_bottom(y, x - 1, input_thresh)
             return y, x - 1, bottom
+
         elif input_thresh[y - 1][x - 1] > 0 and y - 1 != 0 and x - 1 != 0 and y - 1 != height - 1 and x - 1 != width - 1:
-            # moore_bottom(y - 1, x - 1, input_thresh)
             return y - 1, x - 1, bottom
+
         elif input_thresh[y - 1][x] > 0 and y - 1 != 0 and x != 0 and y - 1 != height - 1 and x != width - 1:
-            # moore_left(y - 1, x, input_thresh)
             return y - 1, x, left
+
         elif input_thresh[y - 1][x + 1] > 0 and y - 1 != 0 and x + 1 != 0 and y - 1 != height - 1 and x + 1 != width - 1:
-            # moore_left(y - 1, x + 1, input_thresh)
             return y - 1, x + 1, left
+
         else:
             print("WTF")
     else:
@@ -245,32 +244,33 @@ def moore_bottom(y, x, input_thresh):
     if start_y == y and start_x == x:
         counter_bottom += 1
 
+    # Start tracing the boundary
     if input_thresh[y][x] > 0 and counter_bottom < 2:
-        # Start tracing the boundary
-        temp_contour.append((y, x))
+        # Add previously found contour to array - y, x are flipped
+        temp_contour.append((x, y))
 
         # Check the surrounding moore neighborhood for white pixels.
         if input_thresh[y + 1][x - 1] > 0 and y + 1 != 0 and x - 1 != 0 and y + 1 != height - 1 and x - 1 != width - 1:
-            # moore_right(y + 1, x - 1, input_thresh)
             return y + 1, x - 1, right
+
         elif input_thresh[y][x - 1] > 0 and y != 0 and x - 1 != 0 and y != height - 1 and x - 1 != width - 1:
-            # moore_bottom(y, x - 1, input_thresh)
             return y, x - 1, bottom
+
         elif input_thresh[y - 1][x - 1] > 0 and y - 1 != 0 and x - 1 != 0 and y - 1 != height - 1 and x - 1 != width - 1:
-            # moore_bottom(y - 1, x - 1, input_thresh)
             return y - 1, x - 1, bottom
+
         elif input_thresh[y - 1][x] > 0 and y - 1 != 0 and x != 0 and y - 1 != height - 1 and x != width - 1:
-            # moore_left(y - 1, x, input_thresh)
             return y - 1, x, left
+
         elif input_thresh[y - 1][x + 1] > 0 and y - 1 != 0 and x + 1 != 0 and y - 1 != height - 1 and x + 1 != width - 1:
-            # moore_left(y - 1, x + 1, input_thresh)
             return y - 1, x + 1, left
+
         elif input_thresh[y][x + 1] > 0 and y != 0 and x + 1 != 0 and y != height - 1 and x + 1 != width - 1:
-            # moore_top(y, x + 1, input_thresh)
             return y, x + 1, top
+
         elif input_thresh[y + 1][x + 1] > 0 and y + 1 != 0 and x + 1 != 0 and y + 1 != height - 1 and x + 1 != width - 1:
-            # moore_top(y + 1, x + 1, input_thresh)
             return y + 1, x + 1, top
+
         else:
             print("WTF")
     else:
