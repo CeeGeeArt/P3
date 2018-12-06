@@ -9,6 +9,7 @@ import Laser
 import Blocker
 import Detection
 import Target
+import ImageProcessingMethods
 
 # Variables
 frameCount = 0
@@ -20,8 +21,6 @@ targetArray = []
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-testImg = cv2.imread('testSmall.jpg')
-
 # Team name input.
 name1 = input('Enter the green teams name: ')
 name2 = input('Enter the purple teams name: ')
@@ -29,6 +28,10 @@ name2 = input('Enter the purple teams name: ')
 # Prepare video capture.
 cap = cv2.VideoCapture(0)
 _, frame = cap.read()
+
+# Prepare resize
+height, width, channels = frame.shape
+newSize = (int(height/2), int(width/2))
 
 
 # Activate two team objects. They contain points and a name.
@@ -41,18 +44,17 @@ color2 = (244, 66, 203)
 
 # Laser start position and direction
 # Team 1
-vRow, vCol, vCH = frame.shape
 start_X1 = 200
-start_Y1 = int(vRow/2)
-end_X1 = 0
-end_Y1 = int(vRow/2)
+start_Y1 = height
+end_X1 = 200
+end_Y1 = 0
 team1_laser_start = Laser.Laser(start_X1, start_Y1, end_X1, end_Y1)
 
 # Team 2
-start_X2 = vCol-200
-start_Y2 = int(vRow/2)
-end_X2 = vCol
-end_Y2 = int(vRow/2)
+start_X2 = width-200
+start_Y2 = height
+end_X2 = width-200
+end_Y2 = 0
 team2_laser_start = Laser.Laser(start_X2, start_Y2, end_X2, end_Y2)
 
 # Crop values
@@ -69,13 +71,22 @@ while (1):
 
     # runs the code every third frame to reduce load and make the laser slightly less jittery.
     if frameCount % 3 is 0:
+        # Black background the game is drawn on
+        img = cv2.imread('testSmall.jpg')
+        # Resize image for better performance ---- WIP
+        #frame = cv2.resize(frame, newSize, 0, 0, cv2.INTER_AREA)
+        #img = cv2.resize(img, newSize, 0, 0, cv2.INTER_AREA)
+
+        # HSV and blur
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        # blur = ImageProcessingMethods.ourMedianBlur(hsv)
+        blur = cv2.medianBlur(hsv, 13)
 
         # Detection. Should return a box.
-        red_boxes = Detection.detectionRed(frame)
-        blue_boxes = Detection.detectionBlue(frame)
+        red_boxes = Detection.detectionRed(blur)
+        blue_boxes = Detection.detectionBlue(blur)
 
         # Create mirrors and blockers from the detected boxes
-        img = cv2.imread('testSmall.jpg')
         mirrorBLockerList = []
         for i in range(len(red_boxes)):
             point1, point2, point3, point4 = red_boxes[i]
@@ -94,17 +105,6 @@ while (1):
             tempMirror = Mirror.Mirror(x1, y1, x2, y2, x3, y3, x4, y4, frame)
             mirrorBLockerList.append(tempMirror)
 
-
-
-        # # Draws contours for testing purposes.
-        for i in range(len(red_boxes)):
-            cv2.drawContours(img, [red_boxes[i]], 0, (0, 0, 255), 2)
-        for i in range(len(blue_boxes)):
-            cv2.drawContours(img, [blue_boxes[i]], 0, (255, 0, 0), 2)
-
-        # Laser. Should return an array/list of laser objects.
-        # Each laser should contain two coordinates and a team.
-
         # Activate Collision. Should return an laser to draw on the playspace and create new laser objects
         green_lasers, frame = LaserFire.laserFire(team1_laser_start, 20, 0.2, mirrorBLockerList, frame)
         for i in range(len(green_lasers)):
@@ -119,8 +119,8 @@ while (1):
         while targetCount < 2 and totalPointCount < maxPoints:
             totalPointCount += 1
             targetCount += 1
-            x = np.random.randint(cropXLeft, vCol-cropXRight)
-            y = np.random.randint(cropYTop, vRow-cropYbottom)
+            x = np.random.randint(cropXLeft, width-cropXRight)
+            y = np.random.randint(cropYTop, height-cropYbottom)
             if totalPointCount is specialTarget:
                 temp_target = Target.Target(True, x, y)
                 targetArray.append(temp_target)
@@ -164,6 +164,15 @@ while (1):
         # Draw the objects
         for i in range(len(targetArray)):
             targetArray[i].drawCircle(img)
+
+        # Draws contours for testing purposes.
+        for i in range(len(red_boxes)):
+            cv2.drawContours(img, [red_boxes[i]], 0, (0, 0, 255), 2)
+        for i in range(len(blue_boxes)):
+            cv2.drawContours(img, [blue_boxes[i]], 0, (255, 0, 0), 2)
+
+        #frame = cv2.resize(frame, (height, width), 0, 0, cv2.INTER_AREA)
+        #img = cv2.resize(img, (height, width), 0, 0, cv2.INTER_AREA)
 
         croppedImg = img[cropYTop:-cropYbottom, cropXLeft:-cropXRight]
         cv2.namedWindow("testIMG", cv2.WND_PROP_FULLSCREEN)

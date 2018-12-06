@@ -45,12 +45,30 @@ def threshold(frame, lowerValueH, upperValueH, lowerValueS, upperValueS, lowerVa
     newImg = np.zeros((height, width))
     for i in range(height - 1):
         for j in range(width - 1):
-            b = frame[i, j][0]
-            g = frame[i, j][1]
-            r = frame[i, j][2]
+            h, s, v = frame[i, j]
 
-            if upperValueH > b > lowerValueH and upperValueS > g > lowerValueS and upperValueV > r > lowerValueV:
+            if upperValueH > h > lowerValueH and upperValueS > s > lowerValueS and upperValueV > v > lowerValueV:
                 newImg[i, j] = 255
             else:
                 newImg[i, j] = 0
     return newImg
+
+def ourMinAreaRect(contour):
+    polygon = []
+    x_max = np.argmax(contour[:][1])
+    x_min = np.argmin(contour[:][1])
+    y_max = np.argmax(contour[:][0])
+    y_min = np.argmin(contour[:][0])
+
+    print(x_max)
+    print(contour[1])
+    print(x_min)
+    print(contour[0])
+    print(y_max)
+    print(y_min)
+
+    polygon.append(contour.index(y_min))
+
+
+
+
