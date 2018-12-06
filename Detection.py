@@ -78,9 +78,13 @@ def detectionRed(clean_frame):
     blur = ImageProcessingMethods.ourMedianBlur(hsv)
 
     # Red
-    lower_red = np.array([0, 150, 120])
-    upper_red = np.array([5, 255, 255])
-    mask_red = cv2.inRange(blur, lower_red, upper_red)
+    lower_redH = np.array([0])
+    upper_redH = np.array([5])
+    lower_redS = np.array([120])
+    upper_redS = np.array([255])
+    lower_redV = np.array([150])
+    upper_redV = np.array([255])
+    mask_red = ImageProcessingMethods.threshold(blur, lower_redH, upper_redH, lower_redS, upper_redS, lower_redV, upper_redV)
 
     # Morphological operations
     processed = morphOp(mask_red)
@@ -100,9 +104,13 @@ def detectionBlue(clean_frame):
     blur = ImageProcessingMethods.ourMedianBlur(hsv)
 
     # Blue
-    lower_blue = np.array([100, 90, 90])
-    upper_blue = np.array([115, 255, 255])
-    mask_blue = cv2.inRange(blur, lower_blue, upper_blue)
+    lower_blueH = np.array([100])
+    upper_blueH = np.array([115])
+    lower_blueS = np.array([90])
+    upper_blueS = np.array([255])
+    lower_blueV = np.array([90])
+    upper_blueV = np.array([255])
+    mask_blue = ImageProcessingMethods.threshold(blur, lower_blueH, upper_blueH, lower_blueS, upper_blueS, lower_blueV, upper_blueV)
 
     # Morphological operations
     processed = morphOp(mask_blue)

@@ -38,3 +38,19 @@ def ourMedianBlur(img):
 
             newImg[i][j] = (mySort[4], img[i][j][1], img[i][j][2])
     return newImg
+
+def threshold(frame, lowerValueH, upperValueH, lowerValueS, upperValueS, lowerValueV, upperValueV):
+    height = frame.shape[0]
+    width = frame.shape[1]
+    newImg = np.zeros((height, width))
+    for i in range(height - 1):
+        for j in range(width - 1):
+            b = frame[i, j][0]
+            g = frame[i, j][1]
+            r = frame[i, j][2]
+
+            if upperValueH > b > lowerValueH and upperValueS > g > lowerValueS and upperValueV > r > lowerValueV:
+                newImg[i, j] = 255
+            else:
+                newImg[i, j] = 0
+    return newImg
