@@ -107,7 +107,10 @@ while (1):
 
         # Activate Collision. Should return an laser to draw on the playspace and create new laser objects
         green_lasers, frame = LaserFire.laserFire(team1_laser_start, 20, 0.2, mirrorBLockerList, frame)
+        print("yoyo -----------------------------------------------------------")
+        print(len(green_lasers))
         for i in range(len(green_lasers)):
+            print("yo --------------------------------------------------------------------------")
             green_lasers[i].drawLaser(color1, img)
 
         purple_lasers, frame = LaserFire.laserFire(team2_laser_start, 20, 0.2, mirrorBLockerList, frame)

@@ -20,7 +20,7 @@ class Target:
 
     # Checks collision between the target and all lines. Should also check which team the laser belongs to.
     def targetCollision(self, laserArray):
-        print(len(laserArray))
+        # print(len(laserArray))
         target_col = []
         for i in range(len(laserArray)):
             print("New laser check ------------------------"+ str(i))
@@ -30,7 +30,7 @@ class Target:
             x2 = laserArray[i].getX2()
             y2 = laserArray[i].getY2()
             p2 = x2, y2
-            print('Point 1', p1, 'Point 2', p2)
+            # print('Point 1', p1, 'Point 2', p2)
             if Target.intersect_lc(p1, p2, self.positionX, self.positionY, self.radius):
                 print(" Target Collision -----------------------------------------")
                 target_col.append(True)
@@ -74,7 +74,7 @@ class Target:
         distY = closestY - cy
         distance = np.sqrt((distX * distX) + (distY * distY))
 
-        print(distance)
+        # print(distance)
         if distance <= r:
             return True
         print("The end ----------------------------------------")
@@ -96,10 +96,11 @@ class Target:
     @staticmethod
     def pointOnLine(p1, p2, p3):
         # Get distance from point to the ends of the line
-        print("Points")
-        print(p1)
-        print(p2)
-        print(p3)
+        # print("Points")
+        # print(p1)
+        # print(p2)
+        # print(p3)
+
         p1 = np.array(p1)
         p2 = np.array(p2)
         p3 = np.array(p3)
@@ -109,11 +110,12 @@ class Target:
         # get the length of the lines
         lineLen = np.linalg.norm(p1 - p2)
         calc_len = d1+d2
-        print("Line lengths")
-        print(lineLen)
-        print(d1)
-        print(d2)
-        print(d1+d2)
+
+        # print("Line lengths")
+        # print(lineLen)
+        # print(d1)
+        # print(d2)
+        # print(d1+d2)
 
         # Buffer since collision can be iffy with the minute accuracy of floats.
         buffer = 1  # higher number = less accurate

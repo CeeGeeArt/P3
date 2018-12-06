@@ -10,11 +10,11 @@ def morphOp(input):
     # Close and open to remove noise and holes in contours.
     kernel = np.ones((17, 17), np.uint8)
     kernel2 = np.ones((3, 3), np.uint8)
-    #closing = cv2.morphologyEx(input, cv2.MORPH_CLOSE, kernel)
-    #opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
+    closing = cv2.morphologyEx(input, cv2.MORPH_CLOSE, kernel)
+    opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
 
-    closing = ImageProcessingMethods.closing(input)
-    opening = ImageProcessingMethods.opening(closing)
+    #closing = ImageProcessingMethods.closing(input)
+    #opening = ImageProcessingMethods.opening(closing)
 
     return opening
 
@@ -83,13 +83,14 @@ def detectionRed(clean_frame):
     # upper_redV = np.array([255])
     # mask_red = ImageProcessingMethods.threshold(clean_frame, lower_redH, upper_redH, lower_redS, upper_redS, lower_redV, upper_redV)
 
-    lower_red = np.array([100, 90, 90])
-    upper_red = np.array([115, 255, 255])
+    lower_red = np.array([0, 120, 150])
+    upper_red = np.array([8, 255, 255])
     mask_red = cv2.inRange(clean_frame, lower_red, upper_red)
 
     # Morphological operations
     processed = morphOp(mask_red)
 
+    cv2.imshow('thresh_red', processed)
     # Find contours
     box = box_from_contours(processed)
 
@@ -113,7 +114,6 @@ def detectionBlue(clean_frame):
     # Morphological operations
     processed = morphOp(mask_blue)
 
-    cv2.imshow('thresh_red', processed)
     # Find contours
     box = box_from_contours(processed)
 

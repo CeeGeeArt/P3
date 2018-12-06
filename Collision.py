@@ -337,8 +337,8 @@ class Collision:
             self.reflected = True
             self.blocked = False
 
-            print('Col info')
-            print(self.laserX1, closestCollisionX)
+            # print('Col info')
+            # print(self.laserX1, closestCollisionX)
 
             #The right coordinates are put into the reflection function
             return Mirror.angleDetermine(self.laserX1, self.laserY1, self.laserX2, self.laserY2, closestCollisionX,

@@ -65,7 +65,7 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
         blockedArray2 = []
         blockStop = False
 
-        print("start for loops______________________________________________________-")
+        # print("start for loops______________________________________________________-")
         for i in range(len(mirrorBlockerList)):
             colBool.append(True)
             colBoolBlocker.append(True)
@@ -110,20 +110,8 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
                 currentBlocked.append(j)
 
 
-            # if counter > 4:
-            #     if j is 2:
-            #         print(tempLaser.getX1(), tempLaser.getY1())
-            #         print(colBool[j])
-            #     print("in loop info")
-            #     print(prevReflect)
-            #     print(currentReflect)
-            #     print(reflectArray)
-            #     print("in loop stop")
-
-            # print("j = " + str(j))
-            # print(colBool[j])
-
-        # print("reflectArray: " + str(reflectArray))
+        print("reflectArray: " + str(reflectArray))
+        print("blockedArray: " + str(blockedArray2))
         # print(blockStop)
         # Remove point from the reflectArray that are placed in the wrong direction.
         real_direction_x = current_laser.getX2() - current_laser.getX1()
@@ -270,9 +258,9 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
         #Bring disse sammen, så den som standard syntes at der er en af hver, og inde i det rent faktisk tjekker om der er
         #Hvis ikke så kør alene kode, hvis der er kør distance tjek sammen, og tjek om den tættest på er mirror eller blocker
         #Kør der efter rigtig kode på disse.
-        print('!"#¤%&/()/&%¤#"!!#¤%&/(/&%¤#"!§!#"¤%&/()(&/%¤#"!"¤#%&/(/)(&%¤#"!"¤#%&/(&/%¤#"#%¤&/()(&/%¤#"¤#%&/(')
-        print(len(reflectArray))
-        print(len(blockedArray))
+        # print('!"#¤%&/()/&%¤#"!!#¤%&/(/&%¤#"!§!#"¤%&/()(&/%¤#"!"¤#%&/(/)(&%¤#"!"¤#%&/(&/%¤#"#%¤&/()(&/%¤#"¤#%&/(')
+        # print(len(reflectArray))
+        # print(len(blockedArray))
         # More than 1 of one
         if (len(reflectArray) >= 1 and len(blockedArray) > 1) or (len(reflectArray) > 1 and len(blockedArray) >= 1):
             print('Both on Screeee,!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
@@ -280,7 +268,7 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
 
             if len(reflectArray) > 1:
-                # print("BBC")
+                print("ra2+")
                 for i in range(len(reflectArray) - 1):
                     x, y = reflectArray[i]
                     x2, y2 = reflectArray[i + 1]
@@ -307,11 +295,12 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
                             newReflect = currentReflect[i + 1]
 
             elif len(reflectArray) > 0:
-                # print("BBB")
+                print("ra1")
                 compare = reflectArray[0]
                 ekstra_compare = reflectArray2[0]
 
             if len(blockedArray2) > 1:
+                print("ba2+")
                 for i in range(len(blockedArray2) - 1):
                     x, y = blockedArray2[i]
                     x2, y2 = blockedArray2[i + 1]
@@ -332,7 +321,7 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
                             compareBlocker = blockedArray2[i + 1]
 
             elif len(blockedArray2) > 0:
-                # print("BBB")
+                print("Ba1")
                 compareBlocker = blockedArray2[0]
 
             if compare[0] is not 0 and compareBlocker[0] is not 0:
@@ -360,6 +349,7 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
         # One of each
         elif len(reflectArray) == 1 == len(blockedArray):
+            print("one of each")
             blockerX2, blockerY2 = blockedArray2[0]
             reflectedX1, reflectedY1 = reflectArray[0]
 
@@ -418,7 +408,7 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
                 current_laser = Laser.Laser(x, y, x2, y2)
 
             elif len(reflectArray) > 0:
-                # print("BBB")
+                print("BBB")
                 finalPointList.append(reflectArray[0])
                 newReflect = currentReflect[0]
                 x, y = reflectArray[0]
@@ -433,8 +423,8 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
                 for i in range(len(blockedArray2) - 1):
                     x, y = blockedArray2[i]
                     x2, y2 = blockedArray2[i + 1]
-                    print(x)
-                    print(x2)
+                    # print(x)
+                    # print(x2)
                     if i is 0:
                         # Find the closest of the first two points in the array.
                         distanceToPoint1 = math.sqrt(((startX - x) ** 2) + ((startY - y) ** 2))
@@ -473,21 +463,6 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
             block_point = None
             finalPointList.append(point)
 
-            # last_compare = Laser.Laser(x, y, x3, y3)
-            # for i in range(len(mirrorBlockerList)):
-            #     col = Collision.Collision(mirrorBlockerList[i], last_compare)
-            #     tempLaser = col.collisionDetection(img)
-            #     if col.blocked is True:
-            #         x = tempLaser.getX2()
-            #         y = tempLaser.getY2()
-            #         block_point = x, y
-            #         blockStop = col.blocked
-            #
-            # if blockStop is True:
-            #     finalPointList.append(block_point)
-            # else:
-            #     finalPointList.append(point)
-
 
 
         # Manages the break statement
@@ -503,18 +478,13 @@ def laserFire(laser_start, totLaserPos, timePerPos, mirrorBlockerList, img):
 
     # Draws the lasers from a list of points.
     return_arrayList = []
+    print(len(finalPointList))
     for i in range(len(finalPointList)-1):
-        if i is 3:
-            color = (255, 0, 0)
-            weight = 10
-        else:
-            color = (0, 255, 0)
-            weight = 5
-        #cv2.line(img, finalPointList[i], finalPointList[i+1], color, weight)
         x, y = finalPointList[i]
         x2, y2 = finalPointList[i+1]
         temp_laser = Laser.Laser(x, y, x2, y2)
         return_arrayList.append(temp_laser)
+        print(len(return_arrayList))
     return return_arrayList, img
 
 

@@ -39,6 +39,7 @@ def ourMedianBlur(img):
             newImg[i][j] = (mySort[4], img[i][j][1], img[i][j][2])
     return newImg
 
+
 def threshold(frame, lowerValueH, upperValueH, lowerValueS, upperValueS, lowerValueV, upperValueV):
     height = frame.shape[0]
     width = frame.shape[1]
@@ -52,22 +53,6 @@ def threshold(frame, lowerValueH, upperValueH, lowerValueS, upperValueS, lowerVa
             else:
                 newImg[i, j] = 0
     return newImg
-
-def ourMinAreaRect(contour):
-    polygon = []
-    x_max = np.argmax(contour[:][1])
-    x_min = np.argmin(contour[:][1])
-    y_max = np.argmax(contour[:][0])
-    y_min = np.argmin(contour[:][0])
-
-    print(x_max)
-    print(contour[1])
-    print(x_min)
-    print(contour[0])
-    print(y_max)
-    print(y_min)
-
-    polygon.append(contour.index(y_min))
 
 
 def dilation(img):
