@@ -10,8 +10,11 @@ def morphOp(input):
     # Close and open to remove noise and holes in contours.
     kernel = np.ones((17, 17), np.uint8)
     kernel2 = np.ones((3, 3), np.uint8)
-    closing = cv2.morphologyEx(input, cv2.MORPH_CLOSE, kernel)
-    opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
+    #closing = cv2.morphologyEx(input, cv2.MORPH_CLOSE, kernel)
+    #opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
+
+    closing = ImageProcessingMethods.closing(input)
+    opening = ImageProcessingMethods.opening(closing)
 
     return opening
 
@@ -21,24 +24,24 @@ def box_from_contours(input_mask):
     temp_box = []
 
     # Boundary tracing
-    #im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    contours = BoundaryTracing.boundaryTracing(input_mask)
-    contours_f = []
+    im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # contours = BoundaryTracing.boundaryTracing(input_mask)
+    # contours_f = []
+    #
+    # # Swap x and y
+    # for i in range(len(contours)):
+    #     contour = []
+    #     for j in range(len(contours[i])):
+    #         y, x = contours[i][j]
+    #         contour.append((x, y))
+    #     contours_f.append(contour)
+    #
+    # # Convert to numpy array
+    # contours_f = np.array(contours_f)
+    # for i in range(len(contours_f)):
+    #     contours_f[i] = np.array(contours_f[i])
 
-    # Swap x and y
-    for i in range(len(contours)):
-        contour = []
-        for j in range(len(contours[i])):
-            y, x = contours[i][j]
-            contour.append((x, y))
-        contours_f.append(contour)
-
-    # contours_f = contours
-
-    # Convert to numpy array
-    contours_f = np.array(contours_f)
-    for i in range(len(contours_f)):
-        contours_f[i] = np.array(contours_f[i])
+    contours_f = contours
 
     # Find 4 points from a contour
     for i in range(len(contours_f)):
@@ -87,7 +90,6 @@ def detectionRed(clean_frame):
     # Morphological operations
     processed = morphOp(mask_red)
 
-    cv2.imshow('thresh_red', processed)
     # Find contours
     box = box_from_contours(processed)
 
@@ -111,6 +113,7 @@ def detectionBlue(clean_frame):
     # Morphological operations
     processed = morphOp(mask_blue)
 
+    cv2.imshow('thresh_red', processed)
     # Find contours
     box = box_from_contours(processed)
 

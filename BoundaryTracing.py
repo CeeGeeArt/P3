@@ -26,6 +26,7 @@ def boundaryTracing(input_thresh):
     global start_y
     global start_x
 
+    print(input_thresh.shape)
     height, width = input_thresh.shape
     contours = []
     previous_contours.clear()
