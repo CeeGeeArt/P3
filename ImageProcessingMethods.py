@@ -2,11 +2,12 @@
 import numpy as np
 import cv2
 
+
 # Median blur with 3x3 kernel
 def ourMedianBlur(img):
     height, width, channels = img.shape
     color = [(0, 0)] * 9
-    newimg = np.zeros((height, width, 3), np.uint8)
+    newImg = np.zeros((height, width, 3), np.uint8)
     for i in range(height - 1):
         for j in range(width-1):
             if j == 0:
@@ -35,5 +36,5 @@ def ourMedianBlur(img):
             mySort = color
             mySort.sort()
 
-            newimg[i][j] = (mySort[4], img[i][j][1], img[i][j][2])
-    return newimg
+            newImg[i][j] = (mySort[4], img[i][j][1], img[i][j][2])
+    return newImg
