@@ -17,6 +17,11 @@ class Blocker:
     rectangleY3 = 0
     rectangleY4 = 0
 
+    topLCorner = (0, 0)
+    topRCorner = (0, 0)
+    bottomLCorner = (0, 0)
+    bottomRCorner = (0, 0)
+
     mirrorState = 0
 
     def __init__(self, x1, y1, x2, y2, x3, y3, x4, y4, img):
@@ -32,15 +37,16 @@ class Blocker:
 
         self.mirrorState = 0
 
-        topLCorner = (x1, y1)
-        topRCorner = (x4, y4)
-        bottomLCorner = (x2, y2)
-        bottomRCorner = (x3, y3)
+        self.topLCorner = (x1, y1)
+        self.topRCorner = (x4, y4)
+        self.bottomLCorner = (x2, y2)
+        self.bottomRCorner = (x3, y3)
 
-        cv2.line(img, topLCorner, bottomLCorner, (255, 255, 255), 5)
-        cv2.line(img, topRCorner, bottomRCorner, (255, 255, 255), 5)
-        cv2.line(img, topLCorner, topRCorner, (255, 255, 255), 5)
-        cv2.line(img, bottomLCorner, bottomRCorner, (255, 255, 255), 5)
+    def drawBlocker(self, img):
+        cv2.line(img, self.topLCorner, self.bottomLCorner, (0, 0, 255), 2)
+        cv2.line(img, self.topRCorner, self.bottomRCorner, (0, 0, 255), 2)
+        cv2.line(img, self.topLCorner, self.topRCorner, (0, 0, 255), 2)
+        cv2.line(img, self.bottomLCorner, self.bottomRCorner, (0, 0, 255), 2)
 
     def getRectangleX1(self):
         return self.rectangleX1

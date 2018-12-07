@@ -9,11 +9,11 @@ def morphOp(input):
     # Close and open to remove noise and holes in contours.
     kernel = np.ones((17, 17), np.uint8)
     kernel2 = np.ones((3, 3), np.uint8)
-    #closing = cv2.morphologyEx(input, cv2.MORPH_CLOSE, kernel)
-    #opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
+    closing = cv2.morphologyEx(input, cv2.MORPH_CLOSE, kernel)
+    opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
 
-    closing = ImageProcessingMethods.closing(input)
-    opening = ImageProcessingMethods.opening(closing)
+    #closing = ImageProcessingMethods.closing(input)
+    #opening = ImageProcessingMethods.opening(closing)
 
     return opening
 
@@ -23,8 +23,8 @@ def box_from_contours(input_mask):
     temp_box = []
 
     # Boundary tracing
-    # im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    contours = BoundaryTracing.boundaryTracing(input_mask)
+    im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    #contours = BoundaryTracing.boundaryTracing(input_mask)
     contours_f = contours
 
     # Convert to numpy array
@@ -54,13 +54,13 @@ def box_from_contours(input_mask):
 
 def detectionRed(clean_frame):
     # Red
-    # lower_redH = np.array([0])
-    # upper_redH = np.array([5])
-    # lower_redS = np.array([120])
-    # upper_redS = np.array([255])
-    # lower_redV = np.array([150])
-    # upper_redV = np.array([255])
-    # mask_red = ImageProcessingMethods.threshold(clean_frame, lower_redH, upper_redH, lower_redS, upper_redS, lower_redV, upper_redV)
+    lower_redH = np.array([0])
+    upper_redH = np.array([5])
+    lower_redS = np.array([120])
+    upper_redS = np.array([255])
+    lower_redV = np.array([150])
+    upper_redV = np.array([255])
+    #mask_red = ImageProcessingMethods.threshold(clean_frame, lower_redH, upper_redH, lower_redS, upper_redS, lower_redV, upper_redV)
 
     lower_red = np.array([0, 120, 150])
     upper_red = np.array([8, 255, 255])
@@ -78,16 +78,16 @@ def detectionRed(clean_frame):
 
 def detectionBlue(clean_frame):
     # Blue
-    # lower_blueH = np.array([100])
-    # upper_blueH = np.array([115])
-    # lower_blueS = np.array([90])
-    # upper_blueS = np.array([255])
-    # lower_blueV = np.array([90])
-    # upper_blueV = np.array([255])
-    # mask_blue = ImageProcessingMethods.threshold(clean_frame, lower_blueH, upper_blueH, lower_blueS, upper_blueS, lower_blueV, upper_blueV)
+    lower_blueH = np.array([100])
+    upper_blueH = np.array([120])
+    lower_blueS = np.array([90])
+    upper_blueS = np.array([255])
+    lower_blueV = np.array([90])
+    upper_blueV = np.array([255])
+    #mask_blue = ImageProcessingMethods.threshold(clean_frame, lower_blueH, upper_blueH, lower_blueS, upper_blueS, lower_blueV, upper_blueV)
 
     lower_blue = np.array([100, 120, 150])
-    upper_blue = np.array([115, 255, 255])
+    upper_blue = np.array([120, 255, 255])
     mask_blue = cv2.inRange(clean_frame, lower_blue, upper_blue)
 
     # Morphological operations

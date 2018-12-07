@@ -8,7 +8,6 @@ import Laser
 import Blocker
 import Detection
 import Target
-import ImageProcessingMethods
 
 # Variables
 frameCount = 0
@@ -18,7 +17,7 @@ maxPoints = 11
 specialTarget = np.random.randint(1, 10)
 targetArray = []
 
-font = cv2.FONT_HERSHEY_SIMPLEX
+font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 
 # Team name input.
 name1 = input('Enter the green teams name: ')
@@ -62,16 +61,29 @@ cropYbottom = 94
 cropXLeft = 109
 cropXRight = 127
 
+# The new height and width is calculated
+newZeroPointY = cropYTop
+newZeroPointX = cropXLeft
+newMaxPointY = height - cropYbottom
+newMaxPointX = width - cropXRight
+
+middleY = int(newMaxPointY/2)
+middleX = int(newMaxPointX/2)
+
 # Loop which runs the game.
-while (1):
+while 1:
     _, frame = cap.read()
     croppedFrame = frame[cropYTop:-cropYbottom, cropXLeft:-cropXRight]
     frameCount += 1
 
     # runs the code every third frame to reduce load and make the laser slightly less jittery.
-    if frameCount % 3 is 0:
+    if frameCount % 1 is 0:
         # Black background the game is drawn on
         img = cv2.imread('testSmall.jpg')
+
+        # Blockers for the play area
+        #middleBlocker = Blocker.Blocker(middleX - 21, middleY - 19, middleX - 20, middleY + 21, middleX + 19, middleY + 20,
+                        #middleX + 19, middleY - 21, img)
 
         # HSV and blur
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -84,6 +96,9 @@ while (1):
 
         # Create mirrors and blockers from the detected boxes
         mirrorBLockerList = []
+        #red_boxes.append(middleBlocker)
+        #middleBlocker.drawBlocker(img)
+
         for i in range(len(red_boxes)):
             point1, point2, point3, point4 = red_boxes[i]
             x1, y1 = point1
@@ -145,13 +160,20 @@ while (1):
                 targetArray.pop(i)
                 break
 
+        # Code for displaying the game score on screen
+        cv2.putText(img, team1.getName() + ": " + str(team1.getPoints()) + ' points', (newZeroPointX+10, newZeroPointY+20), font, 0.7, (255, 255, 255), 1, cv2.LINE_AA)
+
+        cv2.putText(img, team2.getName() + ": " + str(team2.getPoints()) + ' points', (int(newZeroPointX+10), newZeroPointY+40), font, 0.7, (255, 255, 255), 1, cv2.LINE_AA)
+
         # Code for testing the Team class.
         if team1.getPoints() < team2.getPoints() and totalPointCount == maxPoints:
             print(team2.getName() + " is in the lead with " + str(team2.getPoints()) + " points")
-            cv2.putText(img, "Team: "+team2.getName()+" has won", (150, 240), font, 1, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(img, team2.getName() + " has won", (newZeroPointX + 90, middleY + 50), font, 1, (255, 255, 255),
+                        1, cv2.LINE_AA)
         elif team2.getPoints() < team1.getPoints() and totalPointCount == maxPoints:
             print(team1.getName() + " is in the lead with " + str(team1.getPoints()) + " points")
-            cv2.putText(img, "Team: "+team1.getName()+" has won", (150, 240), font, 1, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(img, team1.getName() + " has won", (newZeroPointX + 90, middleY + 50), font, 1, (255, 255, 255),
+                        1, cv2.LINE_AA)
 
         print(team2.getName() + " has scored " + str(team2.getPoints()) + " points")
         print(team1.getName() + " has scored " + str(team1.getPoints()) + " points.")
