@@ -5,85 +5,176 @@ import ImageProcessingMethods
 
 img = cv2.imread('binTest.png')
 
+img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# New
 def dilation(img):
     height = img.shape[0]
     width = img.shape[1]
-    color = [0] * 13
-    newImg = np.zeros((height, width, 1), np.uint8)
+    color = [0] * 25
+    newImg = np.zeros((height, width), np.uint8)
     for i in range(height - 2):
         for j in range(width-2):
-            color[0] = img[i - 2][j][0]
+            if j == 0:
+                color[0] = img[i - 2][j - 2]
+                color[1] = img[i - 2][j - 1]
+                color[2] = img[i - 2][j]
+                color[3] = img[i - 2][j + 1]
+                color[4] = img[i - 2][j + 2]
 
-            color[1] = img[i - 1][j - 1][0]
-            color[2] = img[i - 1][j][0]
-            color[3] = img[i - 1][j + 1][0]
+                color[5] = img[i - 1][j - 2]
+                color[6] = img[i - 1][j - 1]
+                color[7] = img[i - 1][j]
+                color[8] = img[i - 1][j + 1]
+                color[9] = img[i - 1][j + 2]
 
-            color[4] = img[i][j - 2][0]
-            color[5] = img[i][j - 1][0]
-            color[6] = img[i][j][0]
-            color[7] = img[i][j + 1][0]
-            color[8] = img[i][j + 2][0]
+                color[10] = img[i][j - 2]
+                color[11] = img[i][j - 1]
+                color[12] = img[i][j]
+                color[13] = img[i][j + 1]
+                color[14] = img[i][j + 2]
 
-            color[9] = img[i + 1][j - 1][0]
-            color[10] = img[i + 1][j][0]
-            color[11] = img[i + 1][j + 1][0]
+                color[15] = img[i + 1][j - 2]
+                color[16] = img[i + 1][j - 1]
+                color[17] = img[i + 1][j]
+                color[18] = img[i + 1][j + 1]
+                color[19] = img[i + 1][j + 2]
 
-            color[12] = img[i + 2][j][0]
-            #print(color)
+                color[20] = img[i + 2][j - 2]
+                color[21] = img[i + 2][j - 1]
+                color[22] = img[i + 2][j]
+                color[23] = img[i + 2][j + 1]
+                color[24] = img[i + 2][j + 2]
 
-            if color[0] or color[1] or color[2] or color[3] or color[4] or color[5] or color[6] or color[7] or color[8] \
-                    or color[9] or color[10] or color[11] or color[12]:
-                newImg[i,j,0] = 255
-                #print('True')
+            elif j % 5 == 0:
+                color[4] = img[i - 2][j + 2]
+                color[9] = img[i - 1][j + 2]
+                color[14] = img[i][j + 2]
+                color[19] = img[i + 1][j + 2]
+                color[24] = img[i + 2][j + 2]
+
+            elif j % 4 == 0:
+                color[3] = img[i - 2][j + 1]
+                color[8] = img[i - 1][j + 1]
+                color[13] = img[i][j + 1]
+                color[18] = img[i + 1][j + 1]
+                color[23] = img[i + 2][j + 1]
+
+            elif j % 3 == 0:
+                color[2] = img[i - 2][j]
+                color[7] = img[i - 1][j]
+                color[12] = img[i][j]
+                color[17] = img[i + 1][j]
+                color[22] = img[i + 2][j]
+
+            elif j % 2 == 0:
+                color[1] = img[i - 2][j - 1]
+                color[6] = img[i - 1][j - 1]
+                color[11] = img[i][j - 1]
+                color[16] = img[i + 1][j - 1]
+                color[21] = img[i + 2][j - 1]
+
             else:
-                newImg[i,j,0] = 0
-                #print('falsk')
+                color[0] = img[i - 2][j - 2]
+                color[5] = img[i - 1][j - 2]
+                color[10] = img[i][j - 2]
+                color[15] = img[i + 1][j - 2]
+                color[20] = img[i + 2][j - 2]
+
+            if any(color):
+                newImg[i, j] = 255
+            else:
+                newImg[i, j] = 0
 
     return newImg
 
 def erotion(img):
     height = img.shape[0]
     width = img.shape[1]
-    color = [0] * 13
+    color = [0] * 25
     newImg = np.zeros((height, width, 1), np.uint8)
     for i in range(height - 2):
         for j in range(width - 2):
+            if j == 0:
+                color[0] = img[i - 2][j - 2]
+                color[1] = img[i - 2][j - 1]
+                color[2] = img[i - 2][j]
+                color[3] = img[i - 2][j + 1]
+                color[4] = img[i - 2][j + 2]
 
-            color[0] = img[i - 2][j][0]
+                color[5] = img[i - 1][j - 2]
+                color[6] = img[i - 1][j - 1]
+                color[7] = img[i - 1][j]
+                color[8] = img[i - 1][j + 1]
+                color[9] = img[i - 1][j + 2]
 
-            color[1] = img[i - 1][j - 1][0]
-            color[2] = img[i - 1][j][0]
-            color[3] = img[i - 1][j + 1][0]
+                color[10] = img[i][j - 2]
+                color[11] = img[i][j - 1]
+                color[12] = img[i][j]
+                color[13] = img[i][j + 1]
+                color[14] = img[i][j + 2]
 
-            color[4] = img[i][j - 2][0]
-            color[5] = img[i][j - 1][0]
-            color[6] = img[i][j][0]
-            color[7] = img[i][j + 1][0]
-            color[8] = img[i][j + 2][0]
+                color[15] = img[i + 1][j - 2]
+                color[16] = img[i + 1][j - 1]
+                color[17] = img[i + 1][j]
+                color[18] = img[i + 1][j + 1]
+                color[19] = img[i + 1][j + 2]
 
-            color[9] = img[i + 1][j - 1][0]
-            color[10] = img[i + 1][j][0]
-            color[11] = img[i + 1][j + 1][0]
+                color[20] = img[i + 2][j - 2]
+                color[21] = img[i + 2][j - 1]
+                color[22] = img[i + 2][j]
+                color[23] = img[i + 2][j + 1]
+                color[24] = img[i + 2][j + 2]
 
-            color[12] = img[i + 2][j][0]
+            elif j % 5 == 0:
+                color[4] = img[i - 2][j + 2]
+                color[9] = img[i - 1][j + 2]
+                color[14] = img[i][j + 2]
+                color[19] = img[i + 1][j + 2]
+                color[24] = img[i + 2][j + 2]
 
-            #print(color)
+            elif j % 4 == 0:
+                color[3] = img[i - 2][j + 1]
+                color[8] = img[i - 1][j + 1]
+                color[13] = img[i][j + 1]
+                color[18] = img[i + 1][j + 1]
+                color[23] = img[i + 2][j + 1]
 
-            if color[0] and color[1] and color[2] and color[3] and color[4] and color[5] and color[6] and color[7] and color[8] \
-                    and color[9] and color[10] and color[11] and color[12]:
-                newImg[i,j,0] = 255
-                #print('True')
+            elif j % 3 == 0:
+                color[2] = img[i - 2][j]
+                color[7] = img[i - 1][j]
+                color[12] = img[i][j]
+                color[17] = img[i + 1][j]
+                color[22] = img[i + 2][j]
+
+            elif j % 2 == 0:
+                color[1] = img[i - 2][j - 1]
+                color[6] = img[i - 1][j - 1]
+                color[11] = img[i][j - 1]
+                color[16] = img[i + 1][j - 1]
+                color[21] = img[i + 2][j - 1]
+
             else:
-                newImg[i,j,0] = 0
-                #print('falsk')
+                color[0] = img[i - 2][j - 2]
+                color[5] = img[i - 1][j - 2]
+                color[10] = img[i][j - 2]
+                color[15] = img[i + 1][j - 2]
+                color[20] = img[i + 2][j - 2]
+
+            if all(color):
+                newImg[i, j] = 255
+            else:
+                newImg[i, j] = 0
 
     return newImg
+
 
 def closing(img):
     dilatedIMG = dilation(img)
     newIMG = erotion(dilatedIMG)
 
     return newIMG
+
 
 def opening(img):
     erodedIMG = erotion(img)

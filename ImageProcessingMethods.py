@@ -58,82 +58,177 @@ def threshold(frame, lowerValueH, upperValueH, lowerValueS, upperValueS, lowerVa
                 newImg[i, j] = 0
     return newImg
 
-# dilation in a 5x5 circular kernel
+# Dilation with a 5 x 5 kernel
 def dilation(img):
     # Retrieves the size of the image and then makes an output image in the right dimensions
     height = img.shape[0]
     width = img.shape[1]
-    color = [0] * 13
+    color = [0] * 25
     newImg = np.zeros((height, width), np.uint8)
     # Loops through all the pixels in the the image, to apply the dilation
     for i in range(height - 2):
         for j in range(width-2):
-            # The kernel is applied to the current pixel
-            color[0] = img[i - 2][j]
+            # The kernel is applied to the current pixel. Only changing parts of the kernel are updated.
+            if j == 0:
+                color[0] = img[i - 2][j - 2]
+                color[1] = img[i - 2][j - 1]
+                color[2] = img[i - 2][j]
+                color[3] = img[i - 2][j + 1]
+                color[4] = img[i - 2][j + 2]
 
-            color[1] = img[i - 1][j - 1]
-            color[2] = img[i - 1][j]
-            color[3] = img[i - 1][j + 1]
+                color[5] = img[i - 1][j - 2]
+                color[6] = img[i - 1][j - 1]
+                color[7] = img[i - 1][j]
+                color[8] = img[i - 1][j + 1]
+                color[9] = img[i - 1][j + 2]
 
-            color[4] = img[i][j - 2]
-            color[5] = img[i][j - 1]
-            color[6] = img[i][j]
-            color[7] = img[i][j + 1]
-            color[8] = img[i][j + 2]
+                color[10] = img[i][j - 2]
+                color[11] = img[i][j - 1]
+                color[12] = img[i][j]
+                color[13] = img[i][j + 1]
+                color[14] = img[i][j + 2]
 
-            color[9] = img[i + 1][j - 1]
-            color[10] = img[i + 1][j]
-            color[11] = img[i + 1][j + 1]
+                color[15] = img[i + 1][j - 2]
+                color[16] = img[i + 1][j - 1]
+                color[17] = img[i + 1][j]
+                color[18] = img[i + 1][j + 1]
+                color[19] = img[i + 1][j + 2]
 
-            color[12] = img[i + 2][j]
+                color[20] = img[i + 2][j - 2]
+                color[21] = img[i + 2][j - 1]
+                color[22] = img[i + 2][j]
+                color[23] = img[i + 2][j + 1]
+                color[24] = img[i + 2][j + 2]
+
+            elif j % 5 == 0:
+                color[4] = img[i - 2][j + 2]
+                color[9] = img[i - 1][j + 2]
+                color[14] = img[i][j + 2]
+                color[19] = img[i + 1][j + 2]
+                color[24] = img[i + 2][j + 2]
+
+            elif j % 4 == 0:
+                color[3] = img[i - 2][j + 1]
+                color[8] = img[i - 1][j + 1]
+                color[13] = img[i][j + 1]
+                color[18] = img[i + 1][j + 1]
+                color[23] = img[i + 2][j + 1]
+
+            elif j % 3 == 0:
+                color[2] = img[i - 2][j]
+                color[7] = img[i - 1][j]
+                color[12] = img[i][j]
+                color[17] = img[i + 1][j]
+                color[22] = img[i + 2][j]
+
+            elif j % 2 == 0:
+                color[1] = img[i - 2][j - 1]
+                color[6] = img[i - 1][j - 1]
+                color[11] = img[i][j - 1]
+                color[16] = img[i + 1][j - 1]
+                color[21] = img[i + 2][j - 1]
+
+            else:
+                color[0] = img[i - 2][j - 2]
+                color[5] = img[i - 1][j - 2]
+                color[10] = img[i][j - 2]
+                color[15] = img[i + 1][j - 2]
+                color[20] = img[i + 2][j - 2]
 
             # If one of the pixels in the kernel is white, the current pixel is made white, else it will be black
-            if color[0] or color[1] or color[2] or color[3] or color[4] or color[5] or color[6] or color[7] or color[8] \
-                    or color[9] or color[10] or color[11] or color[12]:
-                newImg[i,j] = 255
+            if any(color):
+                newImg[i, j] = 255
             else:
-                newImg[i,j] = 0
+                newImg[i, j] = 0
 
     return newImg
 
 
-# Erosion in a 5x5 circular kernel
+# Erosion with a 5 x 5 kernel
 def erosion(img):
     # Retrieves the size of the image and then makes an output image in the right dimensions
     height = img.shape[0]
     width = img.shape[1]
-    color = [0] * 13
-    newImg = np.zeros((height, width), np.uint8)
+    color = [0] * 25
+    newImg = np.zeros((height, width, 1), np.uint8)
     # Loops through all the pixels in the the image, to apply the erosion
     for i in range(height - 2):
         for j in range(width - 2):
-            # The kernel is applied to the current pixel
-            color[0] = img[i - 2][j]
+            # The kernel is applied to the current pixel. Only changing parts of the kernel are updated.
+            if j == 0:
+                color[0] = img[i - 2][j - 2]
+                color[1] = img[i - 2][j - 1]
+                color[2] = img[i - 2][j]
+                color[3] = img[i - 2][j + 1]
+                color[4] = img[i - 2][j + 2]
 
-            color[1] = img[i - 1][j - 1]
-            color[2] = img[i - 1][j]
-            color[3] = img[i - 1][j + 1]
+                color[5] = img[i - 1][j - 2]
+                color[6] = img[i - 1][j - 1]
+                color[7] = img[i - 1][j]
+                color[8] = img[i - 1][j + 1]
+                color[9] = img[i - 1][j + 2]
 
-            color[4] = img[i][j - 2]
-            color[5] = img[i][j - 1]
-            color[6] = img[i][j]
-            color[7] = img[i][j + 1]
-            color[8] = img[i][j + 2]
+                color[10] = img[i][j - 2]
+                color[11] = img[i][j - 1]
+                color[12] = img[i][j]
+                color[13] = img[i][j + 1]
+                color[14] = img[i][j + 2]
 
-            color[9] = img[i + 1][j - 1]
-            color[10] = img[i + 1][j]
-            color[11] = img[i + 1][j + 1]
+                color[15] = img[i + 1][j - 2]
+                color[16] = img[i + 1][j - 1]
+                color[17] = img[i + 1][j]
+                color[18] = img[i + 1][j + 1]
+                color[19] = img[i + 1][j + 2]
 
-            color[12] = img[i + 2][j]
+                color[20] = img[i + 2][j - 2]
+                color[21] = img[i + 2][j - 1]
+                color[22] = img[i + 2][j]
+                color[23] = img[i + 2][j + 1]
+                color[24] = img[i + 2][j + 2]
+
+            elif j % 5 == 0:
+                color[4] = img[i - 2][j + 2]
+                color[9] = img[i - 1][j + 2]
+                color[14] = img[i][j + 2]
+                color[19] = img[i + 1][j + 2]
+                color[24] = img[i + 2][j + 2]
+
+            elif j % 4 == 0:
+                color[3] = img[i - 2][j + 1]
+                color[8] = img[i - 1][j + 1]
+                color[13] = img[i][j + 1]
+                color[18] = img[i + 1][j + 1]
+                color[23] = img[i + 2][j + 1]
+
+            elif j % 3 == 0:
+                color[2] = img[i - 2][j]
+                color[7] = img[i - 1][j]
+                color[12] = img[i][j]
+                color[17] = img[i + 1][j]
+                color[22] = img[i + 2][j]
+
+            elif j % 2 == 0:
+                color[1] = img[i - 2][j - 1]
+                color[6] = img[i - 1][j - 1]
+                color[11] = img[i][j - 1]
+                color[16] = img[i + 1][j - 1]
+                color[21] = img[i + 2][j - 1]
+
+            else:
+                color[0] = img[i - 2][j - 2]
+                color[5] = img[i - 1][j - 2]
+                color[10] = img[i][j - 2]
+                color[15] = img[i + 1][j - 2]
+                color[20] = img[i + 2][j - 2]
 
             # If all of the pixels in the kernel is white, the current pixel is made white, else it will be black
-            if color[0] and color[1] and color[2] and color[3] and color[4] and color[5] and color[6] and color[7] and color[8] \
-                    and color[9] and color[10] and color[11] and color[12]:
-                newImg[i,j] = 255
+            if all(color):
+                newImg[i, j] = 255
             else:
-                newImg[i,j] = 0
+                newImg[i, j] = 0
 
     return newImg
+
 
 def closing(img):
     # The dilation and erosion is applied to close the image

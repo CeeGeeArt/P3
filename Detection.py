@@ -9,11 +9,11 @@ def morphOp(input):
     # Close and open to remove noise and holes in contours.
     kernel = np.ones((17, 17), np.uint8)
     kernel2 = np.ones((3, 3), np.uint8)
-    closing = cv2.morphologyEx(input, cv2.MORPH_CLOSE, kernel)
-    opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
+    #closing = cv2.morphologyEx(input, cv2.MORPH_CLOSE, kernel)
+    #opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel2)
 
-    #closing = ImageProcessingMethods.closing(input)
-    #opening = ImageProcessingMethods.opening(closing)
+    closing = ImageProcessingMethods.closing(input)
+    opening = ImageProcessingMethods.opening(closing)
 
     return opening
 
