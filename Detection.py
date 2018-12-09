@@ -23,8 +23,8 @@ def box_from_contours(input_mask):
     temp_box = []
 
     # Boundary tracing
-    im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    #contours = BoundaryTracing.boundaryTracing(input_mask)
+    #im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours = BoundaryTracing.boundaryTracing(input_mask)
     contours_f = contours
 
     # Convert to numpy array

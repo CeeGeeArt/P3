@@ -1,4 +1,5 @@
-temp_coordinates = (0, 0)
+import numpy as np
+
 temp_contour = []
 previous_contours = []
 counter_left = 0
@@ -12,15 +13,9 @@ top = 1
 right = 2
 bottom = 3
 
-
+# Loops through the image calls the other functions.
 def boundaryTracing(input_thresh):
     global temp_contour
-    global counter_left
-    global counter_top
-    global counter_right
-    global counter_bottom
-    global start_y
-    global start_x
 
     height, width = input_thresh.shape
     contours = []
@@ -30,9 +25,9 @@ def boundaryTracing(input_thresh):
     for i in range(1, height-1, 10):
         for j in range(1, width-1):
 
-            # Check if pixel == colored.
+            # Check if pixel is colored.
             if input_thresh[i][j] > 0:
-                # Check if pixel == a part of a previously found contour and then starts tracing.
+                # Check if pixel is a part of a previously found contour and then starts tracing.
                 if checkPixel(i, j):
                     temp_contour = []
                     contour = moore_control(i, j, input_thresh)
@@ -41,8 +36,8 @@ def boundaryTracing(input_thresh):
     return contours
 
 
+# Controls the boundary tracing methods
 def moore_control(y, x, input_thresh):
-    global temp_coordinates
     global temp_contour
     global counter_left
     global counter_top
@@ -89,7 +84,6 @@ def moore_control(y, x, input_thresh):
 
 
 def moore_left(y, x, input_thresh):
-    global temp_coordinates
     global temp_contour
     global counter_left
     global start_y
@@ -137,7 +131,6 @@ def moore_left(y, x, input_thresh):
 
 
 def moore_top(y, x, input_thresh):
-    global temp_coordinates
     global temp_contour
     global counter_top
     global left
@@ -183,7 +176,6 @@ def moore_top(y, x, input_thresh):
 
 
 def moore_right(y, x, input_thresh):
-    global temp_coordinates
     global temp_contour
     global counter_right
     global left
@@ -227,8 +219,8 @@ def moore_right(y, x, input_thresh):
     else:
         return y, x, 10
 
+
 def moore_bottom(y, x, input_thresh):
-    global temp_coordinates
     global temp_contour
     global counter_bottom
     global left
@@ -273,24 +265,22 @@ def moore_bottom(y, x, input_thresh):
         return y, x, 10
 
 
+# Adds an area to the list of previous contours
 def previousContours(contour):
     global previous_contours
-    x_sort = []
-    y_sort = []
-    for i in range(len(contour)):
-        y, x = contour[i]
-        x_sort.append(x)
-        y_sort.append(y)
-    x_max = max(x_sort)
-    x_min = min(x_sort)
-    y_max = max(y_sort)
-    y_min = min(y_sort)
+
+    x_max = np.argmax(contour[:][1])
+    x_min = np.argmin(contour[:][1])
+    y_max = np.argmax(contour[:][0])
+    y_min = np.argmin(contour[:][0])
 
     previous_contours.append((x_min, x_max, y_min, y_max))
 
 
+# Checks if a pixel is a part of a previous contour
 def checkPixel(y, x):
     global previous_contours
+
     res = True
     for i in range(len(previous_contours)):
         x_min, x_max, y_min, y_max = previous_contours[i]
