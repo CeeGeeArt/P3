@@ -187,7 +187,7 @@ while 1:
         for i in range(len(red_boxes)):
             cv2.drawContours(img, [red_boxes[i]], 0, (0, 0, 255), 2)
         for i in range(len(blue_boxes)):
-            cv2.drawContours(img, [blue_boxes[i]], 0, (255, 0, 0), 2)
+           cv2.drawContours(img, [blue_boxes[i]], 0, (255, 0, 0), 2)
 
         croppedImg = img[cropYTop:-cropYbottom, cropXLeft:-cropXRight]
         cv2.namedWindow("testIMG", cv2.WND_PROP_FULLSCREEN)

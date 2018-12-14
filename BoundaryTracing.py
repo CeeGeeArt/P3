@@ -125,7 +125,7 @@ def moore_left(y, x, input_thresh):
             return y + 1, x - 1, right
 
         else:
-            print("WTF")
+            return y, x, 10
     else:
         return y, x, 10
 
@@ -215,7 +215,7 @@ def moore_right(y, x, input_thresh):
             return y - 1, x + 1, left
 
         else:
-            print("WTF")
+            return y, x, 10
     else:
         return y, x, 10
 
@@ -260,7 +260,7 @@ def moore_bottom(y, x, input_thresh):
             return y + 1, x + 1, top
 
         else:
-            print("WTF")
+            return y, x, 10
     else:
         return y, x, 10
 

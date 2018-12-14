@@ -23,8 +23,8 @@ def box_from_contours(input_mask):
     temp_box = []
 
     # Boundary tracing
-    #im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    contours = BoundaryTracing.boundaryTracing(input_mask)
+    im2, contours, hierarchy = cv2.findContours(input_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    #contours = BoundaryTracing.boundaryTracing(input_mask)
     contours_f = contours
 
     # Convert to numpy array
@@ -86,7 +86,7 @@ def detectionBlue(clean_frame):
     upper_blueV = np.array([255])
     #mask_blue = ImageProcessingMethods.threshold(clean_frame, lower_blueH, upper_blueH, lower_blueS, upper_blueS, lower_blueV, upper_blueV)
 
-    lower_blue = np.array([100, 120, 150])
+    lower_blue = np.array([100, 100, 100])
     upper_blue = np.array([120, 255, 255])
     mask_blue = cv2.inRange(clean_frame, lower_blue, upper_blue)
 

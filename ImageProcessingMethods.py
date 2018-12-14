@@ -52,7 +52,7 @@ def threshold(frame, lowerValueH, upperValueH, lowerValueS, upperValueS, lowerVa
     # Retrieves the size of the image and then makes an output image in the right dimensions
     height = frame.shape[0]
     width = frame.shape[1]
-    newImg = np.zeros((height, width))
+    newImg = np.zeros((height, width), np.uint8)
 
     # Loops through all the pixels in the the image, to apply the threshold
     for i in range(height - 1):
