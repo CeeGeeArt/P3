@@ -5,37 +5,45 @@ import numpy as np
 # Median blur with 3x3 kernel
 def ourMedianBlur(img):
     height, width, channels = img.shape
-    color = [(0, 0)] * 9
+    hue = [0] * 9
+    sat = [0] * 9
+    val = [0] * 9
     newImg = np.zeros((height, width, 3), np.uint8)
     for i in range(height - 1):
         for j in range(width-1):
             if j == 0:
-                color[0] = img[i - 1][j - 1][0]
-                color[1] = img[i - 1][j][0]
-                color[2] = img[i - 1][j + 1][0]
-                color[3] = img[i][j - 1][0]
-                color[4] = img[i][j][0]
-                color[5] = img[i][j + 1][0]
-                color[6] = img[i + 1][j - 1][0]
-                color[7] = img[i + 1][j][0]
-                color[8] = img[i + 1][j + 1][0]
+                hue[0], sat[0], val[0] = img[i - 1][j - 1]
+                hue[1], sat[1], val[1] = img[i - 1][j]
+                hue[2], sat[2], val[2] = img[i - 1][j + 1]
+                hue[3], sat[3], val[3] = img[i][j - 1]
+                hue[4], sat[4], val[4] = img[i][j]
+                hue[5], sat[5], val[5] = img[i][j + 1]
+                hue[6], sat[6], val[6] = img[i + 1][j - 1]
+                hue[7], sat[7], val[7] = img[i + 1][j]
+                hue[8], sat[8], val[8] = img[i + 1][j + 1]
             elif j % 3 == 0:
-                color[2] = img[i - 1][j + 1][0]
-                color[5] = img[i][j + 1][0]
-                color[8] = img[i + 1][j + 1][0]
+                hue[2], sat[2], val[2] = img[i - 1][j + 1]
+                hue[5], sat[5], val[5] = img[i][j + 1]
+                hue[8], sat[8], val[8] = img[i + 1][j + 1]
             elif j % 2 == 0:
-                color[1] = img[i - 1][j + 1][0]
-                color[4] = img[i][j + 1][0]
-                color[7] = img[i + 1][j + 1][0]
+                hue[1], sat[1], val[1] = img[i - 1][j + 1]
+                hue[4], sat[4], val[4] = img[i][j + 1]
+                hue[7], sat[7], val[7] = img[i + 1][j + 1]
             else:
-                color[0] = img[i - 1][j + 1][0]
-                color[3] = img[i][j + 1][0]
-                color[6] = img[i + 1][j + 1][0]
+                hue[0], sat[0], val[0] = img[i - 1][j + 1]
+                hue[3], sat[3], val[3] = img[i][j + 1]
+                hue[6], sat[6], val[6] = img[i + 1][j + 1]
 
-            mySort = color
-            mySort.sort()
+            mySortHue = hue
+            mySortHue.sort()
 
-            newImg[i][j] = (mySort[4], img[i][j][1], img[i][j][2])
+            mySortSat = sat
+            mySortSat.sort()
+
+            mySortVal = val
+            mySortVal.sort()
+
+            newImg[i][j] = (mySortHue[4], mySortSat[4], mySortVal[4])
     return newImg
 
 
